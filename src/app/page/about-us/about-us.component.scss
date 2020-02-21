@@ -1,0 +1,79 @@
+.textblock {
+  text-align: justify;
+  margin-right: 5%;
+}
+
+p {
+  font-size: 16px;
+  line-height: 24px;
+
+  margin-bottom: 30px;
+  letter-spacing: .25px
+}
+
+a {
+  color: #304757
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 40px;
+  color: #304757;
+  margin-top: 30px;
+  margin-bottom: 30px
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 36px;
+  color: #304757;
+  margin-top: 40px;
+  margin-bottom: 10px;
+
+  font-weight: 600;
+}
+
+@media (max-width: 1199px) {
+  h2 {
+    font-size: 26px;
+    line-height: 32px;
+    margin-top: 30px;
+    margin-bottom: 20px
+  }
+
+  p {
+    font-size: 15px
+  }
+}
+
+.gba-logo {
+  height: 93px;
+  width: 245px;
+}
+
+.bbmri-logo {
+  margin-left: 1em;
+}
+
+.btn {
+  padding: .3em 1em .3em 1em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff !important;
+  background: #172B49 !important;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px
+}
+
+.btn:hover, .btn.active {
+  background: #6F8795!important;
+  color: #fff !important;
+  text-decoration: none
+}
+
+.fa-icon-times {
+  margin: 0 .5em 0 0;
+}
+

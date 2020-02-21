@@ -26,3 +26,9 @@ $sample-locator-theme: mat-light-theme($sample-locator-primary, $sample-locator-
 // that you are using.
 @include angular-material-theme($sample-locator-theme);
 
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Titillium Web'
+);
+
+@include angular-material-typography($custom-typography);
