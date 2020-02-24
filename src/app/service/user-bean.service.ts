@@ -37,7 +37,7 @@ export class UserBeanService {
     return this.userInfo.userAuthentication.loginValid;
   }
 
-  getUerName(): string {
+  getUserName(): string {
     if (!this.userInfo || !this.userInfo.userAuthentication) {
       return '';
     }

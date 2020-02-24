@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SlCookieService} from '../../service/sl-cookie.service';
 
 @Component({
   selector: 'app-cookie-banner',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CookieBannerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private slCookieService: SlCookieService) {
+  }
 
   ngOnInit(): void {
   }
 
+  setCookieAccepted(): void {
+    this.slCookieService.setConsentCookieAccepted();
+  }
+
+  showCookieBanner(): boolean {
+    return !this.slCookieService.isConsentCookieAccepted();
+  }
 }

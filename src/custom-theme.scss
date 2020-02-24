@@ -28,7 +28,8 @@ $sample-locator-theme: mat-light-theme($sample-locator-primary, $sample-locator-
 
 @import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
-  $font-family: 'Titillium Web'
+  $font-family: 'Titillium Web',
+  $body-1: mat-typography-level(1.1em, 24px, 500)
 );
 
 @include angular-material-typography($custom-typography);

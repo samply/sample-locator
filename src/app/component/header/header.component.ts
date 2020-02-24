@@ -10,7 +10,7 @@ import {UserBeanService} from '../../service/user-bean.service';
 export class HeaderComponent implements OnInit {
 
   constructor(
-    private externalUrlService: ExternalUrlService,
+    public externalUrlService: ExternalUrlService,
     public userService: UserBeanService) { }
 
   ngOnInit(): void {

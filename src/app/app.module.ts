@@ -20,6 +20,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {WorkInProgressComponent} from './component/work-in-progress/work-in-progress.component';
 import {CookieBannerComponent} from './component/cookie-banner/cookie-banner.component';
 import {HttpClientModule} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {HttpClientModule} from '@angular/common/http';
     FlexLayoutModule,
     FontAwesomeModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

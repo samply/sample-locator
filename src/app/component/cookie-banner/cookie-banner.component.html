@@ -1,1 +1,17 @@
-<p>Cookie banner works</p>
+<div class="cookie-banner-container" *ngIf="showCookieBanner()">
+  <form>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <div fxFlex="1 0 0"></div>
+
+      <div class="bbmri-container cookie-banner" fxFlex="0 1 auto">
+        Cookies help us to provide our services. By using this website, you consent that we use cookies. You can find
+        further information in our <a routerLink="/privacy" target="_blank">privacy policy</a>.
+        <a type="button"
+           class="cookie-accept-button"
+           (click)="setCookieAccepted()">OK</a>
+      </div>
+
+      <div fxFlex="1 0 0"></div>
+    </div>
+  </form>
+</div>
