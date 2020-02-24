@@ -1,1 +1,30 @@
-<p>header works!</p>
+<div fxLayout="row" fxLayoutAlign="space-around" class="headerMenu">
+  <div fxFlex="1 0 auto"></div>
+  <div class="bbmri-container">
+    <div fxLayout="row" fxLayoutAlign="flex-start flex-start" class="mainNav">
+
+      <div class="logo-main col-md-5">
+        <a href="https://www.bbmri.de/" title="GBA">
+          <!--suppress HtmlUnknownTarget -->
+          <img src="assets/img/GBN_CMYK_schwarz.svg" alt="GBA-LOGO" class="gba-logo"/>
+        </a>
+      </div>
+
+      <div fxFlex="1 0 0"></div>
+
+      <div fxLayout="column" fxFlexAlign="flex-end flex-end">
+        <div fxFlex="row" fxLayoutAlign="flex-end flex-end">
+          <a routerLink="/about-us" target="_blank" class="nav-link">About Us</a>
+          <a href="{{externalUrlService.getBrokerUrl()}}" target="_blank" class="nav-link">Negotiator</a>
+          <a *ngIf="!userService.getLoginValid()" (click)="userService.login()" class="nav-link">Login</a>
+          <a *ngIf="userService.getLoginValid()" (click)="userService.logout()" class="nav-link">Logout</a>
+        </div>
+        <div fxFlex="row" fxLayoutAlign="flex-end flex-end">
+          <span *ngIf="userService.getLoginValid()">({{userService.getRealName()}})</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div fxFlex="1 0 auto"></div>
+</div>
