@@ -46,7 +46,7 @@ h3 {
   }
 }
 
-.btn {
+.samply-button {
   padding: .3em 1em .3em 1em;
   text-align: center;
   text-transform: uppercase;
@@ -55,10 +55,12 @@ h3 {
   display: inline-block;
   text-decoration: none;
   font-size: 15px;
-  letter-spacing: 1px
+  letter-spacing: 1px;
+
+  cursor: pointer;
 }
 
-.btn:hover, .btn.active {
+.samply-button:hover, .samply-button.active {
   background: #6F8795!important;
   color: #fff !important;
   text-decoration: none

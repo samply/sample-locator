@@ -3,14 +3,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Titillium Web', sans-serif; }
 
-.container {
+.samply-container {
   position: relative;
   margin: auto;
   padding: 0;
   clear: both
 }
 
-.container-fluid {
+.samply-container-fluid {
   margin: auto;
   padding: 0;
 }
@@ -62,7 +62,7 @@ h5 {
 }
 
 @media (min-width: 576px) {
-  .container {
+  .samply-container {
     padding: 0;
   }
 }
@@ -74,19 +74,19 @@ h5 {
 }
 
 @media (min-width: 768px) {
-  .container {
+  .samply-container {
     padding: 0;
   }
 }
 
 @media (min-width: 992px) {
-  .container {
+  .samply-container {
     padding: 0;
   }
 }
 
 @media (min-width: 1200px) {
-  .container {
+  .samply-container {
     padding: 0;
   }
 }
@@ -101,73 +101,73 @@ h5 {
 }
 
 @media (min-width: 1440px) {
-  .container {
+  .samply-container {
     padding: 0;
   }
 }
 
 @media (min-width: 576px) {
-  .container {
+  .samply-container {
     width: 540px;
     max-width: 100%
   }
 }
 
 @media (min-width: 768px) {
-  .container {
+  .samply-container {
     width: 720px;
     max-width: 100%
   }
 }
 
 @media (min-width: 992px) {
-  .container {
+  .samply-container {
     width: 960px;
     max-width: 100%
   }
 }
 
 @media (min-width: 1200px) {
-  .container {
+  .samply-container {
     width: 1140px;
     max-width: 100%
   }
 }
 
 @media (min-width: 1280px) {
-  .container {
+  .samply-container {
     width: 1200px;
     max-width: 100%
   }
 }
 
 @media (min-width: 1440px) {
-  .container {
+  .samply-container {
     width: 1272px;
     max-width: 100%
   }
 }
 
 @media (min-width: 576px) {
-  .container-fluid {
+  .samply-container-fluid {
     padding: 0 15px;
   }
 }
 
 @media (min-width: 768px) {
-  .container-fluid {
+  .samply-container-fluid {
     padding: 0 15px;
   }
 }
 
 @media (min-width: 992px) {
-  .container-fluid {
+  .samply-container-fluid {
     padding: 0 15px;
   }
 }
 
 @media (min-width: 1200px) {
-  .container-fluid {
+  .samply-container-fluid {
     padding: 0 15px;
   }
 }
