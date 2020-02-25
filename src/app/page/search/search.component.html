@@ -2,7 +2,9 @@
 
 <div class="header-space">
   <app-work-in-progress></app-work-in-progress>
-  <div style="width: 100%; background-color: yellow; height: 20em;"></div>
+  <div style="width: 100%; background-color: yellow; height: 20em;">
+    <div *ngFor="let dataElement of mdrFieldProviderService.getAllPossibleFields()">{{dataElement.urn + '/' + dataElement.name }}</div>
+  </div>
   <app-cookie-banner></app-cookie-banner>
   <app-footer></app-footer>
 </div>

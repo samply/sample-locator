@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {VersionInfo} from '../model/config/VersionInfo';
 import {ExternalUrlService} from './external-url.service';
-import {Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +10,6 @@ export class InfoVersionService {
 
   private uiVersion = 'UNDEFINED';
   private backendVersion = 'UNDEFINED';
-
-  private subscriptionBackendVerison: Subscription;
 
   constructor(
     private httpClient: HttpClient,
@@ -29,27 +26,18 @@ export class InfoVersionService {
   }
 
   private initBackendVersion() {
-    const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/version';
-    console.log(url);
-    const headers = new HttpHeaders().set('content-Type', 'text/plain');
+    this.externalUrlService.getBrokerUrl().subscribe(brokerUrl => {
+      const url = brokerUrl + '/rest/searchbroker/version';
+      const headers = new HttpHeaders().set('content-Type', 'text/plain');
 
-    const headerOptions = {
-      headers
-    };
+      const headerOptions = {
+        headers
+      };
 
-    // TODO: Use RxJS to improve error handling for empty brokerUrl
-    this.subscriptionBackendVerison = this.httpClient.get(url, headerOptions).subscribe(
-      version => this.backendVersion = (version as string),
-      error => {
-        if (!(error.error instanceof ErrorEvent) && error.status === 404) {
-          if (this.subscriptionBackendVerison) {
-            this.subscriptionBackendVerison.unsubscribe();
-          }
-
-          this.initBackendVersion();
-        }
-      }
-    );
+      this.httpClient.get<string>(url, headerOptions).subscribe(
+        version => this.backendVersion = version
+      );
+    });
   }
 
   getUiVersion(): string {

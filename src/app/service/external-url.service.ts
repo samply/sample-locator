@@ -1,25 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ExternalServices} from '../model/config/ExternalServices';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExternalUrlService {
 
-  externalServices: ExternalServices = {
-    brokerUrl: '',
-    negotiatorUrl: '',
-    sampleLocatorUrl: ''
-  };
+  externalServicesObservable: Observable<ExternalServices>;
 
   constructor(private httpClient: HttpClient) {
-    this.httpClient.get('assets/config/ExternalServices.json', {responseType: 'json'}).subscribe(
-      config => this.externalServices = config as ExternalServices
-    );
+    this.externalServicesObservable = this.httpClient.get<ExternalServices>('assets/config/ExternalServices.json', {responseType: 'json'});
   }
 
-  getBrokerUrl(): string {
-    return this.externalServices.brokerUrl;
+  getBrokerUrl(): Observable<string> {
+    return this.externalServicesObservable.pipe(
+      map<ExternalServices, string>(config => config.brokerUrl)
+    );
   }
 }
