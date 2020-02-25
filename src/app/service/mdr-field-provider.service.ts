@@ -11,6 +11,7 @@ import {
   PermittedValue
 } from '../model/mdr/extended-mdr-field-dto';
 import {MdrDataElement, MdrResult, MdrResults, PermissibleValue} from '../model/mdr/mdr-data-model';
+import {EssentialSimpleFieldDto} from '../model/query/essential-query-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class MdrFieldProviderService {
 
   allDataElements: Array<ExtendedMdrFieldDto> = [];
   dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
+  entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
 
   constructor(
     private httpClient: HttpClient,
@@ -33,6 +35,10 @@ export class MdrFieldProviderService {
     return this.allDataElements;
   }
 
+  public getPossibleField(urn: string): ExtendedMdrFieldDto | null {
+    return this.allDataElements.find(field => field.urn === urn);
+  }
+
   public getPossibleFields(mdrEntity: MdrEntity) {
     if (this.dataElementGroupMembersMap.has(mdrEntity)) {
       return this.dataElementGroupMembersMap.get(mdrEntity);
@@ -41,12 +47,12 @@ export class MdrFieldProviderService {
     }
   }
 
+  isFieldOfType(field: EssentialSimpleFieldDto, mdrEntity: MdrEntity): boolean {
+    return !!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn);
+  }
+
   private initMdrConfig() {
-    this.allDataElements = [];
-    this.dataElementGroupMembersMap = new Map();
-    for (const mdrEntity of getAllMdrEntities()) {
-      this.dataElementGroupMembersMap.set(mdrEntity, []);
-    }
+    this.resetInstanceVariables();
 
     this.mdrConfigService.getMdrConfig().subscribe(
       mdrConfig => {
@@ -73,6 +79,7 @@ export class MdrFieldProviderService {
                     this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
 
                   this.allDataElements.push(dataElementDto);
+                  this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
                   this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
                 }
               );
@@ -81,6 +88,17 @@ export class MdrFieldProviderService {
         }
       }
     );
+  }
+
+  private resetInstanceVariables() {
+    this.allDataElements = [];
+
+    this.entityUrnsMap = new Map();
+    this.dataElementGroupMembersMap = new Map();
+    for (const mdrEntity of getAllMdrEntities()) {
+      this.entityUrnsMap.set(mdrEntity, []);
+      this.dataElementGroupMembersMap.set(mdrEntity, []);
+    }
   }
 
   private createExtendedMdrFieldDto(

@@ -2,9 +2,37 @@
 
 <div class="header-space">
   <app-work-in-progress></app-work-in-progress>
-  <div style="width: 100%; background-color: yellow; height: 20em;">
-    <div *ngFor="let dataElement of mdrFieldProviderService.getAllPossibleFields()">{{dataElement.urn + '/' + dataElement.name }}</div>
+
+  <div fxLayout="row" fxLayoutAlign="flex-start flex-start"
+       style="width: 100%; background-color: yellow; height: 20em;">
+    <div fxFlex="1 0 0"></div>
+
+    <div class="bbmri-container">
+      <h1>Search</h1>
+<span>{{queryProviderService.query.fields.length}}</span>
+      <h4>Donor</h4>
+
+      <div *ngFor="let field of queryProviderService.getDonorFields()">
+        <span>{{field.urn}}</span>
+        <div *ngIf="getExtendedMdrField(field) as extendedMdrFieldDto">
+          <span>{{field.urn}}</span> +++ <span>{{extendedMdrFieldDto.name}}</span>
+        </div>
+      </div>
+
+      <div *ngFor="let field of queryProviderService.query.fields">
+        <span>{{field.urn}}</span>
+        <div *ngIf="getExtendedMdrField(field) as extendedMdrFieldDto">
+          <span>{{field.urn}}</span> +++ <span>{{extendedMdrFieldDto.name}}</span>
+        </div>
+      </div>
+
+      <div
+        *ngFor="let dataElement of mdrFieldProviderService.getAllPossibleFields()">{{dataElement.urn + '/' + dataElement.name }}</div>
+    </div>
+
+    <div fxFlex="1 0 0"></div>
   </div>
+
   <app-cookie-banner></app-cookie-banner>
   <app-footer></app-footer>
 </div>
