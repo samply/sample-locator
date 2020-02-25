@@ -18,17 +18,24 @@ import {EssentialSimpleFieldDto} from '../model/query/essential-query-dto';
 })
 export class MdrFieldProviderService {
 
-  mdrConfig: MdrConfig;
-
   allDataElements: Array<ExtendedMdrFieldDto> = [];
   dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
   entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
+
+  urlsFromAllResults: Set<string> = new Set();
+  numberOfHandledResults = 0;
 
   constructor(
     private httpClient: HttpClient,
     private mdrConfigService: MdrConfigService
   ) {
-    this.initMdrConfig();
+  }
+
+  public load(): Promise<any> {
+    // noinspection JSUnusedLocalSymbols
+    return new Promise((resolve, reject) =>
+      this.initMdrConfig(resolve)
+    );
   }
 
   public getAllPossibleFields(): Array<ExtendedMdrFieldDto> {
@@ -51,46 +58,67 @@ export class MdrFieldProviderService {
     return !!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn);
   }
 
-  private initMdrConfig() {
+  private initMdrConfig(resolve: () => void) {
     this.resetInstanceVariables();
 
-    this.mdrConfigService.getMdrConfig().subscribe(
-      mdrConfig => {
-        this.mdrConfig = mdrConfig;
+    const mdrConfig = this.mdrConfigService.getMdrConfig();
 
-        for (const mdrEntity of getAllMdrEntities()) {
-          const urnEntity = this.getUrn(mdrEntity, mdrConfig);
-          if (!urnEntity) {
+    for (const mdrEntity of getAllMdrEntities()) {
+      const urnEntity = this.getUrn(mdrEntity, mdrConfig);
+      if (!urnEntity) {
+        continue;
+      }
+
+      const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
+
+      this.httpClient.get<MdrResults>(urlEntity).toPromise().then(value => {
+        this.addToUrlsFromAllResults(value);
+
+        for (const mdrResult of value.results) {
+          if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
+            this.checkAllHttpRequestsResolved(resolve);
             continue;
           }
 
-          const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
+          const urlElement = mdrConfig.mdrRestUrl + '/dataelements/' + mdrResult.id;
+          this.httpClient.get<MdrDataElement>(urlElement).toPromise().then(
+            dataElement => {
+              const dataElementDto =
+                this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
 
-          this.httpClient.get<MdrResults>(urlEntity).subscribe(value => {
-            for (const mdrResult of value.results) {
-              if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
-                continue;
-              }
-
-              const urlElement = mdrConfig.mdrRestUrl + '/dataelements/' + mdrResult.id;
-              this.httpClient.get<MdrDataElement>(urlElement).subscribe(
-                dataElement => {
-                  const dataElementDto =
-                    this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
-
-                  this.allDataElements.push(dataElementDto);
-                  this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
-                  this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
-                }
-              );
+              this.allDataElements.push(dataElementDto);
+              this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
+              this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
+              this.checkAllHttpRequestsResolved(resolve);
             }
-          });
+          );
         }
-      }
-    );
+      });
+    }
+  }
+
+
+  private addToUrlsFromAllResults(value: MdrResults): void {
+    for (const mdrResult of value.results) {
+      this.urlsFromAllResults.add(mdrResult.id);
+    }
+  }
+
+  private checkAllHttpRequestsResolved(resolve: () => void) {
+    this.numberOfHandledResults++;
+    // If all urls from MDR have been dealt with by either
+    // - being ignored as a hidden element or by
+    // - having been added to allDataElements
+    // then the initializiation of this service is done and we can resolve the promise
+    if (this.urlsFromAllResults.size === this.numberOfHandledResults) {
+      resolve();
+    }
   }
 
   private resetInstanceVariables() {
+    this.numberOfHandledResults = 0;
+    this.urlsFromAllResults = new Set();
+
     this.allDataElements = [];
 
     this.entityUrnsMap = new Map();

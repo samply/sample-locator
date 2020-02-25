@@ -26,18 +26,16 @@ export class InfoVersionService {
   }
 
   private initBackendVersion() {
-    this.externalUrlService.getBrokerUrl().subscribe(brokerUrl => {
-      const url = brokerUrl + '/rest/searchbroker/version';
-      const headers = new HttpHeaders().set('content-Type', 'text/plain');
+    const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/version';
+    const headers = new HttpHeaders().set('content-Type', 'text/plain');
 
-      const headerOptions = {
-        headers
-      };
+    const headerOptions = {
+      headers
+    };
 
-      this.httpClient.get<string>(url, headerOptions).subscribe(
-        version => this.backendVersion = version
-      );
-    });
+    this.httpClient.get<string>(url, headerOptions).subscribe(
+      version => this.backendVersion = version
+    );
   }
 
   getUiVersion(): string {

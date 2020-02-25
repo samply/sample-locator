@@ -1,17 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {UserBeanService} from '../../service/user-bean.service';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-
-  brokerUrl = '';
-  private subscriptionExternalUrlService: Subscription;
+export class HeaderComponent implements OnInit {
 
   constructor(
     public externalUrlService: ExternalUrlService,
@@ -19,13 +15,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptionExternalUrlService = this.externalUrlService.getBrokerUrl().subscribe(value => this.brokerUrl = value);
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptionExternalUrlService) {
-      this.subscriptionExternalUrlService.unsubscribe();
-    }
   }
 
 }

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -21,6 +21,26 @@ import {WorkInProgressComponent} from './component/work-in-progress/work-in-prog
 import {CookieBannerComponent} from './component/cookie-banner/cookie-banner.component';
 import {HttpClientModule} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
+import {ExternalUrlService} from './service/external-url.service';
+import {MdrConfigService} from './service/mdr-config.service';
+import {MdrFieldProviderService} from './service/mdr-field-provider.service';
+
+// tslint:disable-next-line
+export function initializerFn(
+  externalUrlService: ExternalUrlService,
+  mdrConfigService: MdrConfigService,
+  mdrFieldProviderService: MdrFieldProviderService
+) {
+  // Determines the order in which the services are initialized
+  return () => {
+    // noinspection JSUnusedLocalSymbols
+    return externalUrlService.load().then(
+      resolve1 => mdrConfigService.load().then(
+        resolve2 => mdrFieldProviderService.load()
+      )
+    );
+  };
+}
 
 @NgModule({
   declarations: [
@@ -45,7 +65,15 @@ import {CookieService} from 'ngx-cookie-service';
     FlexLayoutModule,
     FontAwesomeModule,
   ],
-  providers: [CookieService],
+  providers: [
+    CookieService,
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [ExternalUrlService, MdrConfigService, MdrFieldProviderService],
+      useFactory: initializerFn
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
