@@ -1,4 +1,5 @@
 .footer {
+  color: #304757;
   line-height: 22px;
   font-size: smaller;
   font-style: normal;
@@ -8,6 +9,10 @@
 
 .footer span, .footer div {
   margin: 0 .25em;
+}
+
+.footer a {
+  color: #304757;
 }
 
 .version-text {
