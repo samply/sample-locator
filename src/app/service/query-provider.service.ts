@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {EssentialQueryDto, EssentialSimpleFieldDto, EssentialValueType} from '../model/query/essential-query-dto';
+import {EssentialQueryDto, EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '../model/query/essential-query-dto';
 import {MdrFieldProviderService} from './mdr-field-provider.service';
 import {MdrDataType, MdrEntity} from '../model/mdr/extended-mdr-field-dto';
 
@@ -39,7 +39,11 @@ export class QueryProviderService {
     const fieldDto: EssentialSimpleFieldDto = {
       urn,
       valueType: this.getValueType(valueType),
-      values: []
+      values: [{
+        value: '',
+        maxValue: '',
+        operator: SimpleValueOperator.EQUALS
+      }]
     };
 
     this.query.fields.push(fieldDto);

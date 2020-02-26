@@ -3,31 +3,31 @@
 <div class="header-space">
   <app-work-in-progress></app-work-in-progress>
 
-  <div fxLayout="row" fxLayoutAlign="flex-start flex-start"
-       style="width: 100%; background-color: yellow; min-height: 20em; padding: 2em 0;">
+  <div fxLayout="row" fxLayoutAlign="space-between stretch">
     <div fxFlex="1 0 0"></div>
 
     <div class="bbmri-container">
-      <h1>Search</h1>
-<span>{{queryProviderService.query.fields.length}}</span>
-      <h4>Donor</h4>
+      <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="0 1 50%">
+          <h2>Search</h2>
+          <h3 class="bold">Donor</h3>
 
-      <div *ngFor="let field of queryProviderService.getDonorFields()">
-        <span>{{field.urn}}</span>
-        <div *ngIf="getExtendedMdrField(field) as extendedMdrFieldDto">
-          <span>{{field.urn}}</span> +++ <span>{{extendedMdrFieldDto.name}}</span>
+          <div *ngFor="let field of queryProviderService.query.fields">
+            <div *ngIf="getExtendedMdrField(field) as extendedField">
+              <span>{{extendedField.name}}</span>
+            </div>
+          </div>
+
         </div>
-      </div>
 
-      <div *ngFor="let field of queryProviderService.query.fields">
-        <span>{{field.urn}}</span>
-        <div *ngIf="getExtendedMdrField(field) as extendedMdrFieldDto">
-          <span>{{field.urn}}</span> +++ <span>{{extendedMdrFieldDto.name}}</span>
+        <div fxFlex="0 0 1px" class="divider"></div>
+
+        <div fxFlex="0 1 50%">
+          <h2>Result</h2>
+
         </div>
-      </div>
 
-      <div
-        *ngFor="let dataElement of mdrFieldProviderService.getAllPossibleFields()">{{dataElement.urn + '/' + dataElement.name }}</div>
+      </div>
     </div>
 
     <div fxFlex="1 0 0"></div>
