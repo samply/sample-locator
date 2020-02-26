@@ -23,22 +23,21 @@ import {HttpClientModule} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {ExternalUrlService} from './service/external-url.service';
 import {MdrConfigService} from './service/mdr-config.service';
-import {MdrFieldProviderService} from './service/mdr-field-provider.service';
 
-// tslint:disable-next-line
-export function initializerFn(
+export function initializerExternalUrlService(
   externalUrlService: ExternalUrlService,
-  mdrConfigService: MdrConfigService,
-  mdrFieldProviderService: MdrFieldProviderService
 ) {
-  // Determines the order in which the services are initialized
   return () => {
     // noinspection JSUnusedLocalSymbols
-    return externalUrlService.load().then(
-      resolve1 => mdrConfigService.load().then(
-        resolve2 => mdrFieldProviderService.load()
-      )
-    );
+    return externalUrlService.load();
+  };
+}
+
+export function initializerMdrConfigService(
+  mdrConfigService: MdrConfigService,
+) {
+  return () => {
+    return mdrConfigService.load();
   };
 }
 
@@ -70,8 +69,14 @@ export function initializerFn(
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [ExternalUrlService, MdrConfigService, MdrFieldProviderService],
-      useFactory: initializerFn
+      deps: [ExternalUrlService],
+      useFactory: initializerExternalUrlService
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [MdrConfigService],
+      useFactory: initializerMdrConfigService
     }
   ],
   bootstrap: [AppComponent]

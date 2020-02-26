@@ -22,20 +22,11 @@ export class MdrFieldProviderService {
   dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
   entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
 
-  urlsFromAllResults: Set<string> = new Set();
-  numberOfHandledResults = 0;
-
   constructor(
     private httpClient: HttpClient,
     private mdrConfigService: MdrConfigService
   ) {
-  }
-
-  public load(): Promise<any> {
-    // noinspection JSUnusedLocalSymbols
-    return new Promise((resolve, reject) =>
-      this.initMdrConfig(resolve)
-    );
+    this.initMdrConfig();
   }
 
   public getAllPossibleFields(): Array<ExtendedMdrFieldDto> {
@@ -58,7 +49,7 @@ export class MdrFieldProviderService {
     return !!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn);
   }
 
-  private initMdrConfig(resolve: () => void) {
+  private initMdrConfig() {
     this.resetInstanceVariables();
 
     const mdrConfig = this.mdrConfigService.getMdrConfig();
@@ -71,17 +62,14 @@ export class MdrFieldProviderService {
 
       const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
 
-      this.httpClient.get<MdrResults>(urlEntity).toPromise().then(value => {
-        this.addToUrlsFromAllResults(value);
-
+      this.httpClient.get<MdrResults>(urlEntity).subscribe(value => {
         for (const mdrResult of value.results) {
           if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
-            this.checkAllHttpRequestsResolved(resolve);
             continue;
           }
 
           const urlElement = mdrConfig.mdrRestUrl + '/dataelements/' + mdrResult.id;
-          this.httpClient.get<MdrDataElement>(urlElement).toPromise().then(
+          this.httpClient.get<MdrDataElement>(urlElement).subscribe(
             dataElement => {
               const dataElementDto =
                 this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
@@ -89,7 +77,6 @@ export class MdrFieldProviderService {
               this.allDataElements.push(dataElementDto);
               this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
               this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
-              this.checkAllHttpRequestsResolved(resolve);
             }
           );
         }
@@ -97,28 +84,7 @@ export class MdrFieldProviderService {
     }
   }
 
-
-  private addToUrlsFromAllResults(value: MdrResults): void {
-    for (const mdrResult of value.results) {
-      this.urlsFromAllResults.add(mdrResult.id);
-    }
-  }
-
-  private checkAllHttpRequestsResolved(resolve: () => void) {
-    this.numberOfHandledResults++;
-    // If all urls from MDR have been dealt with by either
-    // - being ignored as a hidden element or by
-    // - having been added to allDataElements
-    // then the initializiation of this service is done and we can resolve the promise
-    if (this.urlsFromAllResults.size === this.numberOfHandledResults) {
-      resolve();
-    }
-  }
-
   private resetInstanceVariables() {
-    this.numberOfHandledResults = 0;
-    this.urlsFromAllResults = new Set();
-
     this.allDataElements = [];
 
     this.entityUrnsMap = new Map();

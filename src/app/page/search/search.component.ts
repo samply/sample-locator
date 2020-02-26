@@ -12,7 +12,7 @@ import {ExtendedMdrFieldDto} from '../../model/mdr/extended-mdr-field-dto';
 export class SearchComponent implements OnInit {
 
   constructor(
-    private mdrFieldProviderService: MdrFieldProviderService,
+    public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService
   ) { }
 

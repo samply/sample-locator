@@ -23,18 +23,22 @@ export class QueryProviderService {
       fields: []
     };
 
-    this.addField(QueryProviderService.URN_DIAGNOSIS);
+    this.addField(QueryProviderService.URN_DIAGNOSIS, MdrDataType.STRING);
   }
 
-  addField(urn: string): void {
-    const extendedFieldDto = this.mdrFieldProviderService.getPossibleField(urn);
-    if (!extendedFieldDto) {
-      return;
+  addField(urn: string, valueType?: MdrDataType): void {
+    if (!valueType) {
+      const extendedFieldDto = this.mdrFieldProviderService.getPossibleField(urn);
+      if (!extendedFieldDto) {
+        return;
+      }
+
+      valueType = extendedFieldDto.mdrDataType;
     }
 
     const fieldDto: EssentialSimpleFieldDto = {
       urn,
-      valueType: this.getValueType(extendedFieldDto.mdrDataType),
+      valueType: this.getValueType(valueType),
       values: []
     };
 
