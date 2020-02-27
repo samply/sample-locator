@@ -1,0 +1,49 @@
+.field-container {
+  margin: .8em 0;
+}
+
+.field-name {
+  padding: .3em 0 0 0;
+}
+
+.samply-button {
+  height: 34px;
+  width: 34px;
+
+  margin: .2em;
+  padding: 4px 0 0 0;
+  font-size: smaller;
+
+  background-color: #172B49;
+  border: 1px solid #cbc7bd;
+  color: white;
+
+  text-align: center;
+  vertical-align: center;
+}
+
+.samply-button:hover {
+  background: #8C9FAA;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 36px;
+  color: #304757;
+  margin-top: 40px;
+  margin-bottom: 10px
+}
+
+@media (max-width: 1199px) {
+  h3 {
+    font-size: 18px;
+    line-height: 28px;
+    color: #304757;
+    margin-top: 40px;
+    margin-bottom: 10px
+  }
+}

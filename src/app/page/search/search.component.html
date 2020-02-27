@@ -10,20 +10,35 @@
       <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
         <div fxFlex="0 1 50%">
           <h2>Search</h2>
-          <h3 class="bold">Donor</h3>
 
-          <div *ngFor="let field of queryProviderService.query.fields">
-            <div *ngIf="getExtendedMdrField(field) as extendedField">
-              <span>{{extendedField.name}}</span>
-            </div>
+          <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
+            Waitung for data from Metadata Repository
           </div>
 
+          <app-search-builder headerName="Donor" [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+          <app-search-builder headerName="Sample" [mdrEntities]="mdrEntitiesSample"></app-search-builder>
         </div>
 
         <div fxFlex="0 0 1px" class="divider"></div>
 
         <div fxFlex="0 1 50%">
           <h2>Result</h2>
+
+          <div *ngFor="let field of queryProviderService.query.fields; let i=index">
+            <div>----> FIELD ({{i}})
+              <span *ngIf="getExtendedMdrField(field) as extendedField"> ......... {{extendedField.name}}</span>
+            </div>
+            <span> {{field.urn}} ......... {{field.valueType}}</span>
+
+            <div *ngFor="let value of field.values; let j=index">
+              <div>----------> VALUE ({{j}})</div>
+              <div>{{value.operator}}</div>
+              <div>{{value.value}}</div>
+              <div>{{value.maxValue}}</div>
+            </div>
+
+
+          </div>
 
         </div>
 

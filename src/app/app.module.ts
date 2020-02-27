@@ -23,6 +23,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {ExternalUrlService} from './service/external-url.service';
 import {MdrConfigService} from './service/mdr-config.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
+import {DropdownModule} from 'primeng/dropdown';
+import {CalendarModule} from 'primeng/calendar';
+import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
+
 
 export function initializerExternalUrlService(
   externalUrlService: ExternalUrlService,
@@ -55,6 +61,7 @@ export function initializerMdrConfigService(
     FooterComponent,
     WorkInProgressComponent,
     CookieBannerComponent,
+    SearchBuilderComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +70,12 @@ export function initializerMdrConfigService(
     HttpClientModule,
     FlexLayoutModule,
     FontAwesomeModule,
+    ReactiveFormsModule,
+    FormsModule,
+
+    InputTextModule,
+    CalendarModule,
+    DropdownModule,
   ],
   providers: [
     CookieService,

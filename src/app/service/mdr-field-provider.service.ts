@@ -12,15 +12,21 @@ import {
 } from '../model/mdr/extended-mdr-field-dto';
 import {MdrDataElement, MdrResult, MdrResults, PermissibleValue} from '../model/mdr/mdr-data-model';
 import {EssentialSimpleFieldDto} from '../model/query/essential-query-dto';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MdrFieldProviderService {
 
+  public ready$: Subject<boolean> = new BehaviorSubject<boolean>(false);
+
   allDataElements: Array<ExtendedMdrFieldDto> = [];
   dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
   entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
+
+  urlsFromAllResults: Set<string> = new Set();
+  numberOfHandledResults = 0;
 
   constructor(
     private httpClient: HttpClient,
@@ -45,8 +51,14 @@ export class MdrFieldProviderService {
     }
   }
 
-  isFieldOfType(field: EssentialSimpleFieldDto, mdrEntity: MdrEntity): boolean {
-    return !!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn);
+  public isFieldOfTypes(field: EssentialSimpleFieldDto, mdrEntities: Array<MdrEntity>): boolean {
+    for (const mdrEntity of mdrEntities) {
+      if (!!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private initMdrConfig() {
@@ -63,8 +75,11 @@ export class MdrFieldProviderService {
       const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
 
       this.httpClient.get<MdrResults>(urlEntity).subscribe(value => {
+        this.addToUrlsFromAllResults(value);
+
         for (const mdrResult of value.results) {
           if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
+            this.checkAllHttpRequestsResolved();
             continue;
           }
 
@@ -76,7 +91,9 @@ export class MdrFieldProviderService {
 
               this.allDataElements.push(dataElementDto);
               this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
+              console.log('PUSHing (' + mdrEntity + '): ' + dataElementDto.urn);
               this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
+              this.checkAllHttpRequestsResolved();
             }
           );
         }
@@ -84,7 +101,28 @@ export class MdrFieldProviderService {
     }
   }
 
+
+  private addToUrlsFromAllResults(value: MdrResults): void {
+    for (const mdrResult of value.results) {
+      this.urlsFromAllResults.add(mdrResult.id);
+    }
+  }
+
+  private checkAllHttpRequestsResolved() {
+    this.numberOfHandledResults++;
+    // If all urls from MDR have been dealt with by either
+    // - being ignored as a hidden element or by
+    // - having been added to allDataElements
+    // then the initializiation of this service is done and we can resolve the promise
+    if (this.urlsFromAllResults.size === this.numberOfHandledResults) {
+      this.ready$.next(true);
+    }
+  }
+
   private resetInstanceVariables() {
+    this.numberOfHandledResults = 0;
+    this.urlsFromAllResults = new Set();
+
     this.allDataElements = [];
 
     this.entityUrnsMap = new Map();
@@ -140,7 +178,7 @@ export class MdrFieldProviderService {
   private getName(dataElement: MdrDataElement, language: string) {
     for (const designation of dataElement.designations) {
       if (designation.language === language) {
-        return designation.definition;
+        return designation.designation;
       }
     }
 

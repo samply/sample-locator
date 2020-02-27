@@ -1,0 +1,93 @@
+<form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
+  <h3 class="bold">{{headerName}}</h3>
+
+  <div formArrayName="fields">
+    <div *ngFor="let field of filterFields(queryProviderService.query.fields); let i=index">
+      <div [formGroupName]="i">
+        <div *ngIf="getExtendedMdrField(field) as extendedField"
+             class="field-container"
+             fxLayout="row"
+             fxLayoutAlign="space-between start">
+          <div class="field-name">{{extendedField.name}} <span *ngIf="extendedField.unit">({{extendedField.unit}}
+            )</span></div>
+
+
+          <div formArrayName="values"
+               fxFlex="0 0 20em">
+            <div *ngFor="let value of field.values; let j=index">
+              <div [formGroupName]="j"
+                   fxLayout="column"
+                   fxLayoutAlign="space-between center">
+
+                <div fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                  <div fxFlex="0 0 5em">
+                    <p-dropdown [options]="operators" formControlName="operator"
+                                (select)="chooseOperator($event, i, j)"
+                                (onChange)="chooseOperator($event, i, j)"
+                                [style]="{ 'minWidth': '4em', 'width':'4em'}">
+                    </p-dropdown>
+                  </div>
+
+                  <div fxFlex="0 0 10em">
+
+                    <!-- STRING -->
+                    <div *ngIf="field.valueType === 'STRING'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="value"
+                             (change)="changeValue(i, j)"
+                             pInputText
+                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             type="text">
+
+
+                    </div>
+                  </div>
+
+                  <div fxFlex="0 0 5em"
+                       fxLayout="row"
+                       fxLayoutAlign="start center">
+                    <div class="samply-button" (click)="deleteValue(i, j)">
+                      <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
+                      <span></span>
+                    </div>
+                    <div class="samply-button" (click)="addValue(i)" *ngIf="j === 0">
+                      <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
+                      <span></span>
+                    </div>
+                  </div>
+                </div>
+                <div fxLayout="row"
+                     fxLayoutAlign="space-between center">
+                  <div fxFlex="0 0 5em"></div>
+
+                  <div fxFlex="0 0 10em">
+
+                    <!-- STRING -->
+                    <div *ngIf="field.valueType === 'STRING'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="maxValue"
+                             *ngIf="value.operator === 'BETWEEN'"
+                             (change)="changeMaxValue(i, j)"
+                             pInputText
+                             placeholder="Max."
+                             type="text">
+
+                    </div>
+                  </div>
+
+                  <div fxFlex="0 0 5em"></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

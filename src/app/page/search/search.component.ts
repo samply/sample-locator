@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
+import {ExtendedMdrFieldDto, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
-import {ExtendedMdrFieldDto} from '../../model/mdr/extended-mdr-field-dto';
+
+// TODO: Adopt https://stackblitz.com/edit/deep-nested-reactive-form?file=app%2Fapp.component.html
 
 @Component({
   selector: 'app-search',
@@ -11,10 +13,14 @@ import {ExtendedMdrFieldDto} from '../../model/mdr/extended-mdr-field-dto';
 })
 export class SearchComponent implements OnInit {
 
+  mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
+  mdrEntitiesSample = [MdrEntity.SAMPLE];
+
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
-    public queryProviderService: QueryProviderService
-  ) { }
+    public queryProviderService: QueryProviderService,
+  ) {
+  }
 
   ngOnInit(): void {
   }
