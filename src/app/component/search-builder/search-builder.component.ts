@@ -1,18 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {QueryProviderService} from '../../service/query-provider.service';
-import {EssentialQueryDto, EssentialSimpleFieldDto, SimpleValueOperator} from '../../model/query/essential-query-dto';
+import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '../../model/query/essential-query-dto';
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {ExtendedMdrFieldDto, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
+import {ExtendedMdrFieldDto, MdrDataType, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {Subscription} from 'rxjs';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-search-builder',
   templateUrl: './search-builder.component.html',
   styleUrls: ['./search-builder.component.scss']
 })
-export class SearchBuilderComponent implements OnInit {
+export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   @Input()
   public mdrEntities: Array<MdrEntity>;
@@ -22,6 +25,8 @@ export class SearchBuilderComponent implements OnInit {
 
   faPlus = faPlus;
   faMinus = faMinus;
+
+  filteredFields: Array<EssentialSimpleFieldDto> = [];
 
   public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
 
@@ -56,18 +61,28 @@ export class SearchBuilderComponent implements OnInit {
     }
   ];
 
+  private readonly subscriptionReady: Subscription;
+
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private fb: FormBuilder
   ) {
-    this.formGroup = this.createFormGroup(this.getQuery());
+    this.subscriptionReady = this.mdrFieldProviderService.ready$.subscribe(value => {
+      if (value) {
+        this.filteredFields =
+          this.getQuery().fields.slice().filter(field =>
+            this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
+
+        this.formGroup = this.createFormGroup();
+      }
+    });
   }
 
-  private createFormGroup(query: EssentialQueryDto): FormGroup {
+  private createFormGroup(): FormGroup {
     const fieldControls: FormArray = this.fb.array([]);
 
-    for (const field of query.fields) {
+    for (const field of this.filteredFields) {
       const valueControls: FormArray = this.fb.array([]);
 
       for (const value of field.values) {
@@ -97,6 +112,12 @@ export class SearchBuilderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    if (this.subscriptionReady) {
+      this.subscriptionReady.unsubscribe();
+    }
+  }
+
   getExtendedMdrField(field: EssentialSimpleFieldDto): ExtendedMdrFieldDto | null {
     return this.mdrFieldProviderService.getPossibleField(field.urn);
   }
@@ -106,12 +127,11 @@ export class SearchBuilderComponent implements OnInit {
       return extendedField.placeHolder;
     }
 
-    return operator === SimpleValueOperator.BETWEEN ? 'Min.' : '';
-  }
+    if (extendedField.mdrDataType === MdrDataType.ENUMERATED) {
+      return 'Select';
+    }
 
-  filterFields(fields: Array<EssentialSimpleFieldDto>) {
-    return fields.slice().filter(field =>
-      this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
+    return operator === SimpleValueOperator.BETWEEN ? 'Min.' : '';
   }
 
   chooseOperator($event: any, i: number, j: number) {
@@ -134,20 +154,42 @@ export class SearchBuilderComponent implements OnInit {
 
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
+    const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
+      ? this.fb.control(new Date()) : this.fb.control('');
+
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
-        value: this.fb.control(''),
+        value,
         operator: this.fb.control(SimpleValueOperator.EQUALS),
       })
     );
   }
 
   changeValue(i: number, j: number) {
-    this.getQueryValue(i, j).value = this.getValueControl(i, j).value.value;
+    const valueType = this.getQueryField(i).valueType;
+    const newValue = this.getValueControl(i, j).value.value;
+
+    this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
   }
 
   changeMaxValue(i: number, j: number) {
-    this.getQueryValue(i, j).maxValue = this.getValueControl(i, j).value.maxValue;
+    const valueType = this.getQueryField(i).valueType;
+    const newValue = this.getValueControl(i, j).value.maxValue;
+
+    this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private adoptDateFormat(newValue, valueType: EssentialValueType) {
+    if (newValue && valueType === EssentialValueType.DATE) {
+      newValue = moment(newValue).format('DD.MM.YYYY');
+      console.log(newValue);
+    } else if (newValue && valueType === EssentialValueType.DATETIME) {
+      newValue = moment(newValue).format('DD.MM.YYYY\'T\'HH:mm:ss');
+      console.log(newValue);
+    }
+
+    return newValue;
   }
 
   private getQueryValue(i: number, j: number) {
@@ -159,7 +201,7 @@ export class SearchBuilderComponent implements OnInit {
   }
 
   private getQueryField(i: number) {
-    return this.getQuery().fields[i];
+    return this.filteredFields[i];
   }
 
   private getValueControl(i: number, j: number) {

@@ -144,8 +144,8 @@ export class MdrFieldProviderService {
     if (dataElement.validation && dataElement.validation.datatype === MdrDataType.ENUMERATED.toLowerCase()) {
       for (const permissibleValue of dataElement.validation.permissible_values) {
         permittedValues.push({
-          mdrKey: permissibleValue.value,
-          mdrDesignation: this.getDesignationPermissibleValue(permissibleValue, language)
+          value: permissibleValue.value,
+          label: this.getDesignationPermissibleValue(permissibleValue, language)
         });
       }
     }

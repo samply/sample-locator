@@ -2,7 +2,7 @@
   <h3 class="bold">{{headerName}}</h3>
 
   <div formArrayName="fields">
-    <div *ngFor="let field of filterFields(queryProviderService.query.fields); let i=index">
+    <div *ngFor="let field of this.filteredFields; let i=index">
       <div [formGroupName]="i">
         <div *ngIf="getExtendedMdrField(field) as extendedField"
              class="field-container"
@@ -41,9 +41,69 @@
                              pInputText
                              placeholder="{{getPlaceholder(extendedField, value.operator)}}"
                              type="text">
-
-
                     </div>
+
+                    <!-- INTEGER -->
+                    <div *ngIf="field.valueType === 'INTEGER'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="value"
+                             (change)="changeValue(i, j)"
+                             pInputText
+                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             type="number">
+                    </div>
+
+                    <!-- FLOAT -->
+                    <div *ngIf="field.valueType === 'FLOAT'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="value"
+                             (change)="changeValue(i, j)"
+                             pInputText
+                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             type="number">
+                    </div>
+
+                    <!-- ENUMERATED -->
+                    <div *ngIf="field.valueType === 'ENUMERATED'"
+                         fxFlex="0 0 8em">
+
+                      <p-dropdown formControlName="value"
+                                  [options]="extendedField.permittedValues"
+                                  (select)="changeValue(i, j)"
+                                  (onChange)="changeValue(i, j)"
+                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  [style]="{ 'minWidth': '172px', 'width': '172px'}">
+                      </p-dropdown>
+                    </div>
+
+                    <!-- DATE -->
+                    <div *ngIf="field.valueType === 'DATE'"
+                         fxFlex="0 0 8em">
+
+                      <p-calendar formControlName="value"
+                                  (onSelect)="changeValue(i, j)"
+                                  (input)="changeValue(i, j)"
+                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+
+                    <!-- DATETIME -->
+                    <div *ngIf="field.valueType === 'DATETIME'"
+                         fxFlex="0 0 8em">
+
+                      <p-calendar formControlName="value"
+                                  (onSelect)="changeValue(i, j)"
+                                  (input)="changeValue(i, j)"
+                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  dateFormat="dd.mm.yy"
+                                  showTime="true"
+                                  hourFormat="24"></p-calendar>
+                    </div>
+
                   </div>
 
                   <div fxFlex="0 0 5em"
@@ -76,8 +136,74 @@
                              pInputText
                              placeholder="Max."
                              type="text">
-
                     </div>
+
+                    <!-- INTEGER -->
+                    <div *ngIf="field.valueType === 'INTEGER'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="maxValue"
+                             *ngIf="value.operator === 'BETWEEN'"
+                             (change)="changeMaxValue(i, j)"
+                             pInputText
+                             placeholder="Max."
+                             type="number">
+                    </div>
+
+                    <!-- FLOAT -->
+                    <div *ngIf="field.valueType === 'FLOAT'"
+                         fxFlex="0 0 8em">
+
+                      <!--suppress HtmlFormInputWithoutLabel -->
+                      <input formControlName="maxValue"
+                             *ngIf="value.operator === 'BETWEEN'"
+                             (change)="changeMaxValue(i, j)"
+                             pInputText
+                             placeholder="Max."
+                             type="number">
+                    </div>
+
+                    <!-- ENUMERATED -->
+                    <div *ngIf="field.valueType === 'ENUMERATED'"
+                         fxFlex="0 0 8em">
+
+                      <p-dropdown formControlName="maxValue"
+                                  *ngIf="value.operator === 'BETWEEN'"
+                                  [options]="extendedField.permittedValues"
+                                  (select)="changeMaxValue(i, j)"
+                                  (onChange)="changeMaxValue(i, j)"
+                                  placeholder="Max."
+                                  [style]="{ 'minWidth': '172px', 'width': '172px'}">
+                      </p-dropdown>
+                    </div>
+
+                    <!-- DATE -->
+                    <div *ngIf="field.valueType === 'DATE'"
+                         fxFlex="0 0 8em">
+
+                      <p-calendar formControlName="maxValue"
+                                  *ngIf="value.operator === 'BETWEEN'"
+                                  (onSelect)="changeMaxValue(i, j)"
+                                  (input)="changeMaxValue(i, j)"
+                                  placeholder="Max."
+                                  dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+
+                    <!-- DATETIME -->
+                    <div *ngIf="field.valueType === 'DATETIME'"
+                         fxFlex="0 0 8em">
+
+                      <p-calendar formControlName="maxValue"
+                                  *ngIf="value.operator === 'BETWEEN'"
+                                  (onSelect)="changeMaxValue(i, j)"
+                                  (input)="changeMaxValue(i, j)"
+                                  placeholder="Max."
+                                  dateFormat="dd.mm.yy"
+                                  showTime="true"
+                                  hourFormat="24"></p-calendar>
+                    </div>
+
                   </div>
 
                   <div fxFlex="0 0 5em"></div>

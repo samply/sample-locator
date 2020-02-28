@@ -5,6 +5,7 @@ import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
 
 // TODO: Adopt https://stackblitz.com/edit/deep-nested-reactive-form?file=app%2Fapp.component.html
+// Help: flex-layout https://tburleson-layouts-demos.firebaseapp.com/#/docs
 
 @Component({
   selector: 'app-search',

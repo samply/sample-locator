@@ -3,6 +3,8 @@ import {EssentialQueryDto, EssentialSimpleFieldDto, EssentialValueType, SimpleVa
 import {MdrFieldProviderService} from './mdr-field-provider.service';
 import {MdrDataType} from '../model/mdr/extended-mdr-field-dto';
 
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,14 +35,15 @@ export class QueryProviderService {
       fields: []
     };
 
-    this.addField(QueryProviderService.URN_DIAGNOSIS, QueryProviderService.TYPE_DIAGNOSIS);
-    this.addField(QueryProviderService.URN_AGE, QueryProviderService.TYPE_AGE);
-    this.addField(QueryProviderService.URN_BMI, QueryProviderService.TYPE_BMI);
-    this.addField(QueryProviderService.URN_MATERIAL_LIQUID, QueryProviderService.TYPE_MATERIAL_LIQUID);
-    this.addField(QueryProviderService.URN_SAMPLING_DATE, QueryProviderService.TYPE_SAMPLING_DATE);
+    this.addField(QueryProviderService.URN_DIAGNOSIS, QueryProviderService.TYPE_DIAGNOSIS, 4000);
+    this.addField(QueryProviderService.URN_AGE, QueryProviderService.TYPE_AGE, 1000);
+    this.addField(QueryProviderService.URN_BMI, QueryProviderService.TYPE_BMI, 2000);
+    this.addField(QueryProviderService.URN_MATERIAL_LIQUID, QueryProviderService.TYPE_MATERIAL_LIQUID, 5000);
+
+    this.addField(QueryProviderService.URN_SAMPLING_DATE, QueryProviderService.TYPE_SAMPLING_DATE, 3000);
   }
 
-  addField(urn: string, valueType?: MdrDataType): void {
+  addField(urn: string, valueType?: MdrDataType, summand = 1): void {
     if (!valueType) {
       const extendedFieldDto = this.mdrFieldProviderService.getPossibleField(urn);
       if (!extendedFieldDto) {
@@ -50,17 +53,28 @@ export class QueryProviderService {
       valueType = extendedFieldDto.mdrDataType;
     }
 
+    let value1: any = (14 + summand).toString(10);
+    let value2: any = (27 + summand).toString(10);
+
+    if (valueType === MdrDataType.DATE) {
+      value1 = moment(new Date()).format('DD.MM.YYYY');
+      value2 = moment(new Date()).format('DD.MM.YYYY');
+    } else if (valueType === MdrDataType.DATETIME) {
+      value1 = moment(new Date()).format('DD.MM.YYYY\'T\'HH:mm:ss');
+      value2 = moment(new Date()).format('DD.MM.YYYY\'T\'HH:mm:ss');
+    }
+
     const fieldDto: EssentialSimpleFieldDto = {
       urn,
       valueType: this.getValueType(valueType),
       values: [{
-        value: (13 + 1000 * this.query.fields.length).toString(10),
-        maxValue: '',
+        value: value1,
+        maxValue: value1,
         operator: SimpleValueOperator.EQUALS
       },
         {
-          value: (27 + 1000 * this.query.fields.length).toString(10),
-          maxValue: '',
+          value: value2,
+          maxValue: value2,
           operator: SimpleValueOperator.EQUALS
         }]
     };
