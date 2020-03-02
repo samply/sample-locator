@@ -27,6 +27,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
+import {ProgressBarModule} from 'primeng/progressbar';
 import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
 
 
@@ -76,6 +77,7 @@ export function initializerMdrConfigService(
     InputTextModule,
     CalendarModule,
     DropdownModule,
+    ProgressBarModule,
   ],
   providers: [
     CookieService,

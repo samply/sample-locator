@@ -6,7 +6,70 @@
   padding: .3em 0 0 0;
 }
 
-.samply-button {
+.samply-button-add-field {
+  display: inline-block;
+  height: 40px;
+  width: 150px;
+
+  padding: 0.5em 2.7em 0.5em 1em;
+  margin: 2em .6em;
+
+  background: #172B49;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.samply-button-add-field:hover {
+  background: #8C9FAA;
+}
+
+.add-field-wrapper {
+  margin: 0 .6em;
+}
+
+:host ::ng-deep .add-field,
+:host ::ng-deep .add-field .ui-inputtext,
+:host ::ng-deep .add-field .ui-dropdown-label {
+  display: inline-block;
+  height: 40px;
+  min-width: 150px;
+  width: 150px;
+  background: #172B49;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+  border: solid 0;
+  border-radius: 0;
+}
+
+:host ::ng-deep .add-field .ui-dropdown-trigger {
+  width: 0;
+  min-width: 0;
+  display: none;
+}
+
+:host ::ng-deep .add-field .ui-dropdown-label {
+  padding: .5em 0;
+}
+
+:host ::ng-deep .add-field-panel {
+  background-color: #8C9FAA !important;
+}
+
+.samply-button-small {
   height: 34px;
   width: 34px;
 
@@ -22,7 +85,7 @@
   vertical-align: center;
 }
 
-.samply-button:hover {
+.samply-button-small:hover {
   background: #8C9FAA;
 }
 

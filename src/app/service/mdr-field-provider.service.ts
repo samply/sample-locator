@@ -35,8 +35,21 @@ export class MdrFieldProviderService {
     this.initMdrConfig();
   }
 
-  public getAllPossibleFields(): Array<ExtendedMdrFieldDto> {
-    return this.allDataElements;
+  public getAllPossibleFields(mdrEntites?: Array<MdrEntity>): Array<ExtendedMdrFieldDto> {
+    if (!mdrEntites) {
+      return this.allDataElements;
+    } else {
+      const result: Array<ExtendedMdrFieldDto> = [];
+      mdrEntites.forEach(mdrEntity => {
+        this.allDataElements.forEach(extendedField => {
+          if (!!this.entityUrnsMap.get(mdrEntity).find(urn => urn === extendedField.urn)) {
+            result.push(extendedField);
+          }
+        });
+      });
+
+      return result;
+    }
   }
 
   public getPossibleField(urn: string): ExtendedMdrFieldDto | null {
@@ -53,7 +66,7 @@ export class MdrFieldProviderService {
 
   public isFieldOfTypes(field: EssentialSimpleFieldDto, mdrEntities: Array<MdrEntity>): boolean {
     for (const mdrEntity of mdrEntities) {
-      if (!!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field.urn)) {
+      if (!!this.entityUrnsMap.get(mdrEntity).find(urn => urn === field['@'].urn)) {
         return true;
       }
     }
@@ -91,7 +104,6 @@ export class MdrFieldProviderService {
 
               this.allDataElements.push(dataElementDto);
               this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
-              console.log('PUSHing (' + mdrEntity + '): ' + dataElementDto.urn);
               this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
               this.checkAllHttpRequestsResolved();
             }

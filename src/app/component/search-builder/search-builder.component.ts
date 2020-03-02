@@ -10,6 +10,11 @@ import {Subscription} from 'rxjs';
 
 import * as moment from 'moment';
 
+class AddibleField {
+  label: string;
+  value: string;
+}
+
 @Component({
   selector: 'app-search-builder',
   templateUrl: './search-builder.component.html',
@@ -23,10 +28,13 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   @Input()
   public headerName: string;
 
+  private addField: FormControl;
+
   faPlus = faPlus;
   faMinus = faMinus;
 
-  filteredFields: Array<EssentialSimpleFieldDto> = [];
+  filteredFields: Array<EssentialSimpleFieldDto>;
+  addibleFields: Array<AddibleField>;
 
   public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
 
@@ -61,22 +69,29 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private readonly subscriptionReady: Subscription;
+  private subscriptionReady: Subscription;
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private fb: FormBuilder
   ) {
+  }
+
+  ngOnInit(): void {
     this.subscriptionReady = this.mdrFieldProviderService.ready$.subscribe(value => {
       if (value) {
-        this.filteredFields =
-          this.getQuery().fields.slice().filter(field =>
-            this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
-
-        this.formGroup = this.createFormGroup();
+        this.calculateFilteredFields();
+        this.initAddibleFields();
       }
     });
+  }
+
+  public calculateFilteredFields() {
+    this.filteredFields =
+      this.getQuery().fieldDtos.slice().filter(field =>
+        this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
+    this.formGroup = this.createFormGroup();
   }
 
   private createFormGroup(): FormGroup {
@@ -85,31 +100,43 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     for (const field of this.filteredFields) {
       const valueControls: FormArray = this.fb.array([]);
 
-      for (const value of field.values) {
+      for (const value of field.valueDtos) {
         const valueGroup = this.fb.group({
           value: this.fb.control(value.value),
           maxValue: this.fb.control(value.maxValue),
-          operator: this.fb.control(value.operator.toString()),
+          operator: this.fb.control(value['@'].condition.toString()),
         });
 
         valueControls.push(valueGroup);
       }
 
       const fieldGroup = this.fb.group({
-        urn: this.fb.control(field.urn),
-        valueType: this.fb.control(field.valueType.toString()),
-        values: valueControls
+        urn: this.fb.control(field['@'].urn),
+        valueType: this.fb.control(field['@'].valueType.toString()),
+        values: valueControls,
       });
 
       fieldControls.push(fieldGroup);
     }
 
+    this.addField = this.fb.control('');
     return this.fb.group({
+      addField: this.addField,
       fields: fieldControls
     });
   }
 
-  ngOnInit(): void {
+  private initAddibleFields() {
+    this.addibleFields = [];
+
+    this.mdrFieldProviderService.getAllPossibleFields(this.mdrEntities).slice().forEach(field => {
+      const addibleField = {
+        label: field.name,
+        value: field.urn
+      };
+
+      this.addibleFields.push(addibleField);
+    });
   }
 
   ngOnDestroy(): void {
@@ -119,7 +146,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   getExtendedMdrField(field: EssentialSimpleFieldDto): ExtendedMdrFieldDto | null {
-    return this.mdrFieldProviderService.getPossibleField(field.urn);
+    return this.mdrFieldProviderService.getPossibleField(field['@'].urn);
   }
 
   getPlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
@@ -135,16 +162,21 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   chooseOperator($event: any, i: number, j: number) {
-    this.getQueryValue(i, j).operator = $event.value;
+    this.getQueryValue(i, j)['@'].condition = $event.value;
   }
 
   deleteValue(i: number, j: number) {
-    this.getQueryField(i).values.splice(j, 1);
+    this.getQueryField(i).valueDtos.splice(j, 1);
     const values: FormArray = this.getValuesFormArray(i);
     values.removeAt(j);
 
-    if (this.getQueryField(i).values.length === 0) {
-      this.getQuery().fields.splice(i, 1);
+    if (this.getQueryField(i).valueDtos.length === 0) {
+      const index = this.getQuery().fieldDtos.findIndex(field => field.valueDtos.length === 0);
+      // There can only be one field without values
+
+      this.getQuery().fieldDtos.splice(index, 1);
+
+      this.filteredFields.splice(i, 1);
       this.getFieldsFormArray().removeAt(i);
     }
   }
@@ -154,7 +186,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
-    const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
+    const value = (fieldDto['@'].valueType === EssentialValueType.DATE || fieldDto['@'].valueType === EssentialValueType.DATETIME)
       ? this.fb.control(new Date()) : this.fb.control('');
 
     values.push(this.fb.group({
@@ -166,14 +198,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   changeValue(i: number, j: number) {
-    const valueType = this.getQueryField(i).valueType;
+    const valueType = this.getQueryField(i)['@'].valueType;
     const newValue = this.getValueControl(i, j).value.value;
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
   }
 
   changeMaxValue(i: number, j: number) {
-    const valueType = this.getQueryField(i).valueType;
+    const valueType = this.getQueryField(i)['@'].valueType;
     const newValue = this.getValueControl(i, j).value.maxValue;
 
     this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
@@ -183,17 +215,25 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   private adoptDateFormat(newValue, valueType: EssentialValueType) {
     if (newValue && valueType === EssentialValueType.DATE) {
       newValue = moment(newValue).format('DD.MM.YYYY');
-      console.log(newValue);
     } else if (newValue && valueType === EssentialValueType.DATETIME) {
       newValue = moment(newValue).format('DD.MM.YYYY\'T\'HH:mm:ss');
-      console.log(newValue);
     }
 
     return newValue;
   }
 
+  chooseField({value}) {
+    const urn = value;
+    const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
+    if (extendedField) {
+      this.queryProviderService.addField(urn, extendedField.mdrDataType);
+      this.calculateFilteredFields();
+    }
+    this.addField.setValue('');
+  }
+
   private getQueryValue(i: number, j: number) {
-    return this.getQueryField(i).values[j];
+    return this.getQueryField(i).valueDtos[j];
   }
 
   private getQuery() {

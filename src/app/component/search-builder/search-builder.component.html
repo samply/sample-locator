@@ -14,7 +14,7 @@
 
           <div formArrayName="values"
                fxFlex="0 0 20em">
-            <div *ngFor="let value of field.values; let j=index">
+            <div *ngFor="let value of field.valueDtos; let j=index">
               <div [formGroupName]="j"
                    fxLayout="column"
                    fxLayoutAlign="space-between center">
@@ -30,75 +30,74 @@
                   </div>
 
                   <div fxFlex="0 0 10em">
-
                     <!-- STRING -->
-                    <div *ngIf="field.valueType === 'STRING'"
+                    <div *ngIf="field['@'].valueType === 'STRING'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="value"
                              (change)="changeValue(i, j)"
                              pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                              type="text">
                     </div>
 
                     <!-- INTEGER -->
-                    <div *ngIf="field.valueType === 'INTEGER'"
+                    <div *ngIf="field['@'].valueType === 'INTEGER'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="value"
                              (change)="changeValue(i, j)"
                              pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                              type="number">
                     </div>
 
-                    <!-- FLOAT -->
-                    <div *ngIf="field.valueType === 'FLOAT'"
+                    <!-- DECIMAL -->
+                    <div *ngIf="field['@'].valueType === 'DECIMAL'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="value"
                              (change)="changeValue(i, j)"
                              pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                             placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                              type="number">
                     </div>
 
-                    <!-- ENUMERATED -->
-                    <div *ngIf="field.valueType === 'ENUMERATED'"
+                    <!-- PERMITTEDVALUE -->
+                    <div *ngIf="field['@'].valueType === 'PERMITTEDVALUE'"
                          fxFlex="0 0 8em">
 
                       <p-dropdown formControlName="value"
                                   [options]="extendedField.permittedValues"
                                   (select)="changeValue(i, j)"
                                   (onChange)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                                   [style]="{ 'minWidth': '172px', 'width': '172px'}">
                       </p-dropdown>
                     </div>
 
                     <!-- DATE -->
-                    <div *ngIf="field.valueType === 'DATE'"
+                    <div *ngIf="field['@'].valueType === 'DATE'"
                          fxFlex="0 0 8em">
 
                       <p-calendar formControlName="value"
                                   (onSelect)="changeValue(i, j)"
                                   (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                                   dateFormat="dd.mm.yy"></p-calendar>
                     </div>
 
                     <!-- DATETIME -->
-                    <div *ngIf="field.valueType === 'DATETIME'"
+                    <div *ngIf="field['@'].valueType === 'DATETIME'"
                          fxFlex="0 0 8em">
 
                       <p-calendar formControlName="value"
                                   (onSelect)="changeValue(i, j)"
                                   (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.operator)}}"
+                                  placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                                   dateFormat="dd.mm.yy"
                                   showTime="true"
                                   hourFormat="24"></p-calendar>
@@ -109,11 +108,11 @@
                   <div fxFlex="0 0 5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
-                    <div class="samply-button" (click)="deleteValue(i, j)">
+                    <div class="samply-button-small" (click)="deleteValue(i, j)">
                       <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
                       <span></span>
                     </div>
-                    <div class="samply-button" (click)="addValue(i)" *ngIf="j === 0">
+                    <div class="samply-button-small" (click)="addValue(i)" *ngIf="j === 0">
                       <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
                       <span></span>
                     </div>
@@ -126,12 +125,12 @@
                   <div fxFlex="0 0 10em">
 
                     <!-- STRING -->
-                    <div *ngIf="field.valueType === 'STRING'"
+                    <div *ngIf="field['@'].valueType === 'STRING'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="maxValue"
-                             *ngIf="value.operator === 'BETWEEN'"
+                             *ngIf="value['@'].condition === 'BETWEEN'"
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
@@ -139,37 +138,37 @@
                     </div>
 
                     <!-- INTEGER -->
-                    <div *ngIf="field.valueType === 'INTEGER'"
+                    <div *ngIf="field['@'].valueType === 'INTEGER'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="maxValue"
-                             *ngIf="value.operator === 'BETWEEN'"
+                             *ngIf="value['@'].condition === 'BETWEEN'"
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
                              type="number">
                     </div>
 
-                    <!-- FLOAT -->
-                    <div *ngIf="field.valueType === 'FLOAT'"
+                    <!-- DECIMAL -->
+                    <div *ngIf="field['@'].valueType === 'DECIMAL'"
                          fxFlex="0 0 8em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="maxValue"
-                             *ngIf="value.operator === 'BETWEEN'"
+                             *ngIf="value['@'].condition === 'BETWEEN'"
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
                              type="number">
                     </div>
 
-                    <!-- ENUMERATED -->
-                    <div *ngIf="field.valueType === 'ENUMERATED'"
+                    <!-- PERMITTEDVALUE -->
+                    <div *ngIf="field['@'].valueType === 'PERMITTEDVALUE'"
                          fxFlex="0 0 8em">
 
                       <p-dropdown formControlName="maxValue"
-                                  *ngIf="value.operator === 'BETWEEN'"
+                                  *ngIf="value['@'].condition === 'BETWEEN'"
                                   [options]="extendedField.permittedValues"
                                   (select)="changeMaxValue(i, j)"
                                   (onChange)="changeMaxValue(i, j)"
@@ -179,11 +178,11 @@
                     </div>
 
                     <!-- DATE -->
-                    <div *ngIf="field.valueType === 'DATE'"
+                    <div *ngIf="field['@'].valueType === 'DATE'"
                          fxFlex="0 0 8em">
 
                       <p-calendar formControlName="maxValue"
-                                  *ngIf="value.operator === 'BETWEEN'"
+                                  *ngIf="value['@'].condition === 'BETWEEN'"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
                                   placeholder="Max."
@@ -191,11 +190,11 @@
                     </div>
 
                     <!-- DATETIME -->
-                    <div *ngIf="field.valueType === 'DATETIME'"
+                    <div *ngIf="field['@'].valueType === 'DATETIME'"
                          fxFlex="0 0 8em">
 
                       <p-calendar formControlName="maxValue"
-                                  *ngIf="value.operator === 'BETWEEN'"
+                                  *ngIf="value['@'].condition === 'BETWEEN'"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
                                   placeholder="Max."
@@ -216,4 +215,20 @@
       </div>
     </div>
   </div>
+
+  <div fxLayout="row"
+       fxLayoutAlign="end">
+    <div class="add-field-wrapper">
+      <!--suppress TypeScriptValidateTypes -->
+      <p-dropdown [options]="addibleFields"
+                  formControlName="addField"
+                  (select)="chooseField($event)"
+                  (onChange)="chooseField($event)"
+                  placeholder="Add Field"
+                  styleClass="add-field"
+                  panelStyleClass="add-field-panel">
+      </p-dropdown>
+    </div>
+  </div>
+
 </form>

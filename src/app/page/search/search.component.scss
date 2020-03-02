@@ -17,6 +17,34 @@ h2 {
   margin: 0 1em;
 }
 
+.samply-button {
+  display: inline-block;
+  height: 40px;
+  width: 150px;
+
+  padding: 0.5em 2.7em 0.5em 1em;
+  margin: 2em .6em;
+
+  background: #172B49;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.samply-button-acitve:hover {
+  background: #8C9FAA;
+}
+
+.samply-button-inactive {
+  opacity: .35;
+}
+
 @media (max-width: 1199px) {
   h2 {
     font-size: 26px;
