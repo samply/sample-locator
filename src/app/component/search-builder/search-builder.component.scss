@@ -6,30 +6,6 @@
   padding: .3em 0 0 0;
 }
 
-.samply-button-add-field {
-  display: inline-block;
-  height: 40px;
-  width: 150px;
-
-  padding: 0.5em 2.7em 0.5em 1em;
-  margin: 2em .6em;
-
-  background: #172B49;
-  color: white;
-
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-
-  cursor: pointer;
-}
-
-.samply-button-add-field:hover {
-  background: #8C9FAA;
-}
-
 .add-field-wrapper {
   margin: 0 .6em;
 }
@@ -50,9 +26,12 @@
   font-size: 15px;
   letter-spacing: 1px;
 
-  cursor: pointer;
   border: solid 0;
   border-radius: 0;
+}
+
+:host ::ng-deep .add-field .add-field-disabled:not {
+  cursor: pointer;
 }
 
 :host ::ng-deep .add-field .ui-dropdown-trigger {
@@ -85,8 +64,12 @@
   vertical-align: center;
 }
 
-.samply-button-small:hover {
+.samply-button-small:hover .samply-button-small-disabled:not {
   background: #8C9FAA;
+}
+
+.samply-button-small-disabled {
+  opacity: .5;
 }
 
 .bold {

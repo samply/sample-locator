@@ -1,0 +1,99 @@
+.header-space {
+  margin-top: 160px;
+}
+
+.result-table-row {
+  margin: .5em 0;
+  padding: .5em;
+
+  border: solid 1px #172B49;
+  border-radius: 4px;
+}
+
+.result-item {
+  margin: 2em 0;
+}
+
+.result-detail-button-wrapper {
+  margin: 0 0 2em 0;
+}
+
+.result-detail-button {
+  display: inline-block;
+  height: 40px;
+
+  padding: .5em 1em;
+
+  background: #172B49;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+:host ::ng-deep .ui-progressbar-value {
+  background-color: #8C9FAA !important;
+}
+
+.align-right {
+  text-align: right;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 40px;
+  color: #304757;
+  margin-top: 30px;
+  margin-bottom: 30px
+}
+
+.divider {
+  background-color: #F0F3F4;
+  width: 2px;
+  margin: 0 1em;
+}
+
+.samply-button {
+  display: inline-block;
+  height: 40px;
+  width: 150px;
+
+  padding: 0.5em 2.7em 0.5em 1em;
+  margin: 2em .6em;
+
+  background: #172B49;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.samply-button-active {
+  cursor: pointer;
+}
+
+.samply-button-active:hover {
+  background: #8C9FAA;
+}
+
+.samply-button-inactive {
+  opacity: .35;
+}
+
+@media (max-width: 1199px) {
+  h2 {
+    font-size: 26px;
+    line-height: 32px;
+    margin-top: 30px;
+    margin-bottom: 20px
+  }
+}

@@ -108,16 +108,22 @@
                   <div fxFlex="0 0 5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
-                    <div class="samply-button-small" (click)="deleteValue(i, j)">
+                    <div class="samply-button-small"
+                         [ngClass]="{ 'samply-button-small-disabled': disabled }"
+                         (click)="deleteValue(i, j)">
                       <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
                       <span></span>
                     </div>
-                    <div class="samply-button-small" (click)="addValue(i)" *ngIf="j === 0">
+                    <div class="samply-button-small"
+                         [ngClass]="{ 'samply-button-small-disabled': disabled }"
+                         (click)="addValue(i)"
+                         *ngIf="j === 0">
                       <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
                       <span></span>
                     </div>
                   </div>
                 </div>
+
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
                   <div fxFlex="0 0 5em"></div>
@@ -225,7 +231,7 @@
                   (select)="chooseField($event)"
                   (onChange)="chooseField($event)"
                   placeholder="Add Field"
-                  styleClass="add-field"
+                  [styleClass]="getAddFieldStyleClass()"
                   panelStyleClass="add-field-panel">
       </p-dropdown>
     </div>

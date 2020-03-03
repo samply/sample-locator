@@ -16,8 +16,12 @@
             <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
           </div>
 
-          <app-search-builder headerName="Donor" [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-          <app-search-builder headerName="Sample" [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+          <app-search-builder headerName="Donor"
+                              [disabled]="editDisabled"
+                              [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+          <app-search-builder headerName="Sample"
+                              [disabled]="editDisabled"
+                              [mdrEntities]="mdrEntitiesSample"></app-search-builder>
 
           <div fxLayout="row"
                fxLayoutAlign="end">
@@ -53,22 +57,6 @@
 
         <div fxFlex="0 1 50%">
           <h2>Result</h2>
-
-          <div *ngFor="let field of queryProviderService.query.fieldDtos; let i=index">
-            <div>----> FIELD ({{i}})
-              <span *ngIf="getExtendedMdrField(field) as extendedField"> ......... {{extendedField.name}}</span>
-            </div>
-            <span> {{field['@'].urn}} ......... {{field['@'].valueType}}</span>
-
-            <div *ngFor="let value of field.valueDtos; let j=index">
-              <div>----------> VALUE ({{j}})</div>
-              <div>{{value['@'].condition}}</div>
-              <div>{{value.value}}</div>
-              <div>{{value.maxValue}}</div>
-            </div>
-
-
-          </div>
 
         </div>
 

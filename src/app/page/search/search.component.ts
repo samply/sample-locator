@@ -1,15 +1,14 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
-import {ExtendedMdrFieldDto, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
+import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
-
 import {faEdit, faPaperPlane, faTimes} from '@fortawesome/free-solid-svg-icons';
-
 import * as js2xmlparser from 'js2xmlparser';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {SearchBuilderComponent} from '../../component/search-builder/search-builder.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -28,22 +27,25 @@ export class SearchComponent implements OnInit {
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
+  editDisabled = false;
+
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private externalUrlService: ExternalUrlService,
     private httpClient: HttpClient,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
   }
 
-  getExtendedMdrField(field: EssentialSimpleFieldDto): ExtendedMdrFieldDto | null {
-    return this.mdrFieldProviderService.getPossibleField(field['@'].urn);
-  }
-
   sendQuery() {
+    this.editDisabled = true;
+
+    this.builderComponents.forEach(component => component.calculateFilteredFields());
+
     const xml = js2xmlparser.parse('essentialSimpleQueryDto', this.queryProviderService.query);
 
     const headers = new HttpHeaders()
@@ -51,13 +53,9 @@ export class SearchComponent implements OnInit {
       .set('Accept', 'application/xml');
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
 
-    const httpOptions = {
-      headers
-    };
-
-    this.httpClient.post<EssentialSimpleFieldDto>(url, xml, httpOptions).subscribe(
+    this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
       dataElement => {
-        console.log(dataElement);
+        this.router.navigate(['result', {id: dataElement.headers.get('id')}]);
       }
     );
   }

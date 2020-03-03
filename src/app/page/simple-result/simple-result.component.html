@@ -1,1 +1,97 @@
-<p>simple-result works!</p>
+<app-header></app-header>
+
+<div class="header-space">
+  <app-work-in-progress></app-work-in-progress>
+
+  <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxFlex="1 0 0"></div>
+
+    <div class="bbmri-container">
+      <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="0 1 50%">
+          <h2>Search</h2>
+
+          <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
+            Waiting for data from Metadata Repository
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+          </div>
+
+          <app-search-builder headerName="Donor"
+                              disabled="true"
+                              [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+          <app-search-builder headerName="Sample"
+                              disabled="true"
+                              [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+
+          <div fxLayout="row"
+               fxLayoutAlign="end">
+            <div class="samply-button samply-button-inactive"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between">
+              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Clear</span>
+            </div>
+
+            <div class="samply-button samply-button-active"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between"
+                 (click)="editQuery()">
+              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Edit</span>
+            </div>
+
+            <div class="samply-button samply-button-inactive"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between">
+              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Send</span>
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex="0 0 1px" class="divider"></div>
+
+        <div fxFlex="0 1 50%">
+          <h2>Result</h2>
+
+          <div class="result-item">
+            <div fxLayout="row wrap">
+              <div fxFlex="0 0 100%" class="result-table-row">
+                <div fxFlex="1 1 45%">Potential matching donors</div>
+                <div fxFlex="0 0 10%" class="align-right">{{sumDonors}}</div>
+                <div fxFlex="0 0 45%"></div>
+              </div>
+              <div fxFlex="0 0 100%" class="result-table-row">
+                <div fxFlex="1 1 45%">Potential matching samples</div>
+                <div fxFlex="0 0 10%" class="align-right">{{sumSamples}}</div>
+                <div fxFlex="0 0 45%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-item">
+            Answers from biobanks ({{biobanksAnswered}} / {{limitBiobanksAnswered}})
+            <p-progressBar [value]="100 * biobanksAnswered / limitBiobanksAnswered" [showValue]="false"></p-progressBar>
+          </div>
+
+          <div class="result-item">
+            {{getProcessingMessage()}}
+            <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
+            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center space-around" class="result-detail-button-wrapper">
+            <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="1 0 0"></div>
+  </div>
+
+  <app-cookie-banner></app-cookie-banner>
+  <app-footer></app-footer>
+</div>

@@ -28,6 +28,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   @Input()
   public headerName: string;
 
+  @Input()
+  disabled = false;
+
   private addField: FormControl;
 
   faPlus = faPlus;
@@ -120,10 +123,16 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     this.addField = this.fb.control('');
-    return this.fb.group({
+    const formGroup = this.fb.group({
       addField: this.addField,
       fields: fieldControls
     });
+
+    if (this.disabled) {
+      formGroup.disable();
+    }
+
+    return formGroup;
   }
 
   private initAddibleFields() {
@@ -166,6 +175,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   deleteValue(i: number, j: number) {
+    if (this.disabled) {
+      return;
+    }
+
     this.getQueryField(i).valueDtos.splice(j, 1);
     const values: FormArray = this.getValuesFormArray(i);
     values.removeAt(j);
@@ -182,6 +195,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   addValue(i: number) {
+    if (this.disabled) {
+      return;
+    }
+
     const fieldDto = this.getQueryField(i);
 
     this.queryProviderService.addEmptyValue(fieldDto);
@@ -258,5 +275,13 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   private getFieldsFormArray(): FormArray {
     return this.formGroup.get('fields') as FormArray;
+  }
+
+  getAddFieldStyleClass() {
+    if (this.disabled) {
+      return 'add-field add-field-disabled';
+    } else {
+      return 'add-field';
+    }
   }
 }
