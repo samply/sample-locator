@@ -44,6 +44,40 @@
   text-align: right;
 }
 
+.result-page-button {
+  padding: .3em 1em;
+  margin: 2em 0;
+
+  min-width: 10em;
+  height: 40px;
+
+  background: #172B49;
+  color: white;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.result-page-button:hover .result-page-button-inactive:not {
+  background: #8C9FAA;
+}
+
+.result-page-button-inactive {
+  opacity: .5;
+}
+
+.result-page-button fa-icon {
+  margin: 0 1em 0 0;
+}
+
+.disclaimer {
+  font-size: 0.8em;
+  margin: 1em 0;
+  text-align: justify;
+  padding: 0 10px;
+}
+
 h2 {
   font-size: 32px;
   font-weight: normal;

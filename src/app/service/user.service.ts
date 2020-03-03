@@ -4,7 +4,9 @@ import {UserInfo} from '../model/user/UserInfo';
 @Injectable({
   providedIn: 'root'
 })
-export class UserBeanService {
+export class UserService {
+
+  public idToken = 'dUmmy0815';
 
   private userInfo: UserInfo;
 

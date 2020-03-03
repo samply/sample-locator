@@ -6,8 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {PageNotFoundComponent} from './page/page-not-found/page-not-found.component';
 import {SearchComponent} from './page/search/search.component';
-import {SimpleResultComponent} from './page/simple-result/simple-result.component';
-import {DetailedResultComponent} from './page/detailed-result/detailed-result.component';
+import {SimpleResultComponent} from './page/result/simple-result.component';
 import {AboutUsComponent} from './page/about-us/about-us.component';
 import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
@@ -28,6 +27,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
+import {TableModule} from 'primeng/table';
 import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
 
 
@@ -54,7 +54,6 @@ export function initializerMdrConfigService(
     PageNotFoundComponent,
     SearchComponent,
     SimpleResultComponent,
-    DetailedResultComponent,
     AboutUsComponent,
     ImprintComponent,
     PrivacyPolicyComponent,
@@ -78,6 +77,7 @@ export function initializerMdrConfigService(
     CalendarModule,
     DropdownModule,
     ProgressBarModule,
+    TableModule,
   ],
   providers: [
     CookieService,
