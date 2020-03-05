@@ -238,7 +238,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 
-    if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
+    if (newValue
+      && this.getQueryField(i).valueDtos.length <= j + 1
+      && this.getQueryValue(i, j)['@'].condition !== SimpleValueOperator.BETWEEN) {
       this.addValue(i);
     }
   }
@@ -248,6 +250,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const newValue = this.getValueControl(i, j).value.maxValue;
 
     this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
+
+    if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
+      this.addValue(i);
+    }
   }
 
   // noinspection JSMethodCanBeStatic
