@@ -1,166 +1,157 @@
-<app-header></app-header>
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="1 0 0"></div>
 
-<div class="header-space">
-  <app-work-in-progress></app-work-in-progress>
+  <div class="bbmri-container">
+    <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="0 1 50%">
+        <h2>Search</h2>
 
-  <div fxLayout="row" fxLayoutAlign="space-between stretch">
-    <div fxFlex="1 0 0"></div>
-
-    <div class="bbmri-container">
-      <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
-        <div fxFlex="0 1 50%">
-          <h2>Search</h2>
-
-          <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
-            Waiting for data from Metadata Repository
-            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-          </div>
-
-          <app-search-builder headerName="Donor / Clinical Information"
-                              disabled="true"
-                              [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-          <app-search-builder headerName="Sample"
-                              disabled="true"
-                              [mdrEntities]="mdrEntitiesSample"></app-search-builder>
-
-          <div fxLayout="row"
-               fxLayoutAlign="end">
-            <div class="samply-button samply-button-inactive"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between">
-              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Clear</span>
-            </div>
-
-            <div class="samply-button samply-button-active"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="editQuery()">
-              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Edit</span>
-            </div>
-
-            <div class="samply-button samply-button-inactive"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between">
-              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Send</span>
-            </div>
-          </div>
+        <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
+          Waiting for data from Metadata Repository
+          <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
-        <div fxFlex="0 0 1px" class="divider"></div>
+        <app-search-builder headerName="Donor / Clinical Information"
+                            disabled="true"
+                            [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+        <app-search-builder headerName="Sample"
+                            disabled="true"
+                            [mdrEntities]="mdrEntitiesSample"></app-search-builder>
 
-        <div fxFlex="0 1 50%">
-          <h2>Result</h2>
-
-          <!-- SHOW SIMPLE RESULT -->
-          <div *ngIf="!userService.getLoginValid()">
-            <div class="result-item">
-              <div fxLayout="row wrap" fxLayoutAlign="space-between">
-                <div fxFlex="0 0 45%" class="result-table-row">
-                  <div fxFlex="1 1 15%">
-                    <fa-icon [icon]="faDonor" size="lg"></fa-icon>
-                  </div>
-                  <div fxFlex="0 0 15%" class="align-right">{{sumDonors}}</div>
-                  <div fxFlex="0 0 15%"></div>
-                </div>
-                <div fxFlex="0 0 45%" class="result-table-row">
-                  <div fxFlex="1 1 15%">
-                    <fa-icon [icon]="faSample" size="lg"></fa-icon>
-                  </div>
-                  <div fxFlex="0 0 15%" class="align-right">{{sumSamples}}</div>
-                  <div fxFlex="0 0 15%"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="result-item">
-              Answers from biobanks ({{biobanksAnswered}} / {{limitBiobanksAnswered}})
-              <p-progressBar [value]="100 * biobanksAnswered / limitBiobanksAnswered"
-                             [showValue]="false"></p-progressBar>
-            </div>
-
-            <div class="result-item">
-              {{getProcessingMessage()}}
-              <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
-              <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
-            </div>
-
-            <div fxLayout="row"
-                 fxLayoutAlign="center space-around"
-                 (click)="userService.login()"
-                 class="result-detail-button-wrapper">
-              <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
+        <div fxLayout="row"
+             fxLayoutAlign="end">
+          <div class="samply-button samply-button-inactive"
+               fxLayout="row"
+               fxLayoutAlign="space-between">
+            <fa-icon [icon]="faTimes" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Clear</span>
           </div>
 
-          <!-- SHOW DETAILED RESULT -->
-          <div *ngIf="userService.getLoginValid()">
-            <div *ngIf="!isResultAnonymous()">
-              <p-table [value]="detailedResult" [columns]="resultColumns">
-                <ng-template pTemplate="header" let-columns>
-                  <tr>
-                    <th *ngFor="let col of columns">
-                      {{col.header}}
-                    </th>
-                    <th>
-                      Negotiate?
-                    </th>
-                  </tr>
-                </ng-template>
+          <div class="samply-button samply-button-active"
+               fxLayout="row"
+               fxLayoutAlign="space-between"
+               (click)="editQuery()">
+            <fa-icon [icon]="faEdit" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Edit</span>
+          </div>
 
-                <ng-template pTemplate="body" let-reply let-columns="columns">
-                  <tr>
-                    <td *ngFor="let col of columns">
-                      {{reply[col.field]}}
-                    </td>
-                    <td (click)="toggleNegotiateFlag(reply.site)">
-                      <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-
-              <div class="disclaimer">
-                The result of your query represents only potentially available biosamples and data. Further information
-                regarding access can be retrieved by direct communication with the respective biobanks activating the
-                checkboxes and "Negotiate".
-              </div>
-
-              <div fxLayout="row" fxLayoutAlign="center">
-                <div (click)="navigateToNegotiator()"
-                     [ngClass]="getNegotiatorButtonClass()">
-                  <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-                  <span>Negotiate</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="result-item">
-              {{getProcessingMessage()}}
-              <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
-              <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="center">
-              <div (click)="refreshPolling()"
-                   [ngClass]="getRefreshButtonClass()">
-                <fa-icon [icon]="faSyncAlt" size="lg"></fa-icon>
-                <span>Continue</span>
-              </div>
-            </div>
-
+          <div class="samply-button samply-button-inactive"
+               fxLayout="row"
+               fxLayoutAlign="space-between">
+            <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Send</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <div fxFlex="1 0 0"></div>
+      <div fxFlex="0 0 1px" class="divider"></div>
+
+      <div fxFlex="0 1 50%">
+        <h2>Result</h2>
+
+        <!-- SHOW SIMPLE RESULT -->
+        <div *ngIf="!userService.getLoginValid()">
+          <div class="result-item">
+            <div fxLayout="row wrap" fxLayoutAlign="space-between">
+              <div fxFlex="0 0 45%" class="result-table-row">
+                <div fxFlex="1 1 15%">
+                  <fa-icon [icon]="faDonor" size="lg"></fa-icon>
+                </div>
+                <div fxFlex="0 0 15%" class="align-right">{{sumDonors}}</div>
+                <div fxFlex="0 0 15%"></div>
+              </div>
+              <div fxFlex="0 0 45%" class="result-table-row">
+                <div fxFlex="1 1 15%">
+                  <fa-icon [icon]="faSample" size="lg"></fa-icon>
+                </div>
+                <div fxFlex="0 0 15%" class="align-right">{{sumSamples}}</div>
+                <div fxFlex="0 0 15%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-item">
+            Answers from biobanks ({{biobanksAnswered}} / {{limitBiobanksAnswered}})
+            <p-progressBar [value]="100 * biobanksAnswered / limitBiobanksAnswered"
+                           [showValue]="false"></p-progressBar>
+          </div>
+
+          <div class="result-item">
+            {{getProcessingMessage()}}
+            <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
+            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
+          </div>
+
+          <div fxLayout="row"
+               fxLayoutAlign="center space-around"
+               (click)="userService.login()"
+               class="result-detail-button-wrapper">
+            <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
+        </div>
+
+        <!-- SHOW DETAILED RESULT -->
+        <div *ngIf="userService.getLoginValid()">
+          <div *ngIf="!isResultAnonymous()">
+            <p-table [value]="detailedResult" [columns]="resultColumns">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
+                  <th>
+                    Negotiate?
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-reply let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns">
+                    {{reply[col.field]}}
+                  </td>
+                  <td (click)="toggleNegotiateFlag(reply.site)">
+                    <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            <div class="disclaimer">
+              The result of your query represents only potentially available biosamples and data. Further information
+              regarding access can be retrieved by direct communication with the respective biobanks activating the
+              checkboxes and "Negotiate".
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="center">
+              <div (click)="navigateToNegotiator()"
+                   [ngClass]="getNegotiatorButtonClass()">
+                <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+                <span>Negotiate</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-item">
+            {{getProcessingMessage()}}
+            <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
+            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center">
+            <div (click)="refreshPolling()"
+                 [ngClass]="getRefreshButtonClass()">
+              <fa-icon [icon]="faSyncAlt" size="lg"></fa-icon>
+              <span>Continue</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 
-  <app-cookie-banner></app-cookie-banner>
-  <app-footer></app-footer>
+  <div fxFlex="1 0 0"></div>
 </div>

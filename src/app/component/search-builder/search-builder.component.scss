@@ -1,3 +1,7 @@
+h3 {
+  font-weight: normal;
+}
+
 .field-container {
   margin: .8em 0;
 }
@@ -7,11 +11,16 @@
 }
 
 .value-container-input {
-  width: 16em;
+  width: 100%;
+}
+
+:host ::ng-deep .value-container .ui-dropdown {
+  // Hack, to reduce maximal width. However the actual width will be larger than 1em
+  max-width: 1em;
 }
 
 .add-field-wrapper {
-  margin: 0 .6em;
+  margin: 0 .5em;
 }
 
 :host ::ng-deep .add-field,
@@ -39,9 +48,8 @@
 }
 
 :host ::ng-deep .add-field .ui-dropdown-trigger {
-  width: 0;
-  min-width: 0;
-  display: none;
+  background-color: #172B49;
+  color: white;
 }
 
 :host ::ng-deep .add-field .ui-dropdown-label {
@@ -53,7 +61,11 @@
 }
 
 :host ::ng-deep .add-field-panel {
-  background-color: #8C9FAA !important;
+  background-color: #AFB5C0;
+}
+
+:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
+  color: white;
 }
 
 .samply-button-small {
@@ -65,7 +77,6 @@
   font-size: smaller;
 
   background-color: #172B49;
-  border: 1px solid #cbc7bd;
   color: white;
 
   text-align: center;
@@ -80,9 +91,5 @@
 
 .samply-button-small-disabled {
   opacity: .35;
-}
-
-.bold {
-  font-weight: bold;
 }
 

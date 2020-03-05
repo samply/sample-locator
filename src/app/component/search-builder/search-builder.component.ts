@@ -46,7 +46,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       value: SimpleValueOperator.EQUALS
     },
     {
-      label: '<>',
+      label: '≠',
       value: SimpleValueOperator.NOT_EQUALS
     },
     {
@@ -54,7 +54,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       value: SimpleValueOperator.LESS
     },
     {
-      label: '<=',
+      label: '≤',
       value: SimpleValueOperator.LESS_OR_EQUALS
     },
     {
@@ -62,12 +62,23 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       value: SimpleValueOperator.GREATER
     },
     {
-      label: '>=',
+      label: '≥',
       value: SimpleValueOperator.GREATER_OR_EQUALS
     },
     {
       label: '...',
       value: SimpleValueOperator.BETWEEN
+    }
+  ];
+
+  operatorsRestricted = [
+    {
+      label: '=',
+      value: SimpleValueOperator.EQUALS
+    },
+    {
+      label: '≠',
+      value: SimpleValueOperator.NOT_EQUALS
     }
   ];
 
@@ -167,6 +178,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     return operator === SimpleValueOperator.BETWEEN ? 'Min.' : '';
+  }
+
+  getPossibleOperators(valueType: EssentialValueType) {
+    if (valueType === EssentialValueType.STRING || valueType === EssentialValueType.PERMITTEDVALUE) {
+      return this.operatorsRestricted;
+    } else {
+      return this.operators;
+    }
   }
 
   chooseOperator($event: any, i: number, j: number) {

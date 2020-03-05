@@ -1,71 +1,63 @@
-<app-header></app-header>
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="1 0 0"></div>
 
-<div class="header-space">
-  <app-work-in-progress></app-work-in-progress>
+  <div class="bbmri-container">
+    <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="0 1 50%">
+        <h2>Search</h2>
 
-  <div fxLayout="row" fxLayoutAlign="space-between stretch">
-    <div fxFlex="1 0 0"></div>
-
-    <div class="bbmri-container">
-      <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
-        <div fxFlex="0 1 50%">
-          <h2>Search</h2>
-
-          <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
-            Waiting for data from Metadata Repository
-            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-          </div>
-
-          <app-search-builder headerName="Donor / Clinical Information"
-                              [disabled]="editDisabled"
-                              [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-          <app-search-builder headerName="Sample"
-                              [disabled]="editDisabled"
-                              [mdrEntities]="mdrEntitiesSample"></app-search-builder>
-
-          <div fxLayout="row"
-               fxLayoutAlign="end">
-            <div class="samply-button samply-button-acitve"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="resetQuery()">
-              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Clear</span>
-            </div>
-
-            <div class="samply-button samply-button-inactive"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between">
-              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Edit</span>
-            </div>
-
-            <div class="samply-button samply-button-acitve"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="sendQuery()">
-              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Send</span>
-            </div>
-          </div>
+        <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
+          Waiting for data from Metadata Repository
+          <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
-        <div fxFlex="0 0 1px" class="divider"></div>
+        <app-search-builder headerName="Donor / Clinical Information"
+                            [disabled]="editDisabled"
+                            [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+        <app-search-builder headerName="Sample"
+                            [disabled]="editDisabled"
+                            [mdrEntities]="mdrEntitiesSample"></app-search-builder>
 
-        <div fxFlex="0 1 50%">
-          <h2>Result</h2>
+        <div fxLayout="row"
+             fxLayoutAlign="end">
+          <div class="samply-button samply-button-acitve"
+               fxLayout="row"
+               fxLayoutAlign="space-between"
+               (click)="resetQuery()">
+            <fa-icon [icon]="faTimes" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Clear</span>
+          </div>
 
+          <div class="samply-button samply-button-inactive"
+               fxLayout="row"
+               fxLayoutAlign="space-between">
+            <fa-icon [icon]="faEdit" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Edit</span>
+          </div>
+
+          <div class="samply-button samply-button-acitve"
+               fxLayout="row"
+               fxLayoutAlign="space-between"
+               (click)="sendQuery()">
+            <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+            <div fxFlex="1 0 0"></div>
+            <span>Send</span>
+          </div>
         </div>
+      </div>
+
+      <div fxFlex="0 0 1px" class="divider"></div>
+
+      <div fxFlex="0 1 50%">
+        <h2>Result</h2>
 
       </div>
-    </div>
 
-    <div fxFlex="1 0 0"></div>
+    </div>
   </div>
 
-  <app-cookie-banner></app-cookie-banner>
-  <app-footer></app-footer>
+  <div fxFlex="1 0 0"></div>
 </div>
+
