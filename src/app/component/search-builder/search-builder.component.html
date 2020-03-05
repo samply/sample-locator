@@ -21,7 +21,7 @@
 
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 5em">
+                  <div fxFlex="0 0 4em">
                     <p-dropdown [options]="operators" formControlName="operator"
                                 (select)="chooseOperator($event, i, j)"
                                 (onChange)="chooseOperator($event, i, j)"
@@ -29,16 +29,17 @@
                     </p-dropdown>
                   </div>
 
-                  <div fxFlex="0 0 10em">
+                  <div fxFlex="0 0 13em">
                     <!-- STRING -->
                     <div *ngIf="field['@'].valueType === 'STRING'"
-                         fxFlex="0 0 8em">
+                         fxFlex="1 0 10em">
 
                       <!--suppress HtmlFormInputWithoutLabel -->
                       <input formControlName="value"
                              (change)="changeValue(i, j)"
                              pInputText
                              placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
+                             class="value-container-input"
                              type="text">
                     </div>
 
@@ -51,6 +52,7 @@
                              (change)="changeValue(i, j)"
                              pInputText
                              placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
+                             class="value-container-input"
                              type="number">
                     </div>
 
@@ -63,6 +65,7 @@
                              (change)="changeValue(i, j)"
                              pInputText
                              placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
+                             class="value-container-input"
                              type="number">
                     </div>
 
@@ -75,7 +78,9 @@
                                   (select)="changeValue(i, j)"
                                   (onChange)="changeValue(i, j)"
                                   placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
-                                  [style]="{ 'minWidth': '172px', 'width': '172px'}">
+                                  tooltip="{{getDropdownTooltip(extendedField, value.value)}}"
+                                  tooltipPosition="top"
+                                  [style]="{ 'minWidth': '224px', 'width': '224px'}">
                       </p-dropdown>
                     </div>
 
@@ -87,7 +92,8 @@
                                   (onSelect)="changeValue(i, j)"
                                   (input)="changeValue(i, j)"
                                   placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
-                                  dateFormat="dd.mm.yy"></p-calendar>
+                                  dateFormat="dd.mm.yy"
+                                  [inputStyle]="{ 'minWidth': '224px', 'width': '224px'}"></p-calendar>
                     </div>
 
                     <!-- DATETIME -->
@@ -100,25 +106,19 @@
                                   placeholder="{{getPlaceholder(extendedField, value['@'].condition)}}"
                                   dateFormat="dd.mm.yy"
                                   showTime="true"
-                                  hourFormat="24"></p-calendar>
+                                  hourFormat="24"
+                                  [inputStyle]="{ 'minWidth': '224px', 'width': '224px'}"></p-calendar>
                     </div>
 
                   </div>
 
-                  <div fxFlex="0 0 5em"
+                  <div fxFlex="0 0 2.5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
                     <div class="samply-button-small"
                          [ngClass]="{ 'samply-button-small-disabled': disabled }"
                          (click)="deleteValue(i, j)">
                       <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
-                      <span></span>
-                    </div>
-                    <div class="samply-button-small"
-                         [ngClass]="{ 'samply-button-small-disabled': disabled }"
-                         (click)="addValue(i)"
-                         *ngIf="j === 0">
-                      <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
                       <span></span>
                     </div>
                   </div>
@@ -140,6 +140,7 @@
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
+                             class="value-container-input"
                              type="text">
                     </div>
 
@@ -153,6 +154,7 @@
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
+                             class="value-container-input"
                              type="number">
                     </div>
 
@@ -166,6 +168,7 @@
                              (change)="changeMaxValue(i, j)"
                              pInputText
                              placeholder="Max."
+                             class="value-container-input"
                              type="number">
                     </div>
 
@@ -179,7 +182,8 @@
                                   (select)="changeMaxValue(i, j)"
                                   (onChange)="changeMaxValue(i, j)"
                                   placeholder="Max."
-                                  [style]="{ 'minWidth': '172px', 'width': '172px'}">
+                                  tooltip="{{getDropdownTooltip(extendedField, value.maxValue)}}"
+                                  [style]="{ 'minWidth': '224px', 'width': '224px'}">
                       </p-dropdown>
                     </div>
 
@@ -192,7 +196,8 @@
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
                                   placeholder="Max."
-                                  dateFormat="dd.mm.yy"></p-calendar>
+                                  dateFormat="dd.mm.yy"
+                                  [inputStyle]="{ 'minWidth': '224px', 'width': '224px'}"></p-calendar>
                     </div>
 
                     <!-- DATETIME -->
@@ -206,7 +211,8 @@
                                   placeholder="Max."
                                   dateFormat="dd.mm.yy"
                                   showTime="true"
-                                  hourFormat="24"></p-calendar>
+                                  hourFormat="24"
+                                  [inputStyle]="{ 'minWidth': '224px', 'width': '224px'}"></p-calendar>
                     </div>
 
                   </div>

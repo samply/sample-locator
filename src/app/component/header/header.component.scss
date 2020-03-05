@@ -8,6 +8,12 @@
   z-index: 999;
 }
 
+@media (max-width: 1199px) {
+  .headerMenu {
+    height: 100px;
+  }
+}
+
 .logo-main img {
   width: 245px;
   margin: 40px 0 0 0;
@@ -15,7 +21,8 @@
 
 .mainNav a.nav-link {
   border-top: 5px solid #fff;
-  margin: 58px 0 0 50px;
+  margin: 0 0 0 50px;
+  padding: 58px 0 0 0;
   font-size: 21px;
   line-height: 40px;
   display: block;
@@ -77,16 +84,18 @@
 
 @media (max-width: 1199px) {
   .logo-main {
-    margin: 15px 12px 15px -12px
+    margin: 15px 12px 15px -12px;
   }
 
   .logo-main img {
     height: 70px;
-    width: auto
+    width: auto;
+
+    margin-top: 0;
   }
 
-  .mainNav a {
-    padding-top: 25px
+  .mainNav a.nav-link {
+    padding: 25px 0 0 0;
   }
 }
 

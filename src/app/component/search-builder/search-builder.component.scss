@@ -6,6 +6,10 @@
   padding: .3em 0 0 0;
 }
 
+.value-container-input {
+  width: 16em;
+}
+
 .add-field-wrapper {
   margin: 0 .6em;
 }
@@ -44,6 +48,10 @@
   padding: .5em 0;
 }
 
+:host ::ng-deep .add-field .ui-dropdown-label:hover {
+  background: #8C9FAA;
+}
+
 :host ::ng-deep .add-field-panel {
   background-color: #8C9FAA !important;
 }
@@ -62,34 +70,19 @@
 
   text-align: center;
   vertical-align: center;
+
+  cursor: pointer;
 }
 
-.samply-button-small:hover .samply-button-small-disabled:not {
+.samply-button-small:hover {
   background: #8C9FAA;
 }
 
 .samply-button-small-disabled {
-  opacity: .5;
+  opacity: .35;
 }
 
 .bold {
   font-weight: bold;
 }
 
-h3 {
-  font-size: 24px;
-  line-height: 36px;
-  color: #304757;
-  margin-top: 40px;
-  margin-bottom: 10px
-}
-
-@media (max-width: 1199px) {
-  h3 {
-    font-size: 18px;
-    line-height: 28px;
-    color: #304757;
-    margin-top: 40px;
-    margin-bottom: 10px
-  }
-}

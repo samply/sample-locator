@@ -5,7 +5,7 @@ import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faMinus} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
 import * as moment from 'moment';
@@ -33,7 +33,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   private addField: FormControl;
 
-  faPlus = faPlus;
   faMinus = faMinus;
 
   filteredFields: Array<EssentialSimpleFieldDto>;
@@ -204,7 +203,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
     const value = (fieldDto['@'].valueType === EssentialValueType.DATE || fieldDto['@'].valueType === EssentialValueType.DATETIME)
-      ? this.fb.control(new Date()) : this.fb.control('');
+      ? this.fb.control(null) : this.fb.control('');
 
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
@@ -219,6 +218,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const newValue = this.getValueControl(i, j).value.value;
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
+
+    if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
+      this.addValue(i);
+    }
   }
 
   changeMaxValue(i: number, j: number) {
@@ -282,6 +285,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       return 'add-field add-field-disabled';
     } else {
       return 'add-field';
+    }
+  }
+
+  getDropdownTooltip(extendedField: ExtendedMdrFieldDto, value: string) {
+    const index = extendedField.permittedValues.findIndex(permittedValue => permittedValue.value === value);
+    if (index < 0) {
+      return '';
+    } else {
+      return extendedField.permittedValues[index].label;
     }
   }
 }

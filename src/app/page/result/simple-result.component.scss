@@ -2,6 +2,12 @@
   margin-top: 160px;
 }
 
+@media (max-width: 1199px) {
+  .header-space {
+    margin-top: 100px;
+  }
+}
+
 .result-table-row {
   margin: .5em 0;
   padding: .5em;
@@ -64,7 +70,7 @@
 }
 
 .result-page-button-inactive {
-  opacity: .5;
+  opacity: .35;
 }
 
 .result-page-button fa-icon {
@@ -79,12 +85,7 @@
 }
 
 h2 {
-  font-size: 32px;
   font-weight: normal;
-  line-height: 40px;
-  color: #304757;
-  margin-top: 30px;
-  margin-bottom: 30px
 }
 
 .divider {
@@ -121,13 +122,4 @@ h2 {
 
 .samply-button-inactive {
   opacity: .35;
-}
-
-@media (max-width: 1199px) {
-  h2 {
-    font-size: 26px;
-    line-height: 32px;
-    margin-top: 30px;
-    margin-bottom: 20px
-  }
 }
