@@ -25,7 +25,7 @@ export class ResultService {
   }
 
   getResult(id: number): Observable<any> {
-    if (!this.userService.getLoginValid() || !this.userService.idToken) {
+    if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
       return this.getSimpleResult(id);
     } else {
       return this.getDetailedResult(id);
@@ -39,13 +39,13 @@ export class ResultService {
   }
 
   private getDetailedResult(id: number): Observable<any> {
-    if (!this.userService.getLoginValid() || !this.userService.idToken) {
+    if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
       return;
     }
 
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getReply?id=' + id;
     const headers = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + this.userService.idToken)
+      .set('Authorization', 'Bearer ' + this.userService.getIdToken())
       .set('content-type', 'text/plain');
 
     return this.httpClient.get<any>(url, {headers, observe: 'response'});

@@ -29,7 +29,20 @@ import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {TableModule} from 'primeng/table';
 import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
+import {AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration} from 'angular-auth-oidc-client';
+import {HomeComponent} from './page2/home/home.component';
+import {ForbiddenComponent} from './page2/forbidden/forbidden.component';
+import {UnauthorizedComponent} from './page2/unauthorized/unauthorized.component';
 
+// TODO: (1)   "disable_iat_offset_validation": false setzen
+// TODO: (4)   Überdenken, ob OICD verschiedene Routes bedienen soll, oder ob weiter result & search so bleiben
+
+// tslint:disable-next-line:variable-name
+const oidc_configuration = '/assets/config/auth.clientConfiguration.json';
+
+export function loadConfig(oidcConfigService: OidcConfigService) {
+  return () => oidcConfigService.load(oidc_configuration);
+}
 
 export function initializerExternalUrlService(
   externalUrlService: ExternalUrlService,
@@ -62,11 +75,16 @@ export function initializerMdrConfigService(
     WorkInProgressComponent,
     CookieBannerComponent,
     SearchBuilderComponent,
+    HomeComponent,
+    ForbiddenComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AuthModule.forRoot(),
+
     HttpClientModule,
     FlexLayoutModule,
     FontAwesomeModule,
@@ -92,12 +110,46 @@ export function initializerMdrConfigService(
       multi: true,
       deps: [MdrConfigService],
       useFactory: initializerMdrConfigService
-    }
+    },
+    OidcConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadConfig,
+      deps: [OidcConfigService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {
+  constructor(private oidcSecurityService: OidcSecurityService, private oidcConfigService: OidcConfigService) {
     library.add(faTimes);
+
+    this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+
+      // Use the configResult to set the configurations
+      const customConfig: OpenIdConfiguration = configResult.customConfig;
+
+      const config: OpenIdConfiguration = {
+        stsServer: customConfig.stsServer,
+        redirect_url: customConfig.redirect_url,
+        client_id: customConfig.client_id,
+        response_type: customConfig.response_type,
+        scope: customConfig.scope,
+        post_logout_redirect_uri: customConfig.post_logout_redirect_uri,
+        start_checksession: customConfig.start_checksession,
+        silent_renew: customConfig.silent_renew,
+        silent_renew_url: customConfig.silent_renew_url,
+        post_login_route: customConfig.post_login_route,
+        unauthorized_route: customConfig.unauthorized_route,
+        forbidden_route: customConfig.forbidden_route,
+        log_console_debug_active: customConfig.log_console_debug_active,
+        log_console_warning_active: customConfig.log_console_warning_active,
+        disable_iat_offset_validation: customConfig.disable_iat_offset_validation,
+        max_id_token_iat_offset_allowed_in_seconds: customConfig.max_id_token_iat_offset_allowed_in_seconds,
+      };
+
+      this.oidcSecurityService.setupModule(config, configResult.authWellknownEndpoints);
+    });
   }
 }

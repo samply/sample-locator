@@ -6,9 +6,28 @@ import {SimpleResultComponent} from './page/result/simple-result.component';
 import {AboutUsComponent} from './page/about-us/about-us.component';
 import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
+import {ForbiddenComponent} from './page2/forbidden/forbidden.component';
+import {HomeComponent} from './page2/home/home.component';
+import {UnauthorizedComponent} from './page2/unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent
+  },
+
+
+
+
   {
     path: '',
     pathMatch: 'full',

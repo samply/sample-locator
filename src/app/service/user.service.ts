@@ -1,57 +1,76 @@
 import {Injectable} from '@angular/core';
-import {UserInfo} from '../model/user/UserInfo';
+import {OidcSecurityService} from 'angular-auth-oidc-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  public idToken = 'dUmmy0815';
+  private isAuthorized = false;
+  private userData: any;
 
-  private userInfo: UserInfo;
+  constructor(private oidcSecurityService: OidcSecurityService) {
+    if (this.oidcSecurityService.moduleSetup) {
+      this.doCallbackLogicIfRequired();
+    } else {
+      this.oidcSecurityService.onModuleSetup.subscribe(() => {
+        this.doCallbackLogicIfRequired();
+      });
+    }
 
-  constructor() {
+    this.oidcSecurityService.getIsAuthorized().subscribe(
+      auth => this.isAuthorized = auth
+    );
+
+    this.oidcSecurityService.getUserData().subscribe(userData => {
+      this.userData = userData;
+    });
+  }
+
+
+  private doCallbackLogicIfRequired() {
+    if (window.location.hash) {
+      this.oidcSecurityService.authorizedImplicitFlowCallback();
+    }
   }
 
   logout() {
-    this.userInfo = null;
+    this.oidcSecurityService.logoff();
   }
 
   login() {
-    // TODO: Implement authorization logic
-    this.userInfo = {
-      refreshToken: 'abc',
-      userAuthentication: {
-        loginValid: true,
-        realname: 'Frau Mustermann',
-        username: 'frau-mustermann',
-        idToken: '123',
-        state: 'random'
-      }
-    };
+    this.oidcSecurityService.authorize();
+/*    this.oidcSecurityService.authorize((authUrl) => {
+      // handle the authorrization URL
+      window.open(authUrl, '_blank', 'toolbar=0,location=0,menubar=0');
+    });*/
   }
 
   getLoginValid(): boolean {
-    if (!this.userInfo || !this.userInfo.userAuthentication) {
+    if (!this.isAuthorized || !this.userData) {
       return false;
     }
 
-    return this.userInfo.userAuthentication.loginValid;
+    return this.isAuthorized;
+  }
+
+  public getIdToken(): string {
+    return this.oidcSecurityService.getIdToken();
   }
 
   getUserName(): string {
-    if (!this.userInfo || !this.userInfo.userAuthentication) {
+    if (!this.isAuthorized || !this.userData) {
       return '';
     }
 
-    return this.userInfo.userAuthentication.username;
+    return this.userData.hasOwnProperty('preferred_username') ? this.userData.preferred_username : '';
   }
 
   getRealName(): string {
-    if (!this.userInfo || !this.userInfo.userAuthentication) {
+    if (!this.isAuthorized || !this.userData) {
       return '';
     }
 
-    return this.userInfo.userAuthentication.realname;
+    return this.userData.hasOwnProperty('name') ? this.userData.name : '';
   }
 }

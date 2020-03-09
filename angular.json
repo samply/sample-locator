@@ -93,7 +93,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/silent-renew.html"
             ],
             "styles": [
               "src/styles.scss",
