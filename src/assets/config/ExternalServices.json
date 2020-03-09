@@ -1,5 +1,5 @@
 {
-  "brokerUrl": "http://localhost:8085/broker",
-  "sampleLocatorUrl": "http://localhost:8081",
+  "brokerUrl": "http://localhost:8080/broker",
+  "sampleLocatorUrl": "http://localhost:8085",
   "negotiatorUrl": "http://localhost:8087"
 }
