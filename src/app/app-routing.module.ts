@@ -6,9 +6,9 @@ import {SimpleResultComponent} from './page/result/simple-result.component';
 import {AboutUsComponent} from './page/about-us/about-us.component';
 import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
-import {ForbiddenComponent} from './page2/forbidden/forbidden.component';
-import {HomeComponent} from './page2/home/home.component';
-import {UnauthorizedComponent} from './page2/unauthorized/unauthorized.component';
+import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
+import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.component';
+import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
@@ -17,8 +17,8 @@ const routes: Routes = [
     component: ForbiddenComponent
   },
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'authorized',
+    component: LoggedInComponent
   },
   {
     path: 'unauthorized',

@@ -30,9 +30,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {TableModule} from 'primeng/table';
 import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
 import {AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration} from 'angular-auth-oidc-client';
-import {HomeComponent} from './page2/home/home.component';
-import {ForbiddenComponent} from './page2/forbidden/forbidden.component';
-import {UnauthorizedComponent} from './page2/unauthorized/unauthorized.component';
+import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.component';
+import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
+import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 
 // TODO: (1)   "disable_iat_offset_validation": false setzen
 // TODO: (4)   Überdenken, ob OICD verschiedene Routes bedienen soll, oder ob weiter result & search so bleiben
@@ -75,7 +75,7 @@ export function initializerMdrConfigService(
     WorkInProgressComponent,
     CookieBannerComponent,
     SearchBuilderComponent,
-    HomeComponent,
+    LoggedInComponent,
     ForbiddenComponent,
     UnauthorizedComponent,
   ],
