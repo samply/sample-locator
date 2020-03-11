@@ -1,3 +1,5 @@
+import * as js2xmlparser from 'js2xmlparser';
+
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
@@ -5,34 +7,39 @@ import {faEdit, faPaperPlane, faSyncAlt, faTimes, faUser, faVial} from '@fortawe
 import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {ReplySiteDto} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
+import {SlStorageService} from '../../service/sl-storage.service';
+import {QueryProviderService} from '../../service/query-provider.service';
+import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
+import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 
 @Component({
   selector: 'app-simple-result',
-  templateUrl: './simple-result.component.html',
-  styleUrls: ['./simple-result.component.scss']
+  templateUrl: './result.component.html',
+  styleUrls: ['./result.component.scss']
 })
-export class SimpleResultComponent implements OnInit, OnDestroy {
+export class ResultComponent implements OnInit, OnDestroy {
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     private simpleResultService: ResultService,
     private externalUrlService: ExternalUrlService,
     public userService: UserService,
+    private queryProviderService: QueryProviderService,
+    private slStorageService: SlStorageService,
     private httpClient: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) {
   }
 
-  // TODO: Set to 60 seconds after testing
-  static MAX_TIME_POLLING = 10;
+  static MAX_TIME_POLLING = 60;
   static POLLING_INTERVAL = 1;
 
   faTimes = faTimes;
@@ -58,6 +65,7 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
   private id = -1;
+  private nToken: string;
 
   negotiateFlags: Map<string, boolean> = new Map();
 
@@ -70,6 +78,8 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    this.slStorageService.setAppTargetRoute('result');
+
     this.initParameters();
     this.initPolling();
     this.initNumberBiobanks();
@@ -82,6 +92,16 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
   private initParameters() {
     this.subscriptions.push(this.route.params.subscribe(parms => {
       this.id = parms.id;
+      this.nToken = parms.nToken;
+      this.slStorageService.setNToken(this.nToken);
+
+      if (this.slStorageService.getAppAction() === 'sendQuery') {
+        this.sendQuery();
+      } else {
+        this.queryProviderService.restoreQuery(this.nToken);
+      }
+
+      this.slStorageService.resetAppAction();
     }));
   }
 
@@ -94,14 +114,15 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
   }
 
   private initPolling() {
-    this.subscriptions.push(interval(SimpleResultComponent.POLLING_INTERVAL * 1000)
+    this.subscriptions.push(interval(ResultComponent.POLLING_INTERVAL * 1000)
       .pipe(
-        takeUntil(timer(SimpleResultComponent.MAX_TIME_POLLING * 1000)),
+        takeUntil(timer(ResultComponent.MAX_TIME_POLLING * 1000)),
         startWith(0),
         switchMap(() => {
+          // TODO: Change: id -> nToken
           if (this.id) {
-            this.elapsedSeconds += SimpleResultComponent.POLLING_INTERVAL;
-            this.elapsedTimePercentage = Math.min(100 * this.elapsedSeconds / SimpleResultComponent.MAX_TIME_POLLING, 100);
+            this.elapsedSeconds += ResultComponent.POLLING_INTERVAL;
+            this.elapsedTimePercentage = Math.min(100 * this.elapsedSeconds / ResultComponent.MAX_TIME_POLLING, 100);
 
             return this.simpleResultService.getResult(this.id);
           } else {
@@ -157,7 +178,12 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
   }
 
   editQuery() {
-    this.router.navigate(['search', {id: this.id}]);
+    this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH, {nToken: this.nToken}]);
+  }
+
+  resetQuery() {
+    this.queryProviderService.resetQuery();
+    this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
   }
 
   getProcessingMessage() {
@@ -218,5 +244,20 @@ export class SimpleResultComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  private sendQuery() {
+    const xml = js2xmlparser.parse('essentialSimpleQueryDto', this.queryProviderService.query);
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/xml')
+      .set('Accept', 'application/xml');
+    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
+
+    this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
+      dataElement => {
+        this.id = parseInt(dataElement.headers.get('id'), 10);
+      }
+    );
   }
 }

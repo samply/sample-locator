@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SlStorageService} from '../../../service/sl-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,19 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LoggedInComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private slStorageService: SlStorageService
+  ) {
+  }
 
   ngOnInit(): void {
+    const nToken = this.slStorageService.getNToken();
+    const parameter = nToken ? {nToken} : {};
+    const route = '/' + this.slStorageService.getAppTargetRoute();
+
+    this.slStorageService.resetAppAction();
+    this.router.navigate([route, parameter]);
   }
 
 }

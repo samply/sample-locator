@@ -20,9 +20,10 @@
 
         <div fxLayout="row"
              fxLayoutAlign="end">
-          <div class="samply-button samply-button-inactive"
+          <div class="samply-button samply-button-active"
                fxLayout="row"
-               fxLayoutAlign="space-between">
+               fxLayoutAlign="space-between"
+               (click)="resetQuery()">
             <fa-icon [icon]="faTimes" size="lg"></fa-icon>
             <div fxFlex="1 0 0"></div>
             <span>Clear</span>

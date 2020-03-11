@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {EssentialQueryDto, EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '../model/query/essential-query-dto';
 import {MdrFieldProviderService} from './mdr-field-provider.service';
 import {MdrDataType} from '../model/mdr/extended-mdr-field-dto';
+import {SlStorageService} from './sl-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,29 @@ export class QueryProviderService {
   public query: EssentialQueryDto;
 
   constructor(
-    private mdrFieldProviderService: MdrFieldProviderService
+    private mdrFieldProviderService: MdrFieldProviderService,
+    private slStorageService: SlStorageService
   ) {
-    this.resetQuery();
+    if (this.slStorageService.getAppAction() === 'login' || this.slStorageService.getAppAction() === 'logoff') {
+      this.restoreQuery(this.slStorageService.getNToken());
+    } else {
+      this.resetQuery();
+    }
+  }
+
+  restoreQuery(nToken?: string) {
+    if (nToken) {
+      // TODO: Implement feature on Searchbroker and get query by Http-Request
+      this.query = this.slStorageService.getQuery();
+    } else {
+      this.query = this.slStorageService.getQuery();
+    }
+
+    if (!this.query) {
+      this.resetQuery();
+    }
+
+    this.slStorageService.setQuery(this.query);
   }
 
   resetQuery(): void {
@@ -25,6 +46,8 @@ export class QueryProviderService {
     };
 
     this.addField(QueryProviderService.URN_DIAGNOSIS, QueryProviderService.TYPE_DIAGNOSIS);
+
+    this.slStorageService.setQuery(this.query);
   }
 
   addField(urn: string, valueType?: MdrDataType): void {
@@ -48,6 +71,8 @@ export class QueryProviderService {
     this.addEmptyValue(fieldDto);
 
     this.query.fieldDtos.push(fieldDto);
+
+    this.slStorageService.setQuery(this.query);
   }
 
   addEmptyValue(fieldDto: EssentialSimpleFieldDto): void {

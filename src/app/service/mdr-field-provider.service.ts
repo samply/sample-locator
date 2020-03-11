@@ -13,6 +13,7 @@ import {
 import {MdrDataElement, MdrResult, MdrResults, PermissibleValue} from '../model/mdr/mdr-data-model';
 import {EssentialSimpleFieldDto} from '../model/query/essential-query-dto';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {SlStorageService} from './sl-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,16 +23,27 @@ export class MdrFieldProviderService {
   public ready$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   allDataElements: Array<ExtendedMdrFieldDto> = [];
-  dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
-  entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
+  allDataElementsTemp: Array<ExtendedMdrFieldDto> = [];
 
-  urlsFromAllResults: Set<string> = new Set();
-  numberOfHandledResults = 0;
+  dataElementGroupMembersMap: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
+  dataElementGroupMembersMapTemp: Map<MdrEntity, Array<ExtendedMdrFieldDto>> = new Map();
+
+  entityUrnsMap: Map<MdrEntity, Array<string>> = new Map();
+  entityUrnsMapTemp: Map<MdrEntity, Array<string>> = new Map();
+
+  urlsFromAllResultsTemp: Set<string> = new Set();
+  numberOfHandledResultsTemp = 0;
 
   constructor(
     private httpClient: HttpClient,
-    private mdrConfigService: MdrConfigService
+    private mdrConfigService: MdrConfigService,
+    private slStorageService: SlStorageService
   ) {
+    // We first try to initialize data from MDR by using the local storage.
+    // After that we ask the MDR for the current data, store it temporarily in ...Temp-variables
+    // and replace it then silently in the background
+    // as well as save it in the local storage for the next routing/session (e.g. after login)
+    this.readFromLocalStorage();
     this.initMdrConfig();
   }
 
@@ -74,8 +86,18 @@ export class MdrFieldProviderService {
     return false;
   }
 
+  private readFromLocalStorage() {
+    this.allDataElements = this.slStorageService.getAllDataElments();
+    this.dataElementGroupMembersMap = this.slStorageService.getDataElementGroupMembersMap();
+    this.entityUrnsMap = this.slStorageService.getEntityUrnsMap();
+
+    if (this.allDataElements.length > 0 && this.dataElementGroupMembersMap.size > 0 && this.entityUrnsMap.size > 0) {
+      this.ready$.next(true);
+    }
+  }
+
   private initMdrConfig() {
-    this.resetInstanceVariables();
+    this.resetTempInstanceVariables();
 
     const mdrConfig = this.mdrConfigService.getMdrConfig();
 
@@ -102,9 +124,9 @@ export class MdrFieldProviderService {
               const dataElementDto =
                 this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
 
-              this.allDataElements.push(dataElementDto);
-              this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
-              this.dataElementGroupMembersMap.get(mdrEntity).push(dataElementDto);
+              this.allDataElementsTemp.push(dataElementDto);
+              this.entityUrnsMapTemp.get(mdrEntity).push(dataElementDto.urn);
+              this.dataElementGroupMembersMapTemp.get(mdrEntity).push(dataElementDto);
               this.checkAllHttpRequestsResolved();
             }
           );
@@ -116,32 +138,40 @@ export class MdrFieldProviderService {
 
   private addToUrlsFromAllResults(value: MdrResults): void {
     for (const mdrResult of value.results) {
-      this.urlsFromAllResults.add(mdrResult.id);
+      this.urlsFromAllResultsTemp.add(mdrResult.id);
     }
   }
 
   private checkAllHttpRequestsResolved() {
-    this.numberOfHandledResults++;
+    this.numberOfHandledResultsTemp++;
     // If all urls from MDR have been dealt with by either
     // - being ignored as a hidden element or by
     // - having been added to allDataElements
-    // then the initializiation of this service is done and we can resolve the promise
-    if (this.urlsFromAllResults.size === this.numberOfHandledResults) {
+    // then the initialization of this service is done and we can resolve the promise
+    if (this.urlsFromAllResultsTemp.size === this.numberOfHandledResultsTemp) {
+      this.allDataElements = this.allDataElementsTemp;
+      this.dataElementGroupMembersMap = this.dataElementGroupMembersMapTemp;
+      this.entityUrnsMap = this.entityUrnsMapTemp;
+
+      this.slStorageService.setAllDataElments(this.allDataElements);
+      this.slStorageService.setDataElementGroupMembersMap(this.dataElementGroupMembersMap);
+      this.slStorageService.setEntityUrnsMap(this.entityUrnsMap);
+
       this.ready$.next(true);
     }
   }
 
-  private resetInstanceVariables() {
-    this.numberOfHandledResults = 0;
-    this.urlsFromAllResults = new Set();
+  private resetTempInstanceVariables() {
+    this.numberOfHandledResultsTemp = 0;
+    this.urlsFromAllResultsTemp = new Set();
 
-    this.allDataElements = [];
+    this.allDataElementsTemp = [];
 
-    this.entityUrnsMap = new Map();
-    this.dataElementGroupMembersMap = new Map();
+    this.entityUrnsMapTemp = new Map();
+    this.dataElementGroupMembersMapTemp = new Map();
     for (const mdrEntity of getAllMdrEntities()) {
-      this.entityUrnsMap.set(mdrEntity, []);
-      this.dataElementGroupMembersMap.set(mdrEntity, []);
+      this.entityUrnsMapTemp.set(mdrEntity, []);
+      this.dataElementGroupMembersMapTemp.set(mdrEntity, []);
     }
   }
 

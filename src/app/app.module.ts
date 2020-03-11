@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {PageNotFoundComponent} from './page/page-not-found/page-not-found.component';
 import {SearchComponent} from './page/search/search.component';
-import {SimpleResultComponent} from './page/result/simple-result.component';
+import {ResultComponent} from './page/result/result.component';
 import {AboutUsComponent} from './page/about-us/about-us.component';
 import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
@@ -66,7 +66,7 @@ export function initializerMdrConfigService(
     AppComponent,
     PageNotFoundComponent,
     SearchComponent,
-    SimpleResultComponent,
+    ResultComponent,
     AboutUsComponent,
     ImprintComponent,
     PrivacyPolicyComponent,
@@ -136,7 +136,6 @@ export class AppModule {
         client_id: customConfig.client_id,
         response_type: customConfig.response_type,
         scope: customConfig.scope,
-        post_logout_redirect_uri: customConfig.post_logout_redirect_uri,
         start_checksession: customConfig.start_checksession,
         silent_renew: customConfig.silent_renew,
         silent_renew_url: customConfig.silent_renew_url,

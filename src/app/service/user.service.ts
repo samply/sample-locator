@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {OidcSecurityService} from 'angular-auth-oidc-client';
+import {SlStorageService} from './sl-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,10 @@ export class UserService {
   private isAuthorized = false;
   private userData: any;
 
-  constructor(private oidcSecurityService: OidcSecurityService) {
+  constructor(
+    private oidcSecurityService: OidcSecurityService,
+    private slStorageService: SlStorageService
+  ) {
     if (this.oidcSecurityService.moduleSetup) {
       this.doCallbackLogicIfRequired();
     } else {
@@ -27,7 +31,6 @@ export class UserService {
     });
   }
 
-
   private doCallbackLogicIfRequired() {
     if (window.location.hash) {
       this.oidcSecurityService.authorizedImplicitFlowCallback();
@@ -35,15 +38,13 @@ export class UserService {
   }
 
   logout() {
+    this.slStorageService.setAppAction('logoff');
     this.oidcSecurityService.logoff();
   }
 
   login() {
+    this.slStorageService.setAppAction('login');
     this.oidcSecurityService.authorize();
-/*    this.oidcSecurityService.authorize((authUrl) => {
-      // handle the authorrization URL
-      window.open(authUrl, '_blank', 'toolbar=0,location=0,menubar=0');
-    });*/
   }
 
   getLoginValid(): boolean {

@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {QueryProviderService} from '../../service/query-provider.service';
@@ -8,7 +10,7 @@ import {ExtendedMdrFieldDto, MdrDataType, MdrEntity} from '../../model/mdr/exten
 import {faMinus} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
-import * as moment from 'moment';
+import {SlStorageService} from '../../service/sl-storage.service';
 
 class AddibleField {
   label: string;
@@ -87,6 +89,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
+    private slStorageService: SlStorageService,
     private fb: FormBuilder
   ) {
   }
@@ -190,6 +193,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   chooseOperator($event: any, i: number, j: number) {
     this.getQueryValue(i, j)['@'].condition = $event.value;
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   deleteValue(i: number, j: number) {
@@ -210,6 +214,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       this.filteredFields.splice(i, 1);
       this.getFieldsFormArray().removeAt(i);
     }
+
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   addValue(i: number) {
@@ -230,6 +236,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
         operator: this.fb.control(SimpleValueOperator.EQUALS),
       })
     );
+
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   changeValue(i: number, j: number) {
@@ -243,6 +251,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       && this.getQueryValue(i, j)['@'].condition !== SimpleValueOperator.BETWEEN) {
       this.addValue(i);
     }
+
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   changeMaxValue(i: number, j: number) {
@@ -254,6 +264,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
       this.addValue(i);
     }
+
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   // noinspection JSMethodCanBeStatic
@@ -275,6 +287,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       this.calculateFilteredFields();
     }
     this.addField.setValue('');
+
+    this.slStorageService.setQuery(this.getQuery());
   }
 
   private getQueryValue(i: number, j: number) {

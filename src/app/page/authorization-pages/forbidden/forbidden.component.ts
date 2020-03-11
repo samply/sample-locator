@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {OidcSecurityService} from 'angular-auth-oidc-client';
+import {UserService} from '../../../service/user.service';
 
 @Component({
   selector: 'app-forbidden',
@@ -8,12 +8,9 @@ import {OidcSecurityService} from 'angular-auth-oidc-client';
 })
 export class ForbiddenComponent implements OnInit {
 
-  constructor(private oidcSecurityService: OidcSecurityService) { }
-
-  ngOnInit(): void {
+  constructor(public userService: UserService) {
   }
 
-  login() {
-    this.oidcSecurityService.authorize();
+  ngOnInit(): void {
   }
 }
