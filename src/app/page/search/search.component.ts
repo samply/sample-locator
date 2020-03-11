@@ -46,7 +46,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.slStorageService.setAppTargetRoute('search');
+    // Avoid automatic setting after login before routing to LoggedInComponent
+    if (this.slStorageService.getAppAction() !== 'login' && this.slStorageService.getAppAction() !== 'logoff') {
+      this.slStorageService.setAppTargetRoute('search');
+    }
     this.initParameters();
   }
 
