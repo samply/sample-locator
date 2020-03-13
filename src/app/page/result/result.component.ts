@@ -19,6 +19,7 @@ import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
+import {NegotiatorService} from '../../service/negotiator.service';
 
 @Component({
   selector: 'app-simple-result',
@@ -36,6 +37,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
     private router: Router,
+    private negotiatorService: NegotiatorService
   ) {
   }
 
@@ -107,9 +109,9 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
-        dataElement => {
+        response => {
           // Subscribe to activate POST request
-          console.log('Send query and received id ' + parseInt(dataElement.headers.get('id'), 10));
+          console.log('Send query and received id ' + parseInt(response.headers.get('id'), 10));
         }
       )
     );
@@ -221,8 +223,14 @@ export class ResultComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // TODO: Implement routing with molgenis credentials
-    console.log('Start negotiation');
+    const sites: Array<string> = [];
+    for (const key of this.negotiateFlags.keys()) {
+      if (this.negotiateFlags.get(key)) {
+        sites.push(key);
+      }
+    }
+
+    this.negotiatorService.redirectToNegotiator(sites);
   }
 
   getNegotiatorButtonClass() {

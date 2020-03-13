@@ -24,4 +24,12 @@ export class ExternalUrlService {
   getBrokerUrl(): string {
     return this.externalServices ? this.externalServices.brokerUrl : '';
   }
+
+  getSampleLocatorUrl(): string {
+    return this.externalServices ? this.externalServices.sampleLocatorUrl : '';
+  }
+
+  getNegotiatorUrl(): string {
+    return this.externalServices ? this.externalServices.negotiatorUrl : '';
+  }
 }
