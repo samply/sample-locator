@@ -18,20 +18,10 @@ export class QueryProviderService {
     private mdrFieldProviderService: MdrFieldProviderService,
     private slStorageService: SlStorageService
   ) {
-    if (this.slStorageService.getAppAction() === 'login' || this.slStorageService.getAppAction() === 'logoff') {
-      this.restoreQuery(this.slStorageService.getNToken());
-    } else {
-      this.resetQuery();
-    }
   }
 
-  restoreQuery(nToken?: string) {
-    if (nToken) {
-      // TODO: Implement feature on Searchbroker and get query by Http-Request
-      this.query = this.slStorageService.getQuery();
-    } else {
-      this.query = this.slStorageService.getQuery();
-    }
+  restoreQuery() {
+    this.query = this.slStorageService.getQuery();
 
     if (!this.query) {
       this.resetQuery();
@@ -47,6 +37,7 @@ export class QueryProviderService {
 
     this.addField(QueryProviderService.URN_DIAGNOSIS, QueryProviderService.TYPE_DIAGNOSIS);
 
+    this.slStorageService.setNToken('');
     this.slStorageService.setQuery(this.query);
   }
 

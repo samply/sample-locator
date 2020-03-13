@@ -10,6 +10,7 @@ import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden
 import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {SampleLocatorConstants} from './SampleLocatorConstants';
+import {RestoreComponent} from './page/restore/restore.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,11 @@ const routes: Routes = [
   },
 
   {
+    path: SampleLocatorConstants.ROUTE_RESTORE,
+    component: RestoreComponent
+  },
+
+  {
     path: 'about-us',
     component: AboutUsComponent
   },
@@ -66,7 +72,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true, onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, { useHash: false, onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -24,26 +24,26 @@ export class ResultService {
     return this.httpClient.get<any>(url, {observe: 'response'});
   }
 
-  getResult(id: number): Observable<any> {
+  getResult(nToken: string): Observable<any> {
     if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
-      return this.getSimpleResult(id);
+      return this.getSimpleResult(nToken);
     } else {
-      return this.getDetailedResult(id);
+      return this.getDetailedResult(nToken);
     }
   }
 
-  private getSimpleResult(id: number): Observable<any> {
-    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getAnonymousReply?id=' + id;
+  private getSimpleResult(nToken: string): Observable<any> {
+    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getAnonymousReply?ntoken=' + nToken;
 
     return this.httpClient.get<any>(url, {observe: 'response'});
   }
 
-  private getDetailedResult(id: number): Observable<any> {
+  private getDetailedResult(nToken: string): Observable<any> {
     if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
       return;
     }
 
-    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getReply?id=' + id;
+    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getReply?ntoken=' + nToken;
     const headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + this.userService.getIdToken())
       .set('content-type', 'text/plain');

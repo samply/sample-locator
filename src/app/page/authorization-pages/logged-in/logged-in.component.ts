@@ -16,12 +16,10 @@ export class LoggedInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const nToken = this.slStorageService.getNToken();
-    const parameter = nToken ? {nToken} : {};
     const route = '/' + this.slStorageService.getAppTargetRoute();
 
     this.slStorageService.resetAppAction();
-    this.router.navigate([route, parameter]);
+    this.router.navigate([route]);
   }
 
 }

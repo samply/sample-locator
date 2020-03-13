@@ -1,4 +1,5 @@
 import * as js2xmlparser from 'js2xmlparser';
+import {v4 as uuidv4} from 'uuid';
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
@@ -8,7 +9,7 @@ import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
@@ -35,7 +36,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
   ) {
   }
 
@@ -64,7 +64,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
-  private id = -1;
   private nToken: string;
 
   negotiateFlags: Map<string, boolean> = new Map();
@@ -79,30 +78,59 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.slStorageService.setAppTargetRoute('result');
+    this.queryProviderService.restoreQuery();
 
-    this.initParameters();
+    this.initNToken();
+
+    this.sendQuery();
     this.initPolling();
     this.initNumberBiobanks();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  private sendQuery(): void {
+    if (this.slStorageService.getAppAction() !== 'sendQuery') {
+      return;
+    }
+    this.slStorageService.resetAppAction();
+
+    const xml = js2xmlparser.parse('essentialSimpleQueryDto', this.queryProviderService.query);
+
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/xml')
+      .set('Accept', 'application/xml');
+    if (this.nToken) {
+      headers = headers.set('ntoken', this.nToken);
+    }
+
+    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
+
+    this.subscriptions.push(
+      this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
+        dataElement => {
+          // Subscribe to activate POST request
+          console.log('Send query and received id ' + parseInt(dataElement.headers.get('id'), 10));
+        }
+      )
+    );
   }
 
-  private initParameters() {
-    this.subscriptions.push(this.route.params.subscribe(parms => {
-      this.id = parms.id;
-      this.nToken = parms.nToken;
-      this.slStorageService.setNToken(this.nToken);
+  private initNToken() {
+    this.nToken = this.slStorageService.getNToken();
 
-      if (this.slStorageService.getAppAction() === 'sendQuery') {
-        this.sendQuery();
-      } else {
-        this.queryProviderService.restoreQuery(this.nToken);
-      }
+    if (!this.nToken) {
+      this.nToken = this.generateNToken();
+    }
+  }
 
-      this.slStorageService.resetAppAction();
-    }));
+  private generateNToken(): string {
+    const nToken = uuidv4() + '__search_' + uuidv4();
+    this.slStorageService.setNToken(nToken);
+
+    return nToken;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private initNumberBiobanks() {
@@ -119,12 +147,11 @@ export class ResultComponent implements OnInit, OnDestroy {
         takeUntil(timer(ResultComponent.MAX_TIME_POLLING * 1000)),
         startWith(0),
         switchMap(() => {
-          // TODO: Change: id -> nToken
-          if (this.id) {
+          if (this.nToken) {
             this.elapsedSeconds += ResultComponent.POLLING_INTERVAL;
             this.elapsedTimePercentage = Math.min(100 * this.elapsedSeconds / ResultComponent.MAX_TIME_POLLING, 100);
 
-            return this.simpleResultService.getResult(this.id);
+            return this.simpleResultService.getResult(this.nToken);
           } else {
             return of(null);
           }
@@ -178,7 +205,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   editQuery() {
-    this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH, {nToken: this.nToken}]);
+    this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
   }
 
   resetQuery() {
@@ -244,20 +271,5 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
 
     return false;
-  }
-
-  private sendQuery() {
-    const xml = js2xmlparser.parse('essentialSimpleQueryDto', this.queryProviderService.query);
-
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/xml')
-      .set('Accept', 'application/xml');
-    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
-
-    this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
-      dataElement => {
-        this.id = parseInt(dataElement.headers.get('id'), 10);
-      }
-    );
   }
 }
