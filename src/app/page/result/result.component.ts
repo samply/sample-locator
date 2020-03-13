@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
-import {faEdit, faPaperPlane, faSyncAlt, faTimes, faUser, faVial} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faPaperPlane, faTimes, faUser, faVial, faBuilding} from '@fortawesome/free-solid-svg-icons';
 import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
@@ -39,15 +39,16 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  static MAX_TIME_POLLING = 60;
+  static MAX_TIME_POLLING = 300;
+  static TIME_LIMIT_PROCESSING_BAR = 60;
   static POLLING_INTERVAL = 1;
 
   faTimes = faTimes;
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
-  faSyncAlt = faSyncAlt;
   faSample = faVial;
   faDonor = faUser;
+  faBiobank = faBuilding;
   faCheckSquare = faCheckSquare;
   faSquare = faSquare;
 
@@ -59,7 +60,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   limitBiobanksAnswered = 0;
 
   elapsedSeconds = 0;
-  elapsedTimePercentage = 0;
+  showProcessingBar = true;
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
@@ -149,7 +150,9 @@ export class ResultComponent implements OnInit, OnDestroy {
         switchMap(() => {
           if (this.nToken) {
             this.elapsedSeconds += ResultComponent.POLLING_INTERVAL;
-            this.elapsedTimePercentage = Math.min(100 * this.elapsedSeconds / ResultComponent.MAX_TIME_POLLING, 100);
+            if (this.elapsedSeconds >= ResultComponent.TIME_LIMIT_PROCESSING_BAR) {
+              this.showProcessingBar = false;
+            }
 
             return this.simpleResultService.getResult(this.nToken);
           } else {
@@ -211,31 +214,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   resetQuery() {
     this.queryProviderService.resetQuery();
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
-  }
-
-  getProcessingMessage() {
-    if (this.isPolling()) {
-      return 'Processing ...';
-    } else {
-      return 'Processing stopped';
-    }
-  }
-
-  refreshPolling() {
-    if (!this.isPolling()) {
-      // Start polling once more as it has stopped before results where allowed to be polled with authorisation
-      this.elapsedTimePercentage = 0;
-      this.elapsedSeconds = 0;
-      this.initPolling();
-    }
-  }
-
-  getRefreshButtonClass() {
-    return this.isPolling() ? 'result-page-button result-page-button-inactive' : 'result-page-button';
-  }
-
-  isPolling() {
-    return this.elapsedTimePercentage < 100;
   }
 
   navigateToNegotiator() {

@@ -56,34 +56,40 @@
         <!-- SHOW SIMPLE RESULT -->
         <div *ngIf="!userService.getLoginValid()">
           <div class="result-item">
-            <div fxLayout="row wrap" fxLayoutAlign="space-between">
-              <div fxFlex="0 0 45%" class="result-table-row">
-                <div fxFlex="1 1 15%">
+            <div fxLayout="row wrap" fxLayoutAlign="space-between"
+                 fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
+              <div fxFlex="0 0 30%"
+                   fxFlex.lt-md="0 0 100%"
+                   fxLayout="row wrap"
+                   class="result-table-row"
+                   pTooltip="Number of donors">
+                <div fxFlex="1 1 20%">
                   <fa-icon [icon]="faDonor" size="lg"></fa-icon>
                 </div>
-                <div fxFlex="0 0 15%" class="align-right">{{sumDonors}}</div>
-                <div fxFlex="0 0 15%"></div>
+                <div fxFlex="0 0 70%" class="align-right">{{sumDonors}}</div>
+                <div fxFlex="0 0 10%"></div>
               </div>
-              <div fxFlex="0 0 45%" class="result-table-row">
-                <div fxFlex="1 1 15%">
+              <div fxFlex="0 0 30%"
+                   fxFlex.lt-md="0 0 100%"
+                   class="result-table-row"
+                   pTooltip="Number of samples">
+                <div fxFlex="1 1 20%">
                   <fa-icon [icon]="faSample" size="lg"></fa-icon>
                 </div>
-                <div fxFlex="0 0 15%" class="align-right">{{sumSamples}}</div>
-                <div fxFlex="0 0 15%"></div>
+                <div fxFlex="0 0 70%" class="align-right">{{sumSamples}}</div>
+                <div fxFlex="0 0 10%"></div>
+              </div>
+              <div fxFlex="0 0 30%"
+                   fxFlex.lt-md="0 0 100%"
+                   class="result-table-row"
+                   pTooltip="Number of biobanks">
+                <div fxFlex="1 1 20%">
+                  <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
+                </div>
+                <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}} / {{limitBiobanksAnswered}}</div>
+                <div fxFlex="0 0 10%"></div>
               </div>
             </div>
-          </div>
-
-          <div class="result-item">
-            Answers from biobanks ({{biobanksAnswered}} / {{limitBiobanksAnswered}})
-            <p-progressBar [value]="100 * biobanksAnswered / limitBiobanksAnswered"
-                           [showValue]="false"></p-progressBar>
-          </div>
-
-          <div class="result-item">
-            {{getProcessingMessage()}}
-            <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
-            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
           </div>
 
           <div fxLayout="row"
@@ -91,6 +97,10 @@
                (click)="userService.login()"
                class="result-detail-button-wrapper">
             <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
+
+          <div class="result-item">
+            <p-progressBar *ngIf="showProcessingBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+          </div>
         </div>
 
         <!-- SHOW DETAILED RESULT -->
@@ -135,17 +145,11 @@
             </div>
           </div>
 
-          <div class="result-item">
-            {{getProcessingMessage()}}
-            <!--            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar> -->
-            <p-progressBar [value]="elapsedTimePercentage" [showValue]="false"></p-progressBar>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="center">
-            <div (click)="refreshPolling()"
-                 [ngClass]="getRefreshButtonClass()">
-              <fa-icon [icon]="faSyncAlt" size="lg"></fa-icon>
-              <span>Continue</span>
+          <div class="disclaimer">
+            <p-progressBar *ngIf="showProcessingBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <div *ngIf="!showProcessingBar">
+              <p>Most results have been received after one minute. However, more results might be taken into account for
+                up to five minutes.</p>
             </div>
           </div>
 

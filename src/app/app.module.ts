@@ -34,6 +34,7 @@ import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
+import {TooltipModule} from 'primeng';
 
 // TODO: (1)   "disable_iat_offset_validation": false setzen
 
@@ -97,6 +98,7 @@ export function initializerMdrConfigService(
     DropdownModule,
     ProgressBarModule,
     TableModule,
+    TooltipModule,
   ],
   providers: [
     CookieService,
