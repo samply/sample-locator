@@ -6,7 +6,7 @@ import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '../../model/query/essential-query-dto';
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {ExtendedMdrFieldDto, MdrDataType, MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
+import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
 import {faMinus} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
@@ -39,6 +39,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   filteredFields: Array<EssentialSimpleFieldDto>;
   addibleFields: Array<AddibleField>;
+  permittedValuesMap: Map<EssentialSimpleFieldDto, Array<PermittedValue>>;
 
   public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
 
@@ -108,6 +109,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       this.getQuery().fieldDtos.slice().filter(field =>
         this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
     this.formGroup = this.createFormGroup();
+    this.initPermittedValuesMap();
+  }
+
+  private initPermittedValuesMap() {
+    this.permittedValuesMap = new Map();
+    for (const field of this.filteredFields) {
+      this.permittedValuesMap.set(field, this.getExtendedMdrField(field).permittedValues);
+    }
   }
 
   private createFormGroup(): FormGroup {
@@ -171,6 +180,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     return this.mdrFieldProviderService.getPossibleField(field['@'].urn);
   }
 
+  // noinspection JSMethodCanBeStatic
   getPlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
     if (extendedField && extendedField.placeHolder) {
       return extendedField.placeHolder;
