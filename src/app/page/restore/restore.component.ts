@@ -10,25 +10,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EssentialQueryDto} from '../../model/query/essential-query-dto';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 
-// removes the _text attribute that xml-js adds by default
-const removeJsonTextAttribute = (value, parentElement) => {
-  try {
-    const pOpKeys = Object.keys(parentElement._parent);
-    const keyNo = pOpKeys.length;
-    const keyName = pOpKeys[keyNo - 1];
-    const arrOfKey = parentElement._parent[keyName];
-    const arrOfKeyLen = arrOfKey.length;
-    if (arrOfKeyLen > 0) {
-      const arr = arrOfKey;
-      const arrIndex = arrOfKey.length - 1;
-      arr[arrIndex] = value;
-    } else {
-      parentElement._parent[keyName] = value;
-    }
-  } catch (e) {
-  }
-};
-
 @Component({
   selector: 'app-restore',
   templateUrl: './restore.component.html',
@@ -89,14 +70,13 @@ export class RestoreComponent implements OnInit, OnDestroy {
             nativeType: true,
             alwaysArray: true,
             alwaysChildren: true,
-            textFn: removeJsonTextAttribute
           });
 
           const queryArrayTemp = (result[Object.keys(result)[0]]) as Array<EssentialQueryDto>;
 
           if (queryArrayTemp && queryArrayTemp.length > 0) {
             queryRestored = queryArrayTemp[0];
-            this.fixEmptyTags(queryRestored);
+            this.extractValueFromTextArrays(queryRestored);
           }
 
           this.slStorageService.setQuery(queryRestored);
@@ -108,7 +88,7 @@ export class RestoreComponent implements OnInit, OnDestroy {
   }
 
   // noinspection JSMethodCanBeStatic
-  private fixEmptyTags(queryTemp: EssentialQueryDto) {
+  private extractValueFromTextArrays(queryTemp: EssentialQueryDto) {
     if (!queryTemp || !queryTemp.fieldDtos) {
       return;
     }
@@ -120,14 +100,15 @@ export class RestoreComponent implements OnInit, OnDestroy {
 
       for (const value of field.valueDtos) {
         // Empty tags are converted to some dummy object
-        if (typeof value.value === 'object') {
-          value.value = '';
-        }
-        if (typeof value.maxValue === 'object') {
-          value.maxValue = '';
-        }
+        value.value = this.extractValue(value.value);
+        value.maxValue = this.extractValue(value.maxValue);
       }
     }
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private extractValue(valueContent: any): string {
+    return (valueContent && valueContent[0] && valueContent[0]._text && valueContent[0]._text.length > 0) ? valueContent[0]._text[0] : '';
   }
 
   ngOnDestroy(): void {
