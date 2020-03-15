@@ -35,6 +35,7 @@ import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
 import {TooltipModule} from 'primeng';
+import {MolgenisService} from './service/molgenis.service';
 
 // TODO: (1)   "disable_iat_offset_validation": false setzen
 
@@ -51,6 +52,15 @@ export function initializerExternalUrlService(
   return () => {
     // noinspection JSUnusedLocalSymbols
     return externalUrlService.load();
+  };
+}
+
+export function initializerMolgenisService(
+  molgenisService: MolgenisService,
+) {
+  return () => {
+    // noinspection JSUnusedLocalSymbols
+    return molgenisService.load();
   };
 }
 
@@ -107,6 +117,12 @@ export function initializerMdrConfigService(
       multi: true,
       deps: [ExternalUrlService],
       useFactory: initializerExternalUrlService
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [MolgenisService],
+      useFactory: initializerMolgenisService
     },
     {
       provide: APP_INITIALIZER,

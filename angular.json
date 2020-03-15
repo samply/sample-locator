@@ -24,8 +24,23 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "favicon.ico",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                // copy everything
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                // copy everything
+                "glob": "**/*",
+                "input": "src/config-dev/",
+                "output": "/assets/config"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -41,6 +56,25 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "favicon.ico",
+                  "input": "src/",
+                  "output": "/"
+                },
+                {
+                  // copy everything
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                },
+                {
+                  // copy everything
+                  "glob": "**/*",
+                  "input": "docker/config/",
+                  "output": "/assets/config"
                 }
               ],
               "optimization": true,

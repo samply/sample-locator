@@ -5,7 +5,7 @@ import {UserService} from './user.service';
 import {MdrFieldProviderService} from './mdr-field-provider.service';
 import {QueryProviderService} from './query-provider.service';
 import {SimpleValueOperator} from '../model/query/essential-query-dto';
-import {SampleLocatorConstants} from '../SampleLocatorConstants';
+import {MolgenisService} from './molgenis.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class NegotiatorService {
 
   constructor(
     private externalUrlService: ExternalUrlService,
+    private molgenisService: MolgenisService,
     private mdrFieldProviderService: MdrFieldProviderService,
     private queryProviderService: QueryProviderService,
     private userService: UserService,
@@ -43,11 +44,10 @@ export class NegotiatorService {
 
         const urlNegotiator = this.externalUrlService.getNegotiatorUrl();
 
-        const molgenisCredentials = SampleLocatorConstants.MOLGENIS_USER + ':' + SampleLocatorConstants.MOLGENIS_PWD;
         const headersNegotiator = new HttpHeaders()
           .set('Content-Type', 'application/json; charset=utf-8')
           .set('Accept', 'application/json; charset=utf-8')
-          .set('Authorization', 'Bearer ' + btoa(molgenisCredentials));
+          .set('Authorization', 'Bearer ' + this.molgenisService.getEncodedCredentials());
 
         this.httpClient.post(urlNegotiator, entity, {headers: headersNegotiator, observe: 'response'}).subscribe(
           reponseNegotiator => {
