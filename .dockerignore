@@ -1,5 +1,4 @@
 .git
 config-dev
-docker
 e2e
 node_modules

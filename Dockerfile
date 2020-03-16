@@ -12,9 +12,10 @@ EXPOSE 80
 
 WORKDIR /usr/share/nginx/html
 
+### Copy subfolder of dist as ng buils --prod creates an extra subfolder
+COPY dist/sample-locator .
+
 ADD docker/start.sh                 /samply/
 RUN chmod +x                        /samply/start.sh
 CMD ["/samply/start.sh"]
 
-### Copy subfolder of dist as ng buils --prod creates an extra subfolder
-COPY dist/sample-locator .
