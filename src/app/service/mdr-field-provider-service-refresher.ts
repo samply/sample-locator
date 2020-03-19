@@ -82,7 +82,7 @@ export class MdrFieldProviderServiceRefresher {
     const language = mdrConfig.languageCode;
 
     const permittedValues: Array<PermittedValue> = [];
-    if (dataElement.validation && dataElement.validation.datatype === MdrDataType.ENUMERATED.toLowerCase()) {
+    if (dataElement.validation && dataElement.validation.datatype.toUpperCase() === MdrDataType.ENUMERATED) {
       for (const permissibleValue of dataElement.validation.permissible_values) {
         permittedValues.push({
           value: permissibleValue.value,
@@ -135,24 +135,26 @@ export class MdrFieldProviderServiceRefresher {
 
   // noinspection JSMethodCanBeStatic
   private getDesignationPermissibleValue(permissibleValue: PermissibleValue, language: string) {
-    for (const meaning of permissibleValue.meanings) {
+    const meanings = permissibleValue.meanings;
+    for (const meaning of meanings) {
       if (meaning.language === language) {
         return meaning.designation;
       }
     }
 
-    return '';
+    return (meanings.length > 0) ? meanings[0].designation : '';
   }
 
   // noinspection JSMethodCanBeStatic
   private getName(dataElement: MdrDataElement, language: string) {
-    for (const designation of dataElement.designations) {
+    const designations = dataElement.designations;
+    for (const designation of designations) {
       if (designation.language === language) {
         return designation.designation;
       }
     }
 
-    return '';
+    return (designations.length > 0) ? designations[0].designation : '';
   }
 
   // noinspection JSMethodCanBeStatic

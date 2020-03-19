@@ -1,0 +1,13 @@
+@media all and (-ms-high-contrast:none) {
+  .IE-HACK-header-links {
+    height: 160px;
+    padding-top: 3em;
+  }
+}
+
+@media (max-width: 1199px) and (-ms-high-contrast:none) {
+  .IE-HACK-header-links {
+    height: 100px;
+    padding-top: 3em;
+  }
+}

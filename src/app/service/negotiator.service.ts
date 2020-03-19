@@ -6,6 +6,7 @@ import {MdrFieldProviderService} from './mdr-field-provider.service';
 import {QueryProviderService} from './query-provider.service';
 import {SimpleValueOperator} from '../model/query/essential-query-dto';
 import {MolgenisService} from './molgenis.service';
+import {SlStorageService} from './sl-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class NegotiatorService {
     private molgenisService: MolgenisService,
     private mdrFieldProviderService: MdrFieldProviderService,
     private queryProviderService: QueryProviderService,
+    private slStorageService: SlStorageService,
     private userService: UserService,
     private httpClient: HttpClient,
   ) {
@@ -44,10 +46,14 @@ export class NegotiatorService {
 
         const urlNegotiator = this.externalUrlService.getNegotiatorUrl();
 
-        const headersNegotiator = new HttpHeaders()
+        let headersNegotiator = new HttpHeaders()
           .set('Content-Type', 'application/json; charset=utf-8')
           .set('Accept', 'application/json; charset=utf-8')
           .set('Authorization', 'Bearer ' + this.molgenisService.getEncodedCredentials());
+        const nToken = this.slStorageService.getNToken();
+        if (nToken) {
+          headersNegotiator = headersNegotiator.set('ntoken', nToken);
+        }
 
         this.httpClient.post(urlNegotiator, entity, {headers: headersNegotiator, observe: 'response'}).subscribe(
           reponseNegotiator => {

@@ -43,6 +43,7 @@
               }
             ],
             "styles": [
+              "src/styles-IE.scss",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",
@@ -51,6 +52,48 @@
             "scripts": []
           },
           "configurations": {
+            "es5": {
+              "tsConfig": "tsconfig-es5.app.json",
+              "assets": [
+                {
+                  "glob": "favicon.ico",
+                  "input": "src/",
+                  "output": "/"
+                },
+                {
+                  // copy everything
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                },
+                {
+                  // copy everything
+                  "glob": "**/*",
+                  "input": "src/config-dev/",
+                  "output": "/assets/config"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -107,6 +150,9 @@
             "port": 8085
           },
           "configurations": {
+            "es5": {
+              "browserTarget": "sample-locator:build:es5"
+            },
             "production": {
               "browserTarget": "sample-locator:build:production"
             }
@@ -131,6 +177,7 @@
               "src/assets/silent-renew.html"
             ],
             "styles": [
+              "src/styles-IE.scss",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",

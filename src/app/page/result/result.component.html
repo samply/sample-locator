@@ -11,9 +11,11 @@
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
+        <!--suppress HtmlUnknownAttribute -->
         <app-search-builder headerName="Donor / Clinical Information"
                             disabled="true"
                             [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
+        <!--suppress HtmlUnknownAttribute -->
         <app-search-builder headerName="Sample"
                             disabled="true"
                             [mdrEntities]="mdrEntitiesSample"></app-search-builder>
@@ -99,7 +101,10 @@
             <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
 
           <div class="result-item">
-            <p-progressBar *ngIf="showProcessingBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <p-progressBar *ngIf="showProcessingBar"
+                           [value]="elapsedPercentage"
+                           [showValue]="false"
+                           [style]="{'height': '6px'}"></p-progressBar>
           </div>
         </div>
 
@@ -146,7 +151,10 @@
           </div>
 
           <div class="disclaimer">
-            <p-progressBar *ngIf="showProcessingBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <p-progressBar *ngIf="showProcessingBar"
+                           [value]="elapsedPercentage"
+                           [showValue]="false"
+                           [style]="{'height': '6px'}"></p-progressBar>
             <div *ngIf="!showProcessingBar">
               <p>Most results have been received after one minute. However, more results might be taken into account for
                 up to five minutes.</p>

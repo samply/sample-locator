@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
-import {faEdit, faPaperPlane, faTimes, faUser, faVial, faBuilding} from '@fortawesome/free-solid-svg-icons';
+import {faBuilding, faEdit, faPaperPlane, faTimes, faUser, faVial} from '@fortawesome/free-solid-svg-icons';
 import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
@@ -42,8 +42,10 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   static MAX_TIME_POLLING = 300;
-  static TIME_LIMIT_PROCESSING_BAR = 60;
   static POLLING_INTERVAL = 1;
+
+  static TIME_LIMIT_PROCESSING_BAR = 60;
+  static TIME_STEP_DECI_SECOND = 0.1;
 
   faTimes = faTimes;
   faEdit = faEdit;
@@ -61,7 +63,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   biobanksAnswered = 0;
   limitBiobanksAnswered = 0;
 
-  elapsedSeconds = 0;
+  elapsedPercentage = 0;
   showProcessingBar = true;
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
@@ -86,6 +88,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.initNToken();
 
     this.sendQuery();
+    this.initProgressBar();
     this.initPolling();
     this.initNumberBiobanks();
   }
@@ -144,6 +147,27 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
+  private initProgressBar() {
+    this.elapsedPercentage = 0;
+    this.showProcessingBar = true;
+
+    this.subscriptions.push(
+      interval(ResultComponent.TIME_STEP_DECI_SECOND * 1000).pipe(
+        takeUntil(timer(ResultComponent.TIME_LIMIT_PROCESSING_BAR * 1000)),
+        startWith(0)
+      ).subscribe((value) => {
+          this.elapsedPercentage = value * 10 / ResultComponent.TIME_LIMIT_PROCESSING_BAR;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          this.showProcessingBar = false;
+        }
+      )
+    );
+  }
+
   private initPolling() {
     this.subscriptions.push(interval(ResultComponent.POLLING_INTERVAL * 1000)
       .pipe(
@@ -151,11 +175,6 @@ export class ResultComponent implements OnInit, OnDestroy {
         startWith(0),
         switchMap(() => {
           if (this.nToken) {
-            this.elapsedSeconds += ResultComponent.POLLING_INTERVAL;
-            if (this.elapsedSeconds >= ResultComponent.TIME_LIMIT_PROCESSING_BAR) {
-              this.showProcessingBar = false;
-            }
-
             return this.simpleResultService.getResult(this.nToken);
           } else {
             return of(null);
