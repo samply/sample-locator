@@ -23,6 +23,9 @@
               <div [formGroupName]="j"
                    fxLayout="column">
 
+                <!-- ------------- -->
+                <!-- Row for value -->
+                <!-- ------------- -->
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
                   <div fxFlex="0 0 4em">
@@ -137,6 +140,9 @@
                   </div>
                 </div>
 
+                <!-- ----------------- -->
+                <!-- Row for max value -->
+                <!-- ----------------- -->
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
                   <div fxFlex="0 0 4em"></div>
@@ -243,6 +249,31 @@
                 </div>
 
               </div>
+            </div>
+
+            <!-- ------------------------ -->
+            <!-- Row for add-value button -->
+            <!-- ------------------------ -->
+            <div fxLayout="row"
+                 fxLayoutAlign="space-between center"
+                 *ngIf="!isLastValueEmpty(i)">
+              <div fxFlex="0 0 4em">
+              </div>
+              <div fxFlex="0 0 13em"
+                   fxFlex.lt-md="1 1 100%">
+              </div>
+
+              <div fxFlex="0 0 2.5em"
+                   fxLayout="row"
+                   fxLayoutAlign="start center">
+                <div class="samply-button-small"
+                     [ngClass]="{ 'samply-button-small-disabled': disabled }"
+                     (click)="addValue(i)">
+                  <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
+                  <span></span>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

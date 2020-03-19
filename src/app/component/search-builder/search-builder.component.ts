@@ -7,7 +7,7 @@ import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
 import {SlStorageService} from '../../service/sl-storage.service';
@@ -36,6 +36,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   private addField: FormControl;
 
   faMinus = faMinus;
+  faPlus = faPlus;
 
   filteredFields: Array<EssentialSimpleFieldDto>;
   addibleFields: Array<AddibleField>;
@@ -344,5 +345,23 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     } else {
       return extendedField.permittedValues[index].label;
     }
+  }
+
+  isLastValueEmpty(i): boolean {
+    const valueDtos = this.getQueryField(i).valueDtos;
+    if (!valueDtos || valueDtos.length === 0) {
+      return true;
+    }
+
+    const lastValueDto = valueDtos[valueDtos.length - 1];
+    console.log('lastValueDto.value: ' + lastValueDto.value);
+    console.log('!lastValueDto.value: ' + !lastValueDto.value);
+
+    if (lastValueDto['@'].condition === SimpleValueOperator.BETWEEN) {
+      return !lastValueDto.value || lastValueDto.value === '' ||
+        !lastValueDto.maxValue || lastValueDto.maxValue === '';
+    }
+
+    return !lastValueDto.value || lastValueDto.value === '';
   }
 }
