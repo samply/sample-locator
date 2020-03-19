@@ -354,9 +354,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     const lastValueDto = valueDtos[valueDtos.length - 1];
-    console.log('lastValueDto.value: ' + lastValueDto.value);
-    console.log('!lastValueDto.value: ' + !lastValueDto.value);
-
     if (lastValueDto['@'].condition === SimpleValueOperator.BETWEEN) {
       return !lastValueDto.value || lastValueDto.value === '' ||
         !lastValueDto.maxValue || lastValueDto.maxValue === '';
