@@ -5,7 +5,7 @@
   "response_type": "id_token token",
   "scope": "openid email profile phone groupNames offline_access",
   "start_checksession": true,
-  "silent_renew": true,
+  "silent_renew": false,
   "silent_renew_url": "http://localhost:8085/silent-renew.html",
   "post_login_route": "/authorized",
   "forbidden_route": "/forbidden",

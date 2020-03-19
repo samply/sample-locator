@@ -8,7 +8,7 @@ import {faBuilding, faEdit, faPaperPlane, faTimes, faUser, faVial} from '@fortaw
 import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
@@ -191,7 +191,14 @@ export class ResultComponent implements OnInit, OnDestroy {
               this.detailedResult = result;
             }
           }
-        }
+        },
+        (error => {
+            if (error instanceof HttpErrorResponse && error.status === 403) {
+              console.log('Unauthorized: No access to detailed results');
+              this.userService.logout();
+            }
+          }
+        )
       )
     );
   }
