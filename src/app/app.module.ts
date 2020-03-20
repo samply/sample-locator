@@ -37,8 +37,6 @@ import {RestoreComponent} from './page/restore/restore.component';
 import {TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 
-// TODO: (1)   "disable_iat_offset_validation": false setzen
-
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/assets/config/auth.clientConfiguration.json';
 
