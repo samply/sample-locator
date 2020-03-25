@@ -17,10 +17,14 @@ export class SlCookieService {
   }
 
   setConsentCookieAccepted(): void {
-    this.cookieService.set(SlCookieService.CONSENT_COOKIE_NAME, 'TRUE');
-  }
-
-  resetConsentCookieAccepted(): void {
-    this.cookieService.set(SlCookieService.CONSENT_COOKIE_NAME, 'FALSE');
+    console.log('SET cookie');
+    this.cookieService.set(
+      SlCookieService.CONSENT_COOKIE_NAME,
+      'TRUE',
+      new Date('2099-12-31'),
+      '/',
+      null,
+      false,
+      'Lax');
   }
 }
