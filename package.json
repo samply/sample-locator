@@ -1,6 +1,6 @@
 {
   "name": "sample-locator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -32,7 +32,6 @@
     "chart.js": "^2.9.3",
     "editor": "^1.0.0",
     "gmap": "^1.0.1",
-    "js2xmlparser": "^4.0.1",
     "moment": "^2.24.0",
     "ngx-cookie-service": "^2.3.0",
     "ngx-webstorage-service": "^4.1.0",
@@ -43,12 +42,11 @@
     "schedule": "^0.5.0",
     "tslib": "^1.10.0",
     "uuid": "^7.0.2",
-    "xml-js": "^1.6.11",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.3",
-    "@angular/cli": "~9.0.3",
+    "@angular-devkit/build-angular": "^0.901.0",
+    "@angular/cli": "^9.1.0",
     "@angular/compiler-cli": "~9.0.2",
     "@angular/language-service": "~9.0.2",
     "@types/jasmine": "^3.5.7",

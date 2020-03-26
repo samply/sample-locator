@@ -3,13 +3,9 @@ export interface EssentialQueryDto {
 }
 
 export interface EssentialSimpleFieldDto {
-  '@': FieldAttributes;
-  valueDtos: Array<EssentialSimpleValueDto>;
-}
-
-export interface FieldAttributes {
   urn: string;
   valueType: EssentialValueType;
+  valueDtos: Array<EssentialSimpleValueDto>;
 }
 
 export enum EssentialValueType {
@@ -21,12 +17,8 @@ export enum EssentialValueType {
   PERMITTEDVALUE = 'PERMITTEDVALUE'
 }
 
-export interface ValueAttributes {
-  condition: SimpleValueOperator;
-}
-
 export interface EssentialSimpleValueDto {
-  '@': ValueAttributes;
+  condition: SimpleValueOperator;
   value: string;
   maxValue: string;
 }

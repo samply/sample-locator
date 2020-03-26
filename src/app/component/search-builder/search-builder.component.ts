@@ -130,15 +130,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
         const valueGroup = this.fb.group({
           value: this.fb.control(value.value),
           maxValue: this.fb.control(value.maxValue),
-          operator: this.fb.control(value['@'].condition.toString()),
+          operator: this.fb.control(value.condition.toString()),
         });
 
         valueControls.push(valueGroup);
       }
 
       const fieldGroup = this.fb.group({
-        urn: this.fb.control(field['@'].urn),
-        valueType: this.fb.control(field['@'].valueType.toString()),
+        urn: this.fb.control(field.urn),
+        valueType: this.fb.control(field.valueType.toString()),
         values: valueControls,
       });
 
@@ -178,7 +178,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   getExtendedMdrField(field: EssentialSimpleFieldDto): ExtendedMdrFieldDto | null {
-    return this.mdrFieldProviderService.getPossibleField(field['@'].urn);
+    return this.mdrFieldProviderService.getPossibleField(field.urn);
   }
 
   // noinspection JSMethodCanBeStatic
@@ -203,7 +203,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   chooseOperator($event: any, i: number, j: number) {
-    this.getQueryValue(i, j)['@'].condition = $event.value;
+    this.getQueryValue(i, j).condition = $event.value;
     this.slStorageService.setQuery(this.getQuery());
   }
 
@@ -238,7 +238,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
-    const value = (fieldDto['@'].valueType === EssentialValueType.DATE || fieldDto['@'].valueType === EssentialValueType.DATETIME)
+    const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
 
     values.push(this.fb.group({
@@ -252,14 +252,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   changeValue(i: number, j: number) {
-    const valueType = this.getQueryField(i)['@'].valueType;
+    const valueType = this.getQueryField(i).valueType;
     const newValue = this.getValueControl(i, j).value.value;
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 
     if (newValue
       && this.getQueryField(i).valueDtos.length <= j + 1
-      && this.getQueryValue(i, j)['@'].condition !== SimpleValueOperator.BETWEEN) {
+      && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
       this.addValue(i);
     }
 
@@ -267,7 +267,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   changeMaxValue(i: number, j: number) {
-    const valueType = this.getQueryField(i)['@'].valueType;
+    const valueType = this.getQueryField(i).valueType;
     const newValue = this.getValueControl(i, j).value.maxValue;
 
     this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
@@ -354,7 +354,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     const lastValueDto = valueDtos[valueDtos.length - 1];
-    if (lastValueDto['@'].condition === SimpleValueOperator.BETWEEN) {
+    if (lastValueDto.condition === SimpleValueOperator.BETWEEN) {
       return !lastValueDto.value || lastValueDto.value === '' ||
         !lastValueDto.maxValue || lastValueDto.maxValue === '';
     }

@@ -76,7 +76,7 @@ export class NegotiatorService {
       if (humanReadable) {
         humanReadable += ' and ';
       }
-      const extendedMdrFieldDto = this.mdrFieldProviderService.getPossibleField(field['@'].urn);
+      const extendedMdrFieldDto = this.mdrFieldProviderService.getPossibleField(field.urn);
       humanReadable += extendedMdrFieldDto.name + ': ';
 
       let valueString = '';
@@ -91,7 +91,7 @@ export class NegotiatorService {
         const singleValue = this.getHumanReadableValue(extendedMdrFieldDto, value.value);
         const singleMaxValue = this.getHumanReadableValue(extendedMdrFieldDto, value.maxValue);
 
-        switch (value['@'].condition) {
+        switch (value.condition) {
           case SimpleValueOperator.EQUALS:
             valueString += '\'' + singleValue + '\'';
             break;
@@ -116,7 +116,7 @@ export class NegotiatorService {
             valueString += '< \'' + singleValue + '\'';
             break;
           default:
-            valueString += value['@'].condition + ' \'' + singleValue + '\'';
+            valueString += value.condition + ' \'' + singleValue + '\'';
             console.log(valueString);
         }
       }

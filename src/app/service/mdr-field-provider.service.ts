@@ -61,7 +61,7 @@ export class MdrFieldProviderService {
 
   public isFieldOfTypes(field: EssentialSimpleFieldDto, mdrEntities: Array<MdrEntity>): boolean {
     for (const mdrEntity of mdrEntities) {
-      if (!!this.slStorageService.getEntityUrnsMap().get(mdrEntity).find(urn => urn === field['@'].urn)) {
+      if (!!this.slStorageService.getEntityUrnsMap().get(mdrEntity).find(urn => urn === field.urn)) {
         return true;
       }
     }

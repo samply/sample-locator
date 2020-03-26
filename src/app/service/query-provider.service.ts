@@ -52,10 +52,8 @@ export class QueryProviderService {
     }
 
     const fieldDto: EssentialSimpleFieldDto = {
-      '@': {
-        urn,
-        valueType: this.getValueType(valueType),
-      },
+      urn,
+      valueType: this.getValueType(valueType),
       valueDtos: []
     };
 
@@ -66,11 +64,10 @@ export class QueryProviderService {
     this.slStorageService.setQuery(this.query);
   }
 
+  // noinspection JSMethodCanBeStatic
   addEmptyValue(fieldDto: EssentialSimpleFieldDto): void {
     fieldDto.valueDtos.push({
-      '@': {
-        condition: SimpleValueOperator.EQUALS
-      },
+      condition: SimpleValueOperator.EQUALS,
       value: '',
       maxValue: '',
     });

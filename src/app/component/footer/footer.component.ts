@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InfoVersionService} from '../../service/info-version.service';
+import {VersionService} from '../../service/version.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,7 +8,7 @@ import {InfoVersionService} from '../../service/info-version.service';
 })
 export class FooterComponent implements OnInit {
 
-  constructor(public infoVersionService: InfoVersionService) {
+  constructor(public versionService: VersionService) {
   }
 
   ngOnInit(): void {

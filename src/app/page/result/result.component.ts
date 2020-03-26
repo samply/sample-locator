@@ -1,4 +1,3 @@
-import * as js2xmlparser from 'js2xmlparser';
 import {v4 as uuidv4} from 'uuid';
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
@@ -99,11 +98,11 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
     this.slStorageService.resetAppAction();
 
-    const xml = js2xmlparser.parse('essentialSimpleQueryDto', this.queryProviderService.query);
+    const json = JSON.stringify(this.queryProviderService.query);
 
     let headers = new HttpHeaders()
-      .set('Content-Type', 'application/xml')
-      .set('Accept', 'application/xml');
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
     if (this.nToken) {
       headers = headers.set('ntoken', this.nToken);
     }
@@ -111,7 +110,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
 
     this.subscriptions.push(
-      this.httpClient.post<EssentialSimpleFieldDto>(url, xml, {headers, observe: 'response'}).subscribe(
+      this.httpClient.post<EssentialSimpleFieldDto>(url, json, {headers, observe: 'response'}).subscribe(
         response => {
           // Subscribe to activate POST request
           console.log('Send query and received id ' + parseInt(response.headers.get('id'), 10));

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {VersionInfo} from '../model/config/VersionInfo';
 import {ExternalUrlService} from './external-url.service';
+import * as pack from '../../../package.json';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InfoVersionService {
+export class VersionService {
 
   private uiVersion = 'UNDEFINED';
   private backendVersion = 'UNDEFINED';
@@ -20,9 +20,7 @@ export class InfoVersionService {
   }
 
   private initUiVersion() {
-    this.httpClient.get('assets/config/VersionInfo.json', {responseType: 'json'}).subscribe(
-      config => this.uiVersion = (config as VersionInfo).versionSampleLocator
-    );
+    this.uiVersion = pack.version;
   }
 
   private initBackendVersion() {
