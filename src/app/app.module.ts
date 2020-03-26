@@ -38,36 +38,10 @@ import {TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 
 // tslint:disable-next-line:variable-name
-const oidc_configuration = '/assets/config/auth.clientConfiguration.json';
+const oidc_configuration = '/config/auth.clientConfiguration.json';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => oidcConfigService.load(oidc_configuration);
-}
-
-export function initializerExternalUrlService(
-  externalUrlService: ExternalUrlService,
-) {
-  return () => {
-    // noinspection JSUnusedLocalSymbols
-    return externalUrlService.load();
-  };
-}
-
-export function initializerMolgenisService(
-  molgenisService: MolgenisService,
-) {
-  return () => {
-    // noinspection JSUnusedLocalSymbols
-    return molgenisService.load();
-  };
-}
-
-export function initializerMdrConfigService(
-  mdrConfigService: MdrConfigService,
-) {
-  return () => {
-    return mdrConfigService.load();
-  };
 }
 
 @NgModule({
@@ -110,24 +84,9 @@ export function initializerMdrConfigService(
   ],
   providers: [
     CookieService,
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      deps: [ExternalUrlService],
-      useFactory: initializerExternalUrlService
-    },
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      deps: [MolgenisService],
-      useFactory: initializerMolgenisService
-    },
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      deps: [MdrConfigService],
-      useFactory: initializerMdrConfigService
-    },
+    ExternalUrlService,
+    MolgenisService,
+    MdrConfigService,
     OidcConfigService,
     {
       provide: APP_INITIALIZER,

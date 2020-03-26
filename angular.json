@@ -38,8 +38,8 @@
               {
                 // copy everything
                 "glob": "**/*",
-                "input": "src/config-dev/",
-                "output": "/assets/config"
+                "input": "src/config/",
+                "output": "/config/"
               }
             ],
             "styles": [
@@ -69,8 +69,8 @@
                 {
                   // copy everything
                   "glob": "**/*",
-                  "input": "src/config-dev/",
-                  "output": "/assets/config"
+                  "input": "src/config/",
+                  "output": "/config/"
                 }
               ],
               "optimization": true,
@@ -112,13 +112,8 @@
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
-                },
-                {
-                  // copy everything
-                  "glob": "**/*",
-                  "input": "docker/config/",
-                  "output": "/assets/config"
                 }
+                // SKIP config (will be copied by Docker)
               ],
               "optimization": true,
               "outputHashing": "all",

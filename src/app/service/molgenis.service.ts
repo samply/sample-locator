@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {MolgenisCredentials} from '../model/config/MolgenisCredentials';
+
+import * as config from '../../config/MolgenisCredentials.json';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,8 @@ export class MolgenisService {
 
   molgenisCredentials: MolgenisCredentials;
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  load(): Promise<void | MolgenisCredentials> {
-    return this.httpClient.get<MolgenisCredentials>('assets/config/MolgenisCredentials.json', {responseType: 'json'})
-      .toPromise()
-      .then(config => {
-        this.molgenisCredentials = config;
-      })
-      .catch(() => console.log('Could not read config "MolgenisCredentials.json"'));
+  constructor() {
+    this.molgenisCredentials = ((config as any).default) as MolgenisCredentials;
   }
 
   public getEncodedCredentials(): string {
