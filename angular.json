@@ -112,8 +112,13 @@
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
+                },
+                {
+                  // copy everything
+                  "glob": "**/*",
+                  "input": "docker/config/",
+                  "output": "/config/"
                 }
-                // SKIP config (will be copied by Docker)
               ],
               "optimization": true,
               "outputHashing": "all",

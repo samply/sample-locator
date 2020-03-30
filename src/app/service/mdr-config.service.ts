@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MdrConfig} from '../model/config/MdrConfig';
-
-import * as config from '../../config/MdrConfig.json';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class MdrConfigService {
   mdrConfig: MdrConfig;
 
   constructor() {
-    this.mdrConfig = ((config as any).default) as MdrConfig;
+    this.mdrConfig = environment.mdrConfig as MdrConfig;
   }
 
   getMdrConfig(): MdrConfig {

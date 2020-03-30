@@ -117,7 +117,6 @@ export class NegotiatorService {
             break;
           default:
             valueString += value.condition + ' \'' + singleValue + '\'';
-            console.log(valueString);
         }
       }
 

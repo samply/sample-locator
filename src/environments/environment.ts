@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  externalServices: (window as any).env.externalServices || {},
+  mdrConfig: (window as any).env.mdrConfig || {},
+  molgenisCredentials: (window as any).env.molgenisCredentials || {},
 };
 
 /*

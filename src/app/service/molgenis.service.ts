@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MolgenisCredentials} from '../model/config/MolgenisCredentials';
 
-import * as config from '../../config/MolgenisCredentials.json';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class MolgenisService {
   molgenisCredentials: MolgenisCredentials;
 
   constructor() {
-    this.molgenisCredentials = ((config as any).default) as MolgenisCredentials;
+    this.molgenisCredentials = environment.molgenisCredentials as MolgenisCredentials;
   }
 
   public getEncodedCredentials(): string {

@@ -1,5 +1,0 @@
-{
-  "brokerUrl": "http://localhost:8080/broker",
-  "sampleLocatorUrl": "http://localhost:8085",
-  "negotiatorUrl": "https://negotiator.bbmri-eric.eu"
-}

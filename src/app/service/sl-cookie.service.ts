@@ -17,7 +17,6 @@ export class SlCookieService {
   }
 
   setConsentCookieAccepted(): void {
-    console.log('SET cookie');
     this.cookieService.set(
       SlCookieService.CONSENT_COOKIE_NAME,
       'TRUE',
