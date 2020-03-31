@@ -76,14 +76,15 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   resultColumns = [
     {field: 'site', header: 'Biobank'},
-    {field: 'sample', header: 'Samples'},
-    {field: 'donor', header: 'Donors'}
+    {field: 'donor', header: 'Donors'},
+    {field: 'sample', header: 'Samples'}
   ];
 
   ngOnInit(): void {
     this.slStorageService.setAppTargetRoute('result');
     this.queryProviderService.restoreQuery();
 
+    this.scrollTop();
     this.initNToken();
 
     this.sendQuery();
@@ -259,7 +260,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   getNegotiatorButtonClass() {
-    return this.isAnyNegotiateFlagChecked() ? 'result-page-button' : 'result-page-button result-page-button-inactive';
+    return this.isAnyNegotiateFlagChecked() ? 'negotiate-button' : 'negotiate-button negotiate-button-inactive';
   }
 
   getNegotiateIcon(site: string): any {
@@ -282,5 +283,9 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  private scrollTop() {
+    window.document.scrollingElement.scrollTop = 0;
   }
 }

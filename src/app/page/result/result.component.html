@@ -12,7 +12,7 @@
         </div>
 
         <!--suppress HtmlUnknownAttribute -->
-        <app-search-builder headerName="Donor / Clinical Information"
+        <app-search-builder headerName="Donor/Clinical Information"
                             disabled="true"
                             [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
         <!--suppress HtmlUnknownAttribute -->
@@ -56,14 +56,26 @@
         <h2>Result</h2>
 
         <!-- SHOW SIMPLE RESULT -->
-        <div *ngIf="!userService.getLoginValid()">
+        <div *ngIf="!userService.getLoginValid()" class="result-extra-margin">
           <div class="result-item">
             <div fxLayout="row wrap" fxLayoutAlign="space-between"
                  fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
               <div fxFlex="0 0 30%"
                    fxFlex.lt-md="0 0 100%"
+                   class="result-table-row"
+                   tooltipPosition="bottom"
+                   pTooltip="Number of biobanks">
+                <div fxFlex="1 1 20%">
+                  <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
+                </div>
+                <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}} / {{limitBiobanksAnswered}}</div>
+                <div fxFlex="0 0 10%"></div>
+              </div>
+              <div fxFlex="0 0 30%"
+                   fxFlex.lt-md="0 0 100%"
                    fxLayout="row wrap"
                    class="result-table-row"
+                   tooltipPosition="bottom"
                    pTooltip="Number of donors">
                 <div fxFlex="1 1 20%">
                   <fa-icon [icon]="faDonor" size="lg"></fa-icon>
@@ -74,21 +86,12 @@
               <div fxFlex="0 0 30%"
                    fxFlex.lt-md="0 0 100%"
                    class="result-table-row"
+                   tooltipPosition="bottom"
                    pTooltip="Number of samples">
                 <div fxFlex="1 1 20%">
                   <fa-icon [icon]="faSample" size="lg"></fa-icon>
                 </div>
                 <div fxFlex="0 0 70%" class="align-right">{{sumSamples}}</div>
-                <div fxFlex="0 0 10%"></div>
-              </div>
-              <div fxFlex="0 0 30%"
-                   fxFlex.lt-md="0 0 100%"
-                   class="result-table-row"
-                   pTooltip="Number of biobanks">
-                <div fxFlex="1 1 20%">
-                  <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
-                </div>
-                <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}} / {{limitBiobanksAnswered}}</div>
                 <div fxFlex="0 0 10%"></div>
               </div>
             </div>
@@ -100,36 +103,29 @@
                class="result-detail-button-wrapper">
             <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
 
-          <div class="result-item">
-            <p-progressBar *ngIf="showProcessingBar"
-                           [value]="elapsedPercentage"
-                           [showValue]="false"
-                           [style]="{'height': '6px'}"></p-progressBar>
-          </div>
         </div>
 
         <!-- SHOW DETAILED RESULT -->
-        <div *ngIf="userService.getLoginValid()">
+        <div *ngIf="userService.getLoginValid()" class="result-extra-margin">
           <div *ngIf="!isResultAnonymous()">
             <p-table [value]="detailedResult" [columns]="resultColumns">
               <ng-template pTemplate="header" let-columns>
                 <tr>
+                  <th class="detailed-result-flag-column">
+                  </th>
                   <th *ngFor="let col of columns">
                     {{col.header}}
-                  </th>
-                  <th>
-                    Negotiate?
                   </th>
                 </tr>
               </ng-template>
 
               <ng-template pTemplate="body" let-reply let-columns="columns">
                 <tr>
-                  <td *ngFor="let col of columns">
-                    {{reply[col.field]}}
-                  </td>
                   <td (click)="toggleNegotiateFlag(reply.site)">
                     <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
+                  </td>
+                  <td *ngFor="let col of columns">
+                    {{reply[col.field]}}
                   </td>
                 </tr>
               </ng-template>
@@ -151,10 +147,6 @@
           </div>
 
           <div class="disclaimer">
-            <p-progressBar *ngIf="showProcessingBar"
-                           [value]="elapsedPercentage"
-                           [showValue]="false"
-                           [style]="{'height': '6px'}"></p-progressBar>
             <div *ngIf="!showProcessingBar">
               <p>Most results have been received after one minute. However, more results might be taken into account for
                 up to five minutes.</p>
