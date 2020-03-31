@@ -1,9 +1,11 @@
+@import "../../../_variables.scss";
+
 h2 {
   font-weight: normal;
 }
 
 .divider {
-  background-color: #F0F3F4;
+  background-color: $background-light;
   width: 2px;
   margin: 0 1em;
 }
@@ -16,7 +18,7 @@ h2 {
   padding: 0.5em 2.7em 0.5em 1em;
   margin: 2em .6em;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-align: center;
@@ -29,7 +31,7 @@ h2 {
 }
 
 .samply-button-acitve:hover {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 .samply-button-inactive {

@@ -1,7 +1,9 @@
+@import "../../../_variables.scss";
+
 .work-in-progress-info {
   width: 100%;
 
-  background: #F0F3F4;
+  background: $background-light;
 
   text-align: center;
 }
@@ -10,7 +12,7 @@ h4, h4 a {
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;
-  color: #8C9FAA;
+  color: $color-gray;
   padding: 20px 0;
   letter-spacing: 1px;
   margin: 0;

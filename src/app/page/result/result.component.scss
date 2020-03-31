@@ -1,8 +1,10 @@
+@import "../../../_variables.scss";
+
 .result-table-row {
   margin: .5em 0;
   padding: .5em;
 
-  border: solid 1px #172B49;
+  border: solid 1px $background-dark;
   border-radius: 4px;
 }
 
@@ -20,7 +22,7 @@
 
   padding: .5em 1em;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-align: center;
@@ -33,7 +35,7 @@
 }
 
 :host ::ng-deep .ui-progressbar-value {
-  background-color: #8C9FAA !important;
+  background-color: $background-gray !important;
 }
 
 .align-right {
@@ -47,7 +49,7 @@
   min-width: 10em;
   height: 40px;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-transform: uppercase;
@@ -56,7 +58,7 @@
 }
 
 .result-page-button:hover .result-page-button-inactive:not {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 .result-page-button-inactive {
@@ -79,7 +81,7 @@ h2 {
 }
 
 .divider {
-  background-color: #F0F3F4;
+  background-color: $background-light;
   width: 2px;
   margin: 0 1em;
 }
@@ -92,7 +94,7 @@ h2 {
   padding: 0.5em 2.7em 0.5em 1em;
   margin: 2em .6em;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-align: center;
@@ -107,7 +109,7 @@ h2 {
 }
 
 .samply-button-active:hover {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 .samply-button-inactive {

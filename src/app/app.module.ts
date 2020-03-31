@@ -10,7 +10,7 @@ import {ResultComponent} from './page/result/result.component';
 import {AboutUsComponent} from './page/about-us/about-us.component';
 import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {BREAKPOINT, FlexLayoutModule} from '@angular/flex-layout';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {HeaderComponent} from './component/header/header.component';
@@ -43,6 +43,27 @@ const oidc_configuration = '/config/auth.clientConfiguration.json';
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => oidcConfigService.load(oidc_configuration);
 }
+
+const BBMRI_BREAKPOINTS = [{
+  alias: 'md',
+  suffix: 'Md',
+  mediaQuery: 'screen and (min-width: 992px) and (max-width: 1279px)',
+  overlapping: false,
+  priority: 1001 // Needed if overriding the default print breakpoint
+},
+  {
+    alias: 'lt-md',
+    suffix: 'LtMd',
+    mediaQuery: 'screen and (max-width: 991px)',
+    overlapping: false,
+    priority: 1001 // Needed if overriding the default print breakpoint
+  }];
+
+export const BbmriBreakPointsProvider = {
+  provide: BREAKPOINT,
+  useValue: BBMRI_BREAKPOINTS,
+  multi: true
+};
 
 @NgModule({
   declarations: [
@@ -94,6 +115,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
       deps: [OidcConfigService],
       multi: true,
     },
+    BbmriBreakPointsProvider,
   ],
   bootstrap: [AppComponent]
 })

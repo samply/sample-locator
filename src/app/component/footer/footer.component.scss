@@ -1,5 +1,7 @@
+@import "../../../_variables.scss";
+
 .footer {
-  color: #304757;
+  color: $color-dark;
   line-height: 22px;
   font-size: smaller;
   font-style: normal;
@@ -12,9 +14,9 @@
 }
 
 .footer a {
-  color: #304757;
+  color: $color-dark;
 }
 
 .version-text {
-  color: #C5CFD5;
+  color: $color-version;
 }
