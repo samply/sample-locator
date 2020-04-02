@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {ExternalServices} from '../model/config/ExternalServices';
+import {environment} from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,8 @@ export class ExternalUrlService {
 
   externalServices: ExternalServices;
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  load(): Promise<void | ExternalServices> {
-    return this.httpClient.get<ExternalServices>('assets/config/ExternalServices.json', {responseType: 'json'})
-      .toPromise()
-      .then(config => {
-        this.externalServices = config;
-      })
-      .catch(() => console.log('Could not read config "ExternalServices.json"'));
+  constructor() {
+    this.externalServices = environment.externalServices as ExternalServices;
   }
 
   getBrokerUrl(): string {

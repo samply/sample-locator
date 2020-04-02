@@ -38,16 +38,16 @@
               {
                 // copy everything
                 "glob": "**/*",
-                "input": "src/config-dev/",
-                "output": "/assets/config"
+                "input": "src/config/",
+                "output": "/config/"
               }
             ],
             "styles": [
               "src/styles-IE.scss",
-              "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -69,8 +69,8 @@
                 {
                   // copy everything
                   "glob": "**/*",
-                  "input": "src/config-dev/",
-                  "output": "/assets/config"
+                  "input": "src/config/",
+                  "output": "/config/"
                 }
               ],
               "optimization": true,
@@ -117,7 +117,7 @@
                   // copy everything
                   "glob": "**/*",
                   "input": "docker/config/",
-                  "output": "/assets/config"
+                  "output": "/config/"
                 }
               ],
               "optimization": true,
@@ -178,10 +178,10 @@
             ],
             "styles": [
               "src/styles-IE.scss",
-              "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "src/styles.scss"
             ],
             "scripts": []
           }

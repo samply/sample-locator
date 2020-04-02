@@ -1,9 +1,0 @@
-{
-  "mdrRestUrl": "{mdr-api-url}",
-  "mdrNamespace": "{mdr-namespace}",
-  "languageCode": "{mdr-language}",
-
-  "dataElementGroups": {mdr-mapping},
-  "dataElements": {mdr-field-properties},
-  "hiddenDataElements": {mdr-hidden}
-}

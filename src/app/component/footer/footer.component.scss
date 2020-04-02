@@ -1,5 +1,8 @@
+@import "../../../_variables.scss";
+
 .footer {
-  color: #304757;
+  padding: 1.5em 0 0 0;
+  color: $color-dark;
   line-height: 22px;
   font-size: smaller;
   font-style: normal;
@@ -12,9 +15,21 @@
 }
 
 .footer a {
-  color: #304757;
+  color: $color-dark;
 }
 
 .version-text {
-  color: #C5CFD5;
+  color: $color-version;
+}
+
+.bmbf-logo {
+  height: 139px;
+  width:220px;
+}
+
+@media screen and (max-width: 1199px) {
+  .bmbf-logo {
+    height: 100px;
+    width:220px;
+  }
 }

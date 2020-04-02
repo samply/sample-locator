@@ -1,12 +1,29 @@
+@import "../../../_variables.scss";
+
+.result-extra-margin {
+  margin: 92px 0 0 0;
+}
+
+@media (max-width: 991px) {
+  .result-extra-margin {
+    margin: 124px 0 0 0;
+  }
+}
+
 .result-table-row {
-  margin: .5em 0;
+  margin: 0 0 1em 0;
   padding: .5em;
 
-  border: solid 1px #172B49;
+  border: solid 1px $background-dark;
   border-radius: 4px;
 }
 
 .result-item {
+  margin: 2em 0;
+}
+
+.result-progressbar {
+  min-height: 3em;
   margin: 2em 0;
 }
 
@@ -20,7 +37,7 @@
 
   padding: .5em 1em;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-align: center;
@@ -32,22 +49,40 @@
   cursor: pointer;
 }
 
+.result-detail-button:hover {
+  background-color: $background-dark-semi;
+}
+
 :host ::ng-deep .ui-progressbar-value {
-  background-color: #8C9FAA !important;
+  background-color: $background-gray !important;
 }
 
 .align-right {
   text-align: right;
 }
 
-.result-page-button {
-  padding: .3em 1em;
-  margin: 2em 0;
+.detailed-result-flag-header {
+  width: 3.4em;
+}
 
-  min-width: 10em;
+.detailed-result-flag-column {
+  text-align: center;
+}
+
+.negotiate-button {
+  display: inline-block;
   height: 40px;
+  min-width: 13em;
 
-  background: #172B49;
+  padding: 0.5em 2.7em 0.5em 1em;
+  margin: 2em .6em;
+
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  background: $background-dark;
   color: white;
 
   text-transform: uppercase;
@@ -55,22 +90,21 @@
   cursor: pointer;
 }
 
-.result-page-button:hover .result-page-button-inactive:not {
-  background: #8C9FAA;
+.negotiate-button:hover {
+  background: $background-dark-semi;
 }
 
-.result-page-button-inactive {
-  opacity: .35;
+.negotiate-button-inactive {
+  background-color: $background-dark-semi;
 }
 
-.result-page-button fa-icon {
+.negotiate-button fa-icon {
   margin: 0 1em 0 0;
 }
 
 .disclaimer {
   font-size: 0.8em;
   margin: 1em 0;
-  text-align: justify;
   padding: 0 10px;
 }
 
@@ -79,7 +113,7 @@ h2 {
 }
 
 .divider {
-  background-color: #F0F3F4;
+  background-color: $background-light;
   width: 2px;
   margin: 0 1em;
 }
@@ -92,7 +126,7 @@ h2 {
   padding: 0.5em 2.7em 0.5em 1em;
   margin: 2em .6em;
 
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
   text-align: center;
@@ -107,9 +141,26 @@ h2 {
 }
 
 .samply-button-active:hover {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 .samply-button-inactive {
-  opacity: .35;
+  background-color: $background-dark-semi;
+}
+
+::ng-deep .ui-tooltip .ui-tooltip-arrow {
+  border-bottom-color: $background-gray !important;
+}
+
+::ng-deep .ui-tooltip .ui-tooltip-text {
+  background-color: $background-gray !important;
+  color: white !important;
+}
+
+::ng-deep .ui-tooltip {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
 }

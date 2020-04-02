@@ -1,3 +1,5 @@
+@import "../../../_variables.scss";
+
 h3 {
   font-weight: normal;
 }
@@ -30,9 +32,10 @@ h3 {
   height: 40px;
   min-width: 150px;
   width: 150px;
-  background: #172B49;
+  background: $background-dark;
   color: white;
 
+  font-family: 'Titillium Web', sans-serif;
   text-align: center;
   text-transform: uppercase;
   text-decoration: none;
@@ -48,7 +51,7 @@ h3 {
 }
 
 :host ::ng-deep .add-field .ui-dropdown-trigger {
-  background-color: #172B49;
+  background-color: $background-dark;
   color: white;
 }
 
@@ -57,11 +60,11 @@ h3 {
 }
 
 :host ::ng-deep .add-field .ui-dropdown-label:hover {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 :host ::ng-deep .add-field-panel {
-  background-color: #AFB5C0;
+  background-color: $background-gray-light;
 }
 
 :host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
@@ -76,7 +79,7 @@ h3 {
   padding: 4px 0 0 0;
   font-size: smaller;
 
-  background-color: #172B49;
+  background-color: $background-dark;
   color: white;
 
   text-align: center;
@@ -86,10 +89,10 @@ h3 {
 }
 
 .samply-button-small:hover {
-  background: #8C9FAA;
+  background: $background-gray;
 }
 
 .samply-button-small-disabled {
-  opacity: .35;
+  background-color: $background-dark-semi;
 }
 
