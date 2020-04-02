@@ -4,7 +4,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
 import {faBuilding, faEdit, faPaperPlane, faTimes, faUser, faVial} from '@fortawesome/free-solid-svg-icons';
-import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
+import {faCheckSquare, faSquare, faHandshake} from '@fortawesome/free-regular-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
@@ -43,7 +43,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   static MAX_TIME_POLLING = 300;
   static POLLING_INTERVAL = 1;
 
-  static TIME_LIMIT_PROCESSING_BAR = 60;
+  static TIME_LIMIT_PROCESSING_BAR = 10;
   static TIME_STEP_DECI_SECOND = 0.1;
 
   faTimes = faTimes;
@@ -54,6 +54,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   faBiobank = faBuilding;
   faCheckSquare = faCheckSquare;
   faSquare = faSquare;
+  faNegotiator = faHandshake;
 
   detailedResult: Array<ReplySiteDto> = [];
 
@@ -222,10 +223,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   isResultAnonymous(result = this.detailedResult): boolean {
-    if (result.length === 0) {
-      return true;
-    }
-
     for (const reply of result) {
       if (reply.site.toUpperCase() === 'ANONYMOUS') {
         return true;
@@ -285,6 +282,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  // noinspection JSMethodCanBeStatic
   private scrollTop() {
     window.document.scrollingElement.scrollTop = 0;
   }

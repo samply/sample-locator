@@ -22,6 +22,11 @@
   margin: 2em 0;
 }
 
+.result-progressbar {
+  min-height: 3em;
+  margin: 2em 0;
+}
+
 .result-detail-button-wrapper {
   margin: 0 0 2em 0;
 }
@@ -56,8 +61,12 @@
   text-align: right;
 }
 
+.detailed-result-flag-header {
+  width: 3.4em;
+}
+
 .detailed-result-flag-column {
-  width: 3em;
+  text-align: center;
 }
 
 .negotiate-button {

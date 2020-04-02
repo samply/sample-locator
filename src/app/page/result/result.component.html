@@ -56,7 +56,7 @@
         <h2>Result</h2>
 
         <!-- SHOW SIMPLE RESULT -->
-        <div *ngIf="!userService.getLoginValid()" class="result-extra-margin">
+        <div class="result-extra-margin">
           <div class="result-item">
             <div fxLayout="row wrap" fxLayoutAlign="space-between"
                  fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
@@ -68,7 +68,7 @@
                 <div fxFlex="1 1 20%">
                   <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
                 </div>
-                <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}} / {{limitBiobanksAnswered}}</div>
+                <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}}</div>
                 <div fxFlex="0 0 10%"></div>
               </div>
               <div fxFlex="0 0 30%"
@@ -96,22 +96,16 @@
               </div>
             </div>
           </div>
-
-          <div fxLayout="row"
-               fxLayoutAlign="center space-around"
-               (click)="userService.login()"
-               class="result-detail-button-wrapper">
-            <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span></div>
-
         </div>
 
         <!-- SHOW DETAILED RESULT -->
-        <div *ngIf="userService.getLoginValid()" class="result-extra-margin">
+        <div *ngIf="userService.getLoginValid()">
           <div *ngIf="!isResultAnonymous()">
             <p-table [value]="detailedResult" [columns]="resultColumns">
               <ng-template pTemplate="header" let-columns>
                 <tr>
-                  <th class="detailed-result-flag-column">
+                  <th class="detailed-result-flag-header">
+                    <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
                   </th>
                   <th *ngFor="let col of columns">
                     {{col.header}}
@@ -121,7 +115,7 @@
 
               <ng-template pTemplate="body" let-reply let-columns="columns">
                 <tr>
-                  <td (click)="toggleNegotiateFlag(reply.site)">
+                  <td (click)="toggleNegotiateFlag(reply.site)" class="detailed-result-flag-column">
                     <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
                   </td>
                   <td *ngFor="let col of columns">
@@ -136,24 +130,42 @@
               regarding access can be retrieved by direct communication with the respective biobanks activating the
               checkboxes and "Negotiate".
             </div>
+          </div>
+        </div>
 
-            <div fxLayout="row" fxLayoutAlign="center">
-              <div (click)="navigateToNegotiator()"
-                   [ngClass]="getNegotiatorButtonClass()">
-                <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-                <span>Negotiate</span>
-              </div>
-            </div>
+        <div class="result-progressbar">
+          <div *ngIf="showProcessingBar">
+            <p-progressBar [value]="elapsedPercentage"
+                           [showValue]="false"
+                           [style]="{'height': '6px'}"></p-progressBar>
+            Searching {{limitBiobanksAnswered}} biobanks for 60 seconds...
           </div>
 
           <div class="disclaimer">
             <div *ngIf="!showProcessingBar">
-              <p>Most results have been received after one minute. However, more results might be taken into account for
-                up to five minutes.</p>
+              <div>Most results have been received after one minute. However, more results might be taken into account for
+                up to five minutes.</div>
             </div>
           </div>
-
         </div>
+
+        <div *ngIf="!userService.getLoginValid()"
+             fxLayout="row"
+             fxLayoutAlign="center space-around"
+             (click)="userService.login()"
+             class="result-detail-button-wrapper">
+          <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span>
+        </div>
+
+        <div *ngIf="userService.getLoginValid()"
+             fxLayout="row" fxLayoutAlign="center">
+          <div (click)="navigateToNegotiator()"
+               [ngClass]="getNegotiatorButtonClass()">
+            <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
+            <span>Negotiate</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
