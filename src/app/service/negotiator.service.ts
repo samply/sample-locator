@@ -38,7 +38,7 @@ export class NegotiatorService {
         console.log(responseBroker);
         const humanReadable = this.getHumanReadbleDescription();
         const collections = responseBroker.body;
-        const URL = this.externalUrlService.getSampleLocatorUrl();
+        const URL = this.createQueryUrl();
 
         const entity = {
           humanReadable, collections, URL
@@ -68,6 +68,19 @@ export class NegotiatorService {
         );
       }
     );
+  }
+
+  private createQueryUrl() {
+    let URL = this.externalUrlService.getSampleLocatorUrl();
+
+    if (this.slStorageService.getNToken()) {
+      if (URL.substr(URL.length - 1, 1) !== '/') {
+        URL += '/';
+      }
+      URL += 'restore/?ntoken=' + this.slStorageService.getNToken();
+    }
+
+    return URL;
   }
 
   private getHumanReadbleDescription(): string {
