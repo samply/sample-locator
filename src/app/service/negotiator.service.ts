@@ -35,7 +35,6 @@ export class NegotiatorService {
 
     this.httpClient.post(urlBroker, biobankNames, {headers: headersBroker, observe: 'response'}).subscribe(
       responseBroker => {
-        console.log(responseBroker);
         const humanReadable = this.getHumanReadbleDescription();
         const collections = responseBroker.body;
         const URL = this.createQueryUrl();
@@ -43,27 +42,29 @@ export class NegotiatorService {
         const entity = {
           humanReadable, collections, URL
         };
-        console.log(entity);
 
-        const urlNegotiator = this.externalUrlService.getNegotiatorUrl();
+        const nToken = this.slStorageService.getNToken();
+        let urlNegotiator = this.externalUrlService.getNegotiatorUrl() + '/api/directory/create_query';
+        if (nToken) {
+          urlNegotiator += '?nToken=' + nToken;
+        }
 
-        let headersNegotiator = new HttpHeaders()
+        const headersNegotiator = new HttpHeaders()
           .set('Content-Type', 'application/json; charset=utf-8')
           .set('Accept', 'application/json; charset=utf-8')
-          .set('Authorization', 'Bearer ' + this.molgenisService.getEncodedCredentials());
-        const nToken = this.slStorageService.getNToken();
-        if (nToken) {
-          headersNegotiator = headersNegotiator.set('ntoken', nToken);
-        }
+          // TODO: Use Bearer-Authentication when Negotiator allows using it
+          //          .set('Authorization', 'Bearer ' + this.userService.getIdToken())
+          .set('Authorization', 'Basic ' + this.molgenisService.getEncodedCredentials());
 
         this.httpClient.post(urlNegotiator, entity, {headers: headersNegotiator, observe: 'response'}).subscribe(
           reponseNegotiator => {
-            console.log(reponseNegotiator);
-            const location = reponseNegotiator.headers.get('location');
-            console.log(location);
+            const location = (reponseNegotiator.body as any).redirect_uri;
             if (location) {
               window.location.href = location;
             }
+          },
+          (error) => {
+            console.log(error);
           }
         );
       }
@@ -77,7 +78,7 @@ export class NegotiatorService {
       if (URL.substr(URL.length - 1, 1) !== '/') {
         URL += '/';
       }
-      URL += 'restore/?ntoken=' + this.slStorageService.getNToken();
+      URL += 'restore?ntoken=' + this.slStorageService.getNToken();
     }
 
     return URL;
