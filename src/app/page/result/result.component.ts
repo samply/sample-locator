@@ -43,7 +43,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   static MAX_TIME_POLLING = 300;
   static POLLING_INTERVAL = 1;
 
-  static TIME_LIMIT_PROCESSING_BAR = 10;
+  static TIME_LIMIT_PROCESSING_BAR = 60;
   static TIME_STEP_DECI_SECOND = 0.1;
 
   faTimes = faTimes;
@@ -186,9 +186,9 @@ export class ResultComponent implements OnInit, OnDestroy {
         response => {
           if (response) {
             const result = JSON.parse(response.headers.get('reply')) as Array<ReplySiteDto>;
-            if (!this.userService.getLoginValid() || this.isResultAnonymous(result)) {
-              this.handleAnonymousResult(result);
-            } else {
+            this.calculateResultSums(result);
+
+            if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
               this.detailedResult = result;
             }
           }
@@ -204,7 +204,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  private handleAnonymousResult(result: Array<ReplySiteDto>) {
+  private calculateResultSums(result: Array<ReplySiteDto>) {
     let donorsTemp = 0;
     let samplesTemp = 0;
     let biobanksAnsweredTemp = 0;
