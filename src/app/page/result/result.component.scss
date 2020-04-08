@@ -118,13 +118,17 @@ h2 {
   margin: 0 1em;
 }
 
+.margin-action-buttons {
+  margin: 1.5em 0;
+}
+
 .samply-button {
   display: inline-block;
   height: 40px;
   width: 150px;
 
   padding: 0.5em 2.7em 0.5em 1em;
-  margin: 2em .6em;
+  margin: 0.25em .6em;
 
   background: $background-dark;
   color: white;

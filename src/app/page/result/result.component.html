@@ -20,32 +20,38 @@
                             disabled="true"
                             [mdrEntities]="mdrEntitiesSample"></app-search-builder>
 
-        <div fxLayout="row"
+        <div class="margin-action-buttons"
+             fxLayout="row"
              fxLayoutAlign="end">
-          <div class="samply-button samply-button-active"
-               fxLayout="row"
-               fxLayoutAlign="space-between"
-               (click)="resetQuery()">
-            <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Clear</span>
-          </div>
+          <div fxLayout="row"
+               fxLayout.lt-md="column-reverse"
+               fxLayoutAlign="end"
+               fxLayoutAlign.lt-md="start">
+            <div class="samply-button samply-button-active"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between"
+                 (click)="resetQuery()">
+              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Clear</span>
+            </div>
 
-          <div class="samply-button samply-button-active"
-               fxLayout="row"
-               fxLayoutAlign="space-between"
-               (click)="editQuery()">
-            <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Edit</span>
-          </div>
+            <div class="samply-button samply-button-active"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between"
+                 (click)="editQuery()">
+              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Edit</span>
+            </div>
 
-          <div class="samply-button samply-button-inactive"
-               fxLayout="row"
-               fxLayoutAlign="space-between">
-            <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Send</span>
+            <div class="samply-button samply-button-inactive"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between">
+              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Send</span>
+            </div>
           </div>
         </div>
       </div>
@@ -128,7 +134,7 @@
             <div class="disclaimer">
               The result of your query represents only potentially available biosamples and data. Further information
               regarding access can be retrieved by direct communication with the respective biobanks activating the
-              checkboxes and "Negotiate".
+              checkboxes and clicking the "Negotiate" button.
             </div>
           </div>
         </div>
@@ -138,13 +144,15 @@
             <p-progressBar [value]="elapsedPercentage"
                            [showValue]="false"
                            [style]="{'height': '6px'}"></p-progressBar>
-            Searching {{limitBiobanksAnswered}} biobanks for 60 seconds...
+            Searching in {{limitBiobanksAnswered}} biobanks for 60 seconds...
           </div>
 
           <div class="disclaimer">
             <div *ngIf="!showProcessingBar">
-              <div>Most results have been received after one minute. However, more results might be taken into account for
-                up to five minutes.</div>
+              <div>
+                Most results have been received after one minute.
+                However, in some cases it might take up to five minutes for the last results to appear.
+              </div>
             </div>
           </div>
         </div>

@@ -16,32 +16,38 @@
         <app-search-builder headerName="Sample"
                             [mdrEntities]="mdrEntitiesSample"></app-search-builder>
 
-        <div fxLayout="row"
+        <div class="margin-action-buttons"
+             fxLayout="row"
              fxLayoutAlign="end">
-          <div class="samply-button samply-button-acitve"
-               fxLayout="row"
-               fxLayoutAlign="space-between"
-               (click)="resetQuery()">
-            <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Clear</span>
-          </div>
+          <div fxLayout="row"
+               fxLayout.lt-md="column-reverse"
+               fxLayoutAlign="end"
+               fxLayoutAlign.lt-md="start">
+            <div class="samply-button samply-button-active"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between"
+                 (click)="resetQuery()">
+              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Clear</span>
+            </div>
 
-          <div class="samply-button samply-button-inactive"
-               fxLayout="row"
-               fxLayoutAlign="space-between">
-            <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Edit</span>
-          </div>
+            <div class="samply-button samply-button-inactive"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between">
+              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Edit</span>
+            </div>
 
-          <div class="samply-button samply-button-acitve"
-               fxLayout="row"
-               fxLayoutAlign="space-between"
-               (click)="sendQuery()">
-            <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-            <div fxFlex="1 0 0"></div>
-            <span>Send</span>
+            <div class="samply-button samply-button-active"
+                 fxLayout="row"
+                 fxLayoutAlign="space-between"
+                 (click)="sendQuery()">
+              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
+              <div fxFlex="1 0 0"></div>
+              <span>Send</span>
+            </div>
           </div>
         </div>
       </div>
