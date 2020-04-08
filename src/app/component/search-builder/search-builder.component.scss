@@ -70,29 +70,3 @@ h3 {
 :host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
   color: white;
 }
-
-.samply-button-small {
-  height: 34px;
-  width: 34px;
-
-  margin: .2em;
-  padding: 4px 0 0 0;
-  font-size: smaller;
-
-  background-color: $background-dark;
-  color: white;
-
-  text-align: center;
-  vertical-align: center;
-
-  cursor: pointer;
-}
-
-.samply-button-small:hover {
-  background: $background-gray;
-}
-
-.samply-button-small-disabled {
-  background-color: $background-dark-semi;
-}
-

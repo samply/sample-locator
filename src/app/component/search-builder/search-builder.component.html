@@ -11,7 +11,9 @@
              fxLayoutAlign="space-between start"
              fxLayout.lt-md="column"
              fxLayoutAlign.lt-md="none">
-          <div class="field-name">{{extendedField.name}} <span *ngIf="extendedField.unit">({{extendedField.unit}})</span></div>
+          <div class="field-name">{{extendedField.name}}
+            <span *ngIf="extendedField.unit">({{extendedField.unit}})</span>
+          </div>
 
 
           <div formArrayName="values"
@@ -130,12 +132,9 @@
                   <div fxFlex="0 0 2.5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
-                    <div class="samply-button-small"
-                         [ngClass]="{ 'samply-button-small-disabled': disabled }"
-                         (click)="deleteValue(i, j)">
-                      <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
-                      <span></span>
-                    </div>
+                    <app-samply-button-small [active]="!disabled"
+                                             [imageIcon]="faMinus"
+                                             (click)="deleteValue(i, j)"></app-samply-button-small>
                   </div>
                 </div>
 
@@ -265,12 +264,8 @@
               <div fxFlex="0 0 2.5em"
                    fxLayout="row"
                    fxLayoutAlign="start center">
-                <div class="samply-button-small"
-                     [ngClass]="{ 'samply-button-small-disabled': disabled }"
-                     (click)="addValue(i)">
-                  <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
-                  <span></span>
-                </div>
+                <app-samply-button-small [active]="!disabled" [imageIcon]="faPlus"
+                                         (click)="addValue(i)"></app-samply-button-small>
               </div>
 
             </div>

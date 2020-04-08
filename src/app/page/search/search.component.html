@@ -23,31 +23,9 @@
                fxLayout.lt-md="column-reverse"
                fxLayoutAlign="end"
                fxLayoutAlign.lt-md="start">
-            <div class="samply-button samply-button-active"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="resetQuery()">
-              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Clear</span>
-            </div>
-
-            <div class="samply-button samply-button-inactive"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between">
-              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Edit</span>
-            </div>
-
-            <div class="samply-button samply-button-active"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="sendQuery()">
-              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Send</span>
-            </div>
+            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear" (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send" (click)="sendQuery()"></app-samply-button>
           </div>
         </div>
       </div>
@@ -56,7 +34,6 @@
 
       <div fxFlex="0 1 50%">
         <h2>Result</h2>
-
       </div>
 
     </div>

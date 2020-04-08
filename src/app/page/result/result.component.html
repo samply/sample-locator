@@ -27,31 +27,9 @@
                fxLayout.lt-md="column-reverse"
                fxLayoutAlign="end"
                fxLayoutAlign.lt-md="start">
-            <div class="samply-button samply-button-active"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="resetQuery()">
-              <fa-icon [icon]="faTimes" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Clear</span>
-            </div>
-
-            <div class="samply-button samply-button-active"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between"
-                 (click)="editQuery()">
-              <fa-icon [icon]="faEdit" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Edit</span>
-            </div>
-
-            <div class="samply-button samply-button-inactive"
-                 fxLayout="row"
-                 fxLayoutAlign="space-between">
-              <fa-icon [icon]="faPaperPlane" size="lg"></fa-icon>
-              <div fxFlex="1 0 0"></div>
-              <span>Send</span>
-            </div>
+            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear" (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faEdit" [active]="true" label="Edit" (click)="editQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="false" label="Send"></app-samply-button>
           </div>
         </div>
       </div>
@@ -111,6 +89,7 @@
           <div *ngIf="!isResultAnonymous()">
             <div fxLayout="row wrap" fxLayoutAlign="center"
                  fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
+              <!--suppress HtmlUnknownAttribute -->
               <div fxFlex="0 0 11%"
                    fxShow.lt-md="false"
                    class="result-table-row"
@@ -170,6 +149,7 @@
                    fxShow.lt-md="true"
                    class="small-table-margin">
               </div>
+              <!--suppress HtmlUnknownAttribute -->
               <div fxFlex="0 0 11%"
                    fxShow.lt-md="false"
                    class="result-table-row"

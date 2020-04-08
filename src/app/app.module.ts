@@ -36,6 +36,8 @@ import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/una
 import {RestoreComponent} from './page/restore/restore.component';
 import {TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
+import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
+import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -83,6 +85,8 @@ export const BbmriBreakPointsProvider = {
     ForbiddenComponent,
     UnauthorizedComponent,
     RestoreComponent,
+    SamplyButtonComponent,
+    SamplyButtonSmallComponent,
   ],
   imports: [
     BrowserModule,
