@@ -11,11 +11,9 @@
 }
 
 .result-table-row {
-  margin: 0 0 1em 0;
   padding: .5em;
 
   border: solid 1px $background-dark;
-  border-radius: 4px;
 }
 
 .result-item {
@@ -25,6 +23,14 @@
 .result-progressbar {
   min-height: 3em;
   margin: 2em 0;
+}
+
+.small-table-margin-title {
+  margin: 1em 0 0 0;
+}
+
+.small-table-margin {
+  margin: .25em 0 0 0;
 }
 
 .result-detail-button-wrapper {
@@ -57,16 +63,16 @@
   background-color: $background-gray !important;
 }
 
+.no-transition div {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
+}
+
 .align-right {
   text-align: right;
-}
-
-.detailed-result-flag-header {
-  width: 3.4em;
-}
-
-.detailed-result-flag-column {
-  text-align: center;
 }
 
 .negotiate-button {

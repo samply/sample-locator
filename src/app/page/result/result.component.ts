@@ -75,12 +75,6 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription> = [];
 
-  resultColumns = [
-    {field: 'site', header: 'Biobank'},
-    {field: 'donor', header: 'Donors'},
-    {field: 'sample', header: 'Samples'}
-  ];
-
   ngOnInit(): void {
     this.slStorageService.setAppTargetRoute('result');
     this.queryProviderService.restoreQuery();
