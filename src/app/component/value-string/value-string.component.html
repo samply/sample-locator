@@ -6,6 +6,7 @@
          [value]="value"
          (change)="onChange($event.target.value)"
          (blur)="onTouched()"
+         [disabled]="disabled"
          placeholder="{{placeholderText}}"
          class="value-container-input"
          type="text">

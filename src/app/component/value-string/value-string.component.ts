@@ -24,6 +24,8 @@ export class ValueStringComponent implements ControlValueAccessor {
   onTouched = (() => {
   });
 
+  disabled = false;
+
   writeValue(value: string): void {
     this.value = value;
   }
@@ -37,5 +39,6 @@ export class ValueStringComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 }
