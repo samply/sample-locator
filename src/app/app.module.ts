@@ -38,6 +38,8 @@ import {TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
 import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
+import { ValueStringComponent } from './component/value-string/value-string.component';
+import { ValueNumberComponent } from './component/value-number/value-number.component';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -87,6 +89,8 @@ export const BbmriBreakPointsProvider = {
     RestoreComponent,
     SamplyButtonComponent,
     SamplyButtonSmallComponent,
+    ValueStringComponent,
+    ValueNumberComponent,
   ],
   imports: [
     BrowserModule,

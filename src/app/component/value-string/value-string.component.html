@@ -1,0 +1,12 @@
+<div fxFlex="1 0 10em"
+     fxFlex.lt-md="1 1 100%">
+
+  <!--suppress HtmlFormInputWithoutLabel -->
+  <input pInputText
+         [value]="value"
+         (change)="onChange($event.target.value)"
+         (blur)="onTouched()"
+         placeholder="{{placeholderText}}"
+         class="value-container-input"
+         type="text">
+</div>
