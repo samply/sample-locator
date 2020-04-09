@@ -70,3 +70,21 @@ h3 {
 :host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
   color: white;
 }
+
+::ng-deep .ui-tooltip .ui-tooltip-arrow {
+  border-bottom-color: $background-gray !important;
+}
+
+::ng-deep .ui-tooltip .ui-tooltip-text {
+  background-color: $background-gray !important;
+  color: white !important;
+}
+
+::ng-deep .ui-tooltip {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  //noinspection CssUnknownProperty
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
+}

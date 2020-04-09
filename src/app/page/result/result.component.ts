@@ -3,8 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
-import {faBuilding, faEdit, faPaperPlane, faTimes, faUser, faVial} from '@fortawesome/free-solid-svg-icons';
-import {faCheckSquare, faSquare, faHandshake} from '@fortawesome/free-regular-svg-icons';
+import {faEdit, faPaperPlane, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
@@ -18,10 +17,9 @@ import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
-import {NegotiatorService} from '../../service/negotiator.service';
 
 @Component({
-  selector: 'app-simple-result',
+  selector: 'app-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
@@ -35,8 +33,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     private queryProviderService: QueryProviderService,
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
-    private router: Router,
-    private negotiatorService: NegotiatorService
+    private router: Router
   ) {
   }
 
@@ -49,20 +46,14 @@ export class ResultComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
-  faSample = faVial;
-  faDonor = faUser;
-  faBiobank = faBuilding;
-  faCheckSquare = faCheckSquare;
-  faSquare = faSquare;
-  faNegotiator = faHandshake;
 
   detailedResult: Array<ReplySiteDto> = [];
 
   sumDonors = 0;
   sumSamples = 0;
   biobanksAnswered = 0;
-  limitBiobanksAnswered = 0;
 
+  limitBiobanksAnswered = 0;
   elapsedPercentage = 0;
   showProcessingBar = true;
 
@@ -70,8 +61,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
   private nToken: string;
-
-  negotiateFlags: Map<string, boolean> = new Map();
 
   private subscriptions: Array<Subscription> = [];
 
@@ -233,47 +222,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   resetQuery() {
     this.queryProviderService.resetQuery();
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
-  }
-
-  navigateToNegotiator() {
-    if (!this.isAnyNegotiateFlagChecked()) {
-      return;
-    }
-
-    const sites: Array<string> = [];
-    for (const key of this.negotiateFlags.keys()) {
-      if (this.negotiateFlags.get(key)) {
-        sites.push(key);
-      }
-    }
-
-    this.negotiatorService.redirectToNegotiator(sites);
-  }
-
-  getNegotiatorButtonClass() {
-    return this.isAnyNegotiateFlagChecked() ? 'negotiate-button' : 'negotiate-button negotiate-button-inactive';
-  }
-
-  getNegotiateIcon(site: string): any {
-    return (this.negotiateFlags.has(site) && this.negotiateFlags.get(site)) ? this.faCheckSquare : this.faSquare;
-  }
-
-  toggleNegotiateFlag(site: string): void {
-    if (this.negotiateFlags.has(site)) {
-      this.negotiateFlags.set(site, !this.negotiateFlags.get(site));
-    } else {
-      this.negotiateFlags.set(site, true);
-    }
-  }
-
-  private isAnyNegotiateFlagChecked() {
-    for (const site of this.negotiateFlags.keys()) {
-      if (this.negotiateFlags.get(site)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   // noinspection JSMethodCanBeStatic

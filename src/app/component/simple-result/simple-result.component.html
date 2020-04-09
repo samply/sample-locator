@@ -1,0 +1,45 @@
+<div fxLayout="row wrap" fxLayoutAlign="center"
+     fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
+  <div fxFlex="0 0 33.3%"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of biobanks">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
+    </div>
+    <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+  <div fxFlex="0 0 33.3%"
+       fxFlex.lt-md="0 0 100%"
+       fxLayout="row wrap"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of donors">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faDonor" size="lg"></fa-icon>
+    </div>
+    <div fxFlex="0 0 70%" class="align-right">{{sumDonors}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+  <div fxFlex="0 0 33.3%"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of samples">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faSample" size="lg"></fa-icon>
+    </div>
+    <div fxFlex="0 0 70%" class="align-right">{{sumSamples}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+</div>
+
+<div *ngIf="!userService.getLoginValid()"
+     fxLayout="row"
+     fxLayoutAlign="center space-around"
+     (click)="userService.login()"
+     class="result-detail-button-wrapper">
+  <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span>
+</div>

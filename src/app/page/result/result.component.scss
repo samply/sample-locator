@@ -10,12 +10,6 @@
   }
 }
 
-.result-table-row {
-  padding: .5em;
-
-  border: solid 1px $background-dark;
-}
-
 .result-item {
   margin: 2em 0;
 }
@@ -23,40 +17,6 @@
 .result-progressbar {
   min-height: 3em;
   margin: 2em 0;
-}
-
-.small-table-margin-title {
-  margin: 1em 0 0 0;
-}
-
-.small-table-margin {
-  margin: .25em 0 0 0;
-}
-
-.result-detail-button-wrapper {
-  margin: 0 0 2em 0;
-}
-
-.result-detail-button {
-  display: inline-block;
-  height: 40px;
-
-  padding: .5em 1em;
-
-  background: $background-dark;
-  color: white;
-
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-
-  cursor: pointer;
-}
-
-.result-detail-button:hover {
-  background-color: $background-dark-semi;
 }
 
 :host ::ng-deep .ui-progressbar-value {
@@ -70,43 +30,6 @@
   //noinspection CssUnknownProperty
   -ms-transition: all 0s 0s;
   transition: all 0s 0s;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.negotiate-button {
-  display: inline-block;
-  height: 40px;
-  min-width: 13em;
-
-  padding: 0.5em 2.7em 0.5em 1em;
-  margin: 2em .6em;
-
-  text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-
-  background: $background-dark;
-  color: white;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-}
-
-.negotiate-button:hover {
-  background: $background-dark-semi;
-}
-
-.negotiate-button-inactive {
-  background-color: $background-dark-semi;
-}
-
-.negotiate-button fa-icon {
-  margin: 0 1em 0 0;
 }
 
 .disclaimer {
