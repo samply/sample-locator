@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faBuilding, faUser, faVial} from '@fortawesome/free-solid-svg-icons';
-import {faCheckSquare, faHandshake, faSquare} from '@fortawesome/free-regular-svg-icons';
+import {faHandshake} from '@fortawesome/free-regular-svg-icons';
 import {ReplySiteDto} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
 
@@ -11,11 +10,6 @@ import {NegotiatorService} from '../../service/negotiator.service';
 })
 export class DetailedResultComponent implements OnInit {
 
-  faSample = faVial;
-  faDonor = faUser;
-  faBiobank = faBuilding;
-  faCheckSquare = faCheckSquare;
-  faSquare = faSquare;
   faNegotiator = faHandshake;
 
   @Input()
@@ -59,8 +53,8 @@ export class DetailedResultComponent implements OnInit {
     return this.isAnyNegotiateFlagChecked() ? 'negotiate-button' : 'negotiate-button negotiate-button-inactive';
   }
 
-  getNegotiateIcon(site: string): any {
-    return (this.negotiateFlags.has(site) && this.negotiateFlags.get(site)) ? this.faCheckSquare : this.faSquare;
+  getNegotiateFlag(site: string): boolean {
+    return this.negotiateFlags.has(site) && this.negotiateFlags.get(site);
   }
 
   toggleNegotiateFlag(site: string): void {

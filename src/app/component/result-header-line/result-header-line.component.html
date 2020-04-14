@@ -1,0 +1,64 @@
+<div fxLayout="row wrap" fxLayoutAlign="center"
+     fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
+  <!--suppress HtmlUnknownAttribute -->
+  <div fxFlex="0 0 11%"
+       fxShow="{{isDetailedResult}}"
+       fxShow.lt-md="false"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Include in negotiation">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
+    </div>
+  </div>
+
+  <div fxFlex="{{isDetailedResult ? '0 0 30%' : '0 0 33.3%'}}"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of biobanks">
+    <div fxShow="true"
+         fxShow.lt-md="{{!isDetailedResult}}"
+         fxFlex="1 1 40%">
+      <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
+    </div>
+    <div fxShow="false"
+         fxShow.lt-md="{{isDetailedResult}}"
+         fxFlex="1 1 40%">
+      All biobanks
+    </div>
+    <div fxFlex="0 0 50%" class="align-right">{{biobanksAnswered}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+
+  <div fxFlex="{{isDetailedResult ? '0 0 29%' : '0 0 33.3%'}}"
+       fxFlex.lt-md="0 0 100%"
+       fxLayout="row wrap"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of donors">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faDonor" size="lg"></fa-icon>
+    </div>
+    <div fxFlex="0 0 70%" class="align-right">{{sumDonors}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+
+  <div fxFlex="{{isDetailedResult ? '0 0 30%' : '0 0 33.3%'}}"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Number of samples">
+    <div fxFlex="1 1 20%">
+      <fa-icon [icon]="faSample" size="lg"></fa-icon>
+    </div>
+    <div fxFlex="0 0 70%" class="align-right">{{sumSamples}}</div>
+    <div fxFlex="0 0 10%"></div>
+  </div>
+
+  <div fxFlex="0 0 100%"
+       fxShow="false"
+       fxShow.lt-md="true"
+       class="small-table-margin-title">
+  </div>
+</div>

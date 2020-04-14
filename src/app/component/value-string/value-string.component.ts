@@ -19,7 +19,8 @@ export class ValueStringComponent implements ControlValueAccessor {
   placeholderText: '';
 
   value = '';
-  onChange = (() => {
+  // noinspection JSUnusedLocalSymbols
+  onChange = ((arg: any) => {
   });
   onTouched = (() => {
   });

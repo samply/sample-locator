@@ -41,7 +41,9 @@ import {SamplyButtonSmallComponent} from './component/samply-button-small/samply
 import {ValueStringComponent} from './component/value-string/value-string.component';
 import {ValueNumberComponent} from './component/value-number/value-number.component';
 import {SimpleResultComponent} from './component/simple-result/simple-result.component';
-import { DetailedResultComponent } from './component/detailed-result/detailed-result.component';
+import {DetailedResultComponent} from './component/detailed-result/detailed-result.component';
+import {ResultLineComponent} from './component/result-line/result-line.component';
+import {ResultHeaderLineComponent} from './component/result-header-line/result-header-line.component';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -95,6 +97,8 @@ export const BbmriBreakPointsProvider = {
     ValueNumberComponent,
     SimpleResultComponent,
     DetailedResultComponent,
+    ResultLineComponent,
+    ResultHeaderLineComponent,
   ],
   imports: [
     BrowserModule,

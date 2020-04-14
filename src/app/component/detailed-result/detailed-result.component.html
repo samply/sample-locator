@@ -1,115 +1,13 @@
 <div>
-  <div fxLayout="row wrap" fxLayoutAlign="center"
-       fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
-    <!--suppress HtmlUnknownAttribute -->
-    <div fxFlex="0 0 11%"
-         fxShow.lt-md="false"
-         class="result-table-row"
-         tooltipPosition="bottom"
-         pTooltip="Include in negotiation">
-      <div fxFlex="1 1 20%">
-        <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
-      </div>
-    </div>
-    <div fxFlex="0 0 30%"
-         fxFlex.lt-md="0 0 100%"
-         class="result-table-row"
-         tooltipPosition="bottom"
-         pTooltip="Number of biobanks">
-      <div fxFlex="1 1 20%">
-        <fa-icon [icon]="faBiobank" size="lg"></fa-icon>
-      </div>
-      <div fxFlex="0 0 70%" class="align-right">{{biobanksAnswered}}</div>
-      <div fxFlex="0 0 10%"></div>
-    </div>
-    <div fxFlex="0 0 29%"
-         fxFlex.lt-md="0 0 100%"
-         fxLayout="row wrap"
-         class="result-table-row"
-         tooltipPosition="bottom"
-         pTooltip="Number of donors">
-      <div fxFlex="1 1 20%">
-        <fa-icon [icon]="faDonor" size="lg"></fa-icon>
-      </div>
-      <div fxFlex="0 0 70%" class="align-right">{{sumDonors}}</div>
-      <div fxFlex="0 0 10%"></div>
-    </div>
-    <div fxFlex="0 0 30%"
-         fxFlex.lt-md="0 0 100%"
-         class="result-table-row"
-         tooltipPosition="bottom"
-         pTooltip="Number of samples">
-      <div fxFlex="1 1 20%">
-        <fa-icon [icon]="faSample" size="lg"></fa-icon>
-      </div>
-      <div fxFlex="0 0 70%" class="align-right">{{sumSamples}}</div>
-      <div fxFlex="0 0 10%"></div>
-    </div>
+  <app-result-header-line [isDetailedResult]="true"
+                          [biobanksAnswered]="biobanksAnswered"
+                          [sumDonors]="sumDonors"
+                          [sumSamples]="sumSamples"></app-result-header-line>
 
-    <div fxFlex="0 0 100%"
-         fxShow="false"
-         fxShow.lt-md="true"
-         class="small-table-margin-title">
-    </div>
-  </div>
-
-  <div *ngFor="let reply of detailedResult"
-       fxLayout="row wrap" fxLayoutAlign="center"
-       fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
-    <div fxFlex="0 0 100%"
-         fxShow="false"
-         fxShow.lt-md="true"
-         class="small-table-margin">
-    </div>
-    <!--suppress HtmlUnknownAttribute -->
-    <div fxFlex="0 0 11%"
-         fxShow.lt-md="false"
-         class="result-table-row"
-         tooltipPosition="bottom"
-         pTooltip="Include in negotiation">
-      <div fxFlex="1 1 20%" (click)="toggleNegotiateFlag(reply.site)">
-        <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
-      </div>
-    </div>
-    <div fxFlex="0 0 30%"
-         fxFlex.lt-md="0 0 100%"
-         class="result-table-row">
-      <div fxShow="true"
-           fxShow.lt-md="false">
-        {{reply['site']}}
-      </div>
-      <div fxShow="false"
-           fxShow.lt-md="true"
-           fxLayoutAlign="space-between">
-        <div fxFlex="1 0 75%">{{reply['site']}}</div>
-        <div fxFlex="1 0 10%"
-             (click)="toggleNegotiateFlag(reply.site)">
-          <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
-        </div>
-        <div fxFlex="1 0 10%"
-             (click)="toggleNegotiateFlag(reply.site)">
-          <fa-icon [icon]="getNegotiateIcon(reply.site)" size="lg"></fa-icon>
-        </div>
-        <div fxFlex="1 0 5%"
-             (click)="toggleNegotiateFlag(reply.site)">
-        </div>
-      </div>
-    </div>
-    <div fxFlex="0 0 29%"
-         fxFlex.lt-md="0 0 100%"
-         class="result-table-row"
-         fxLayout="row"
-         fxLayoutAlign="start">
-      <div fxFlex="0 0 90%" class="align-right">{{reply['donor']}}</div>
-    </div>
-    <div fxFlex="0 0 30%"
-         fxFlex.lt-md="0 0 100%"
-         class="result-table-row"
-         fxLayout="row"
-         fxLayoutAlign="start">
-      <div fxFlex="0 0 90%" class="align-right">{{reply['sample']}}</div>
-    </div>
-  </div>
+  <app-result-line *ngFor="let reply of detailedResult"
+                   (toggleNegFlag)="toggleNegotiateFlag(reply.site)"
+                   [reply]="reply"
+                   [negFlag]="getNegotiateFlag(reply.site)"></app-result-line>
 
   <div class="disclaimer">
     The result of your query represents only potentially available biosamples and data. Further information

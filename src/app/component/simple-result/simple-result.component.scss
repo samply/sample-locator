@@ -1,11 +1,5 @@
 @import "../../../_variables.scss";
 
-.result-table-row {
-  padding: .5em;
-
-  border: solid 1px $background-dark;
-}
-
 .result-detail-button-wrapper {
   margin: 2em 0;
 }
@@ -30,8 +24,4 @@
 
 .result-detail-button:hover {
   background-color: $background-dark-semi;
-}
-
-.align-right {
-  text-align: right;
 }
