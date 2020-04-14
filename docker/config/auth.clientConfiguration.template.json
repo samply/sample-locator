@@ -1,0 +1,17 @@
+{
+  "stsServer": "${AUTH_HOST}/oidc",
+  "redirect_url": "${SAMPLELOCATOR_URL}",
+  "client_id": "${AUTH_CLIENT_ID}",
+  "response_type": "id_token token",
+  "scope": "openid email profile phone groupNames offline_access",
+  "start_checksession": true,
+  "silent_renew": false,
+  "silent_renew_url": "${SAMPLELOCATOR_URL}/silent-renew.html",
+  "post_login_route": "/authorized",
+  "forbidden_route": "/forbidden",
+  "unauthorized_route": "/unauthorized",
+  "log_console_warning_active": true,
+  "log_console_debug_active": false,
+  "disable_iat_offset_validation": true,
+  "max_id_token_iat_offset_allowed_in_seconds": 150
+}

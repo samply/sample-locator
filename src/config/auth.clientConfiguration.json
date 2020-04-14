@@ -1,0 +1,17 @@
+{
+  "stsServer": "https://login.bbmri-eric.eu/oidc",
+  "redirect_url": "http://localhost:8085",
+  "client_id": "88ad6e4f-af9b-430a-8884-394e29cd10c1",
+  "response_type": "id_token token",
+  "scope": "openid email profile phone groupNames offline_access",
+  "start_checksession": true,
+  "silent_renew": false,
+  "silent_renew_url": "http://localhost:8085/silent-renew.html",
+  "post_login_route": "/authorized",
+  "forbidden_route": "/forbidden",
+  "unauthorized_route": "/unauthorized",
+  "log_console_warning_active": true,
+  "log_console_debug_active": true,
+  "disable_iat_offset_validation": true,
+  "max_id_token_iat_offset_allowed_in_seconds": 150
+}

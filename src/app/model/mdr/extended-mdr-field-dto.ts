@@ -11,8 +11,8 @@ export interface ExtendedMdrFieldDto {
 }
 
 export interface PermittedValue {
-  mdrKey: string;
-  mdrDesignation: string;
+  label: string;
+  value: string;
 }
 
 export enum MdrEntity {

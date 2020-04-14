@@ -1,0 +1,90 @@
+@import "../../../_variables.scss";
+
+h3 {
+  font-weight: normal;
+}
+
+.field-container {
+  margin: .8em 0;
+}
+
+.field-name {
+  padding: .3em 0 0 0;
+}
+
+.value-container-input {
+  width: 100%;
+}
+
+:host ::ng-deep .value-container .ui-dropdown {
+  // Hack, to reduce maximal width. However the actual width will be larger than 1em
+  max-width: 1em;
+}
+
+.add-field-wrapper {
+  margin: 0 .5em;
+}
+
+:host ::ng-deep .add-field,
+:host ::ng-deep .add-field .ui-inputtext,
+:host ::ng-deep .add-field .ui-dropdown-label {
+  display: inline-block;
+  height: 40px;
+  min-width: 150px;
+  width: 150px;
+  background: $background-dark;
+  color: white;
+
+  font-family: 'Titillium Web', sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  border: solid 0;
+  border-radius: 0;
+}
+
+:host ::ng-deep .add-field .add-field-disabled:not {
+  cursor: pointer;
+}
+
+:host ::ng-deep .add-field .ui-dropdown-trigger {
+  background-color: $background-dark;
+  color: white;
+}
+
+:host ::ng-deep .add-field .ui-dropdown-label {
+  padding: .5em 0;
+}
+
+:host ::ng-deep .add-field .ui-dropdown-label:hover {
+  background: $background-gray;
+}
+
+:host ::ng-deep .add-field-panel {
+  background-color: $background-gray-light;
+}
+
+:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
+  color: white;
+}
+
+::ng-deep .ui-tooltip .ui-tooltip-arrow {
+  border-bottom-color: $background-gray !important;
+}
+
+::ng-deep .ui-tooltip .ui-tooltip-text {
+  background-color: $background-gray !important;
+  color: white !important;
+}
+
+::ng-deep .ui-tooltip {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  //noinspection CssUnknownProperty
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
+}

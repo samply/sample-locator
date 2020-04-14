@@ -1,0 +1,26 @@
+<div>
+  <app-result-header-line [isDetailedResult]="true"
+                          [biobanksAnswered]="biobanksAnswered"
+                          [sumDonors]="sumDonors"
+                          [sumSamples]="sumSamples"></app-result-header-line>
+
+  <app-result-line *ngFor="let reply of detailedResult"
+                   (toggleNegFlag)="toggleNegotiateFlag(reply.site)"
+                   [reply]="reply"
+                   [negFlag]="getNegotiateFlag(reply.site)"></app-result-line>
+
+  <div class="disclaimer">
+    The result of your query represents only potentially available biosamples and data. Further information
+    regarding access can be retrieved by direct communication with the respective biobanks activating the
+    checkboxes and clicking the "Negotiate" button.
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center">
+  <div (click)="navigateToNegotiator()"
+       [ngClass]="getNegotiatorButtonClass()">
+    <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
+    <span>Negotiate</span>
+  </div>
+</div>
+

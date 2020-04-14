@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ExternalUrlService} from '../../service/external-url.service';
-import {UserBeanService} from '../../service/user-bean.service';
+import {UserService} from '../../service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public externalUrlService: ExternalUrlService,
-    public userService: UserBeanService) {
+    public userService: UserService) {
   }
 
   ngOnInit(): void {

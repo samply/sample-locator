@@ -1,14 +1,16 @@
+@import "../../../_variables.scss";
+
 .cookie-banner-container {
   padding: 15px;
   margin-bottom: 20px;
 
-  background: #F0F3F4;
+  background: $background-light;
 }
 
 .cookie-banner {
   width: 100%;
 
-  color: #304757;
+  color: $color-dark;
 
   font-size: smaller;
   text-align: center;
@@ -23,8 +25,8 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 
-  color: #fff;
-  background: #172B49;
+  color: white;
+  background: $background-dark;
 
   cursor: pointer;
 }

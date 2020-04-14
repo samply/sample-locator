@@ -1,26 +1,26 @@
 export interface EssentialQueryDto {
-  fields: Array<EssentialSimpleFieldDto>;
+  fieldDtos: Array<EssentialSimpleFieldDto>;
 }
 
 export interface EssentialSimpleFieldDto {
   urn: string;
   valueType: EssentialValueType;
-  values: Array<EssentialSimpleValueDto>;
+  valueDtos: Array<EssentialSimpleValueDto>;
 }
 
 export enum EssentialValueType {
   STRING = 'STRING',
   INTEGER = 'INTEGER',
-  FLOAT = 'FLOAT',
+  DECIMAL = 'DECIMAL',
   DATE = 'DATE',
   DATETIME = 'DATETIME',
-  ENUMERATED = 'ENUMERATED'
+  PERMITTEDVALUE = 'PERMITTEDVALUE'
 }
 
 export interface EssentialSimpleValueDto {
+  condition: SimpleValueOperator;
   value: string;
   maxValue: string;
-  operator: SimpleValueOperator;
 }
 
 export enum SimpleValueOperator {

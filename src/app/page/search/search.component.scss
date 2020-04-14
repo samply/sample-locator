@@ -1,3 +1,15 @@
-.header-space {
-  margin-top: 160px;
+@import "../../../_variables.scss";
+
+h2 {
+  font-weight: normal;
+}
+
+.divider {
+  background-color: $background-light;
+  width: 2px;
+  margin: 0 1em;
+}
+
+.margin-action-buttons {
+  margin: 1.5em 0;
 }

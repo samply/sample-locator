@@ -1,0 +1,15 @@
+@import "../../../_variables.scss";
+
+.result-table-row {
+  padding: .5em;
+
+  border: solid 1px $background-dark;
+}
+
+.small-table-margin {
+  margin: .25em 0 0 0;
+}
+
+.align-right {
+  text-align: right;
+}

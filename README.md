@@ -4,24 +4,48 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:8085/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+## Run ([Docker](#docker))
+#### Docker
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    docker network create gba
+    
+    ng build --prod
+    
+    docker build -t sample-locator .
 
-## Running end-to-end tests
+    docker run 
+        --rm 
+        --name=searchbroker-ui 
+        --network=gba 
+        -p 8085:80 
+        -e SEARCHBROKER_URL="http://localhost:8080" 
+        -e SAMPLELOCATOR_URL="http://localhost:8085" 
+        -e NEGOTIATOR_URL="https://negotiator.bbmri-eric.eu" 
+        -e AUTH_HOST="https://login.bbmri-eric.eu" 
+        -e AUTH_CLIENT_ID="88ad6e4f-af9b-430a-8884-394e29cd10c1" 
+        -e MDR_API_URL="http://mdr.test.germanbiobanknode.de/v3/api/mdr" 
+        -e MDR_NAMESPACE="mdr16" 
+        -e MDR_LANGUAGE="en" 
+        -e MDR_MAPPING="[{\"nameOfEnum\": \"DONOR\",\"urn\": \"urn:mdr16:dataelementgroup:5:1\"},{\"nameOfEnum\": \"SAMPLE\",\"urn\": \"urn:mdr16:dataelementgroup:3:1\"},{\"nameOfEnum\": \"EVENT\", \"urn\": \"urn:mdr16:dataelementgroup:6:1\"}]" 
+        -e MDR_FIELD_PROPERTIES="[{\"urn\": \"urn:mdr16:dataelement:29:1\",\"placeholder\": \"\",\"unit\": \"kg\"},{\"urn\": \"urn:mdr16:dataelement:30:1\",\"placeholder\": \"\",\"unit\": \"cm\"},{\"urn\": \"urn:mdr16:dataelement:28:1\",\"placeholder\": \"\",\"unit\": \"years\"},{\"urn\": \"urn:mdr16:dataelement:14:1\",\"placeholder\": \"\",\"unit\": \"years\"},{\"urn\": \"urn:mdr16:dataelement:27:1\",\"placeholder\": \"e.g. C25.1\",\"unit\": \"\"}]" 
+        -e MDR_HIDDEN="[\"urn:mdr16:dataelement:1:1\",\"urn:mdr16:dataelement:25:1\",\"urn:mdr16:dataelement:34:1\",\"urn:mdr16:dataelement:18:1\",\"urn:mdr16:dataelement:11:1\",\"urn:mdr16:dataelement:19:1\",\"urn:mdr16:dataelement:30:1\",\"urn:mdr16:dataelement:4:1\",\"urn:mdr16:dataelement:21:1\",\"urn:mdr16:dataelement:22:1\",\"urn:mdr16:dataelement:24:1\",\"urn:mdr16:dataelement:13:1\"]" 
+        -e MOLGENIS_USERNAME="your_molgenis_username" 
+        -e MOLGENIS_PASSWORD="your_molgenis_password" 
+        searchbroker-ui:latest
+        
+ ## License
+        
+ Copyright 2020 The Samply Development Community
+        
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+        
+ http://www.apache.org/licenses/LICENSE-2.0
+        
+ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
