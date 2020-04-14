@@ -67,7 +67,7 @@
         </div>
 
         <div class="result-progressbar">
-          <div *ngIf="showProcessingBar">
+          <div *ngIf="showProcessingBar && !userService.getLoginValid()">
             <p-progressBar [value]="elapsedPercentage"
                            [showValue]="false"
                            [style]="{'height': '6px'}"></p-progressBar>
