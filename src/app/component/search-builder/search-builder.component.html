@@ -11,7 +11,9 @@
              fxLayoutAlign="space-between start"
              fxLayout.lt-md="column"
              fxLayoutAlign.lt-md="none">
-          <div class="field-name">{{extendedField.name}} <span *ngIf="extendedField.unit">({{extendedField.unit}})</span></div>
+          <div class="field-name">{{extendedField.name}}
+            <span *ngIf="extendedField.unit">({{extendedField.unit}})</span>
+          </div>
 
 
           <div formArrayName="values"
@@ -38,47 +40,15 @@
                   <div fxFlex="0 0 13em"
                        fxFlex.lt-md="1 1 100%">
                     <!-- STRING -->
-                    <div *ngIf="field.valueType === 'STRING'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="value"
-                             (change)="changeValue(i, j)"
-                             pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                             class="value-container-input"
-                             type="text">
-                    </div>
-
-                    <!-- INTEGER -->
-                    <div *ngIf="field.valueType === 'INTEGER'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="value"
-                             (change)="changeValue(i, j)"
-                             pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                             class="value-container-input"
-                             type="number">
-                    </div>
-
-                    <!-- DECIMAL -->
-                    <div *ngIf="field.valueType === 'DECIMAL'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="value"
-                             (change)="changeValue(i, j)"
-                             pInputText
-                             placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                             class="value-container-input"
-                             type="number">
-                    </div>
-
+                    <app-value-string *ngIf="field.valueType === 'STRING'"
+                                      formControlName="value"
+                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                      (change)="changeValue(i, j)"></app-value-string>
+                    <!-- INTEGER and DECIMAL -->
+                    <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
+                                      formControlName="value"
+                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                      (change)="changeValue(i, j)"></app-value-number>
                     <!-- PERMITTEDVALUE -->
                     <div *ngIf="field.valueType === 'PERMITTEDVALUE'"
                          fxFlex="1 0 10em"
@@ -130,93 +100,34 @@
                   <div fxFlex="0 0 2.5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
-                    <div class="samply-button-small"
-                         [ngClass]="{ 'samply-button-small-disabled': disabled }"
-                         (click)="deleteValue(i, j)">
-                      <fa-icon [icon]="faMinus" size="lg" class="fa-icon-times"></fa-icon>
-                      <span></span>
-                    </div>
+                    <app-samply-button-small [active]="!disabled"
+                                             [imageIcon]="faMinus"
+                                             (click)="deleteValue(i, j)"></app-samply-button-small>
                   </div>
                 </div>
 
                 <!-- ----------------- -->
                 <!-- Row for max value -->
                 <!-- ----------------- -->
-                <div fxLayout="row"
+                <div *ngIf="value.condition === 'BETWEEN'"
+                     fxLayout="row"
                      fxLayoutAlign="space-between center">
                   <div fxFlex="0 0 4em"></div>
 
                   <div fxFlex="0 0 13em"
                        fxFlex.lt-md="1 1 100%">
 
-                    <!-- STRING -->
-                    <div *ngIf="field.valueType === 'STRING'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="maxValue"
-                             *ngIf="value.condition === 'BETWEEN'"
-                             (change)="changeMaxValue(i, j)"
-                             pInputText
-                             placeholder="Max."
-                             class="value-container-input"
-                             type="text">
-                    </div>
-
-                    <!-- INTEGER -->
-                    <div *ngIf="field.valueType === 'INTEGER'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="maxValue"
-                             *ngIf="value.condition === 'BETWEEN'"
-                             (change)="changeMaxValue(i, j)"
-                             pInputText
-                             placeholder="Max."
-                             class="value-container-input"
-                             type="number">
-                    </div>
-
-                    <!-- DECIMAL -->
-                    <div *ngIf="field.valueType === 'DECIMAL'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <!--suppress HtmlFormInputWithoutLabel -->
-                      <input formControlName="maxValue"
-                             *ngIf="value.condition === 'BETWEEN'"
-                             (change)="changeMaxValue(i, j)"
-                             pInputText
-                             placeholder="Max."
-                             class="value-container-input"
-                             type="number">
-                    </div>
-
-                    <!-- PERMITTEDVALUE -->
-                    <div *ngIf="field.valueType === 'PERMITTEDVALUE'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <p-dropdown formControlName="maxValue"
-                                  *ngIf="value.condition === 'BETWEEN'"
-                                  [options]="permittedValuesMap.get(field)"
-                                  (select)="changeMaxValue(i, j)"
-                                  (onChange)="changeMaxValue(i, j)"
-                                  placeholder="Max."
-                                  tooltip="{{getDropdownTooltip(extendedField, value.maxValue)}}"
-                                  [style]="{ 'minWidth': '100%', 'width': '100%'}">
-                      </p-dropdown>
-                    </div>
-
+                    <!-- INTEGER and DECIMAL -->
+                    <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
+                                      formControlName="maxValue"
+                                      placeholderText="Max."
+                                      (change)="changeMaxValue(i, j)"></app-value-number>
                     <!-- DATE -->
                     <div *ngIf="field.valueType === 'DATE'"
                          fxFlex="1 0 10em"
                          fxFlex.lt-md="1 1 100%">
 
                       <p-calendar formControlName="maxValue"
-                                  *ngIf="value.condition === 'BETWEEN'"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
                                   placeholder="Max."
@@ -231,7 +142,6 @@
                          fxFlex.lt-md="1 1 100%">
 
                       <p-calendar formControlName="maxValue"
-                                  *ngIf="value.condition === 'BETWEEN'"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
                                   placeholder="Max."
@@ -241,7 +151,6 @@
                                   [inputStyle]="{ 'width': '100%'}"
                                   [style]="{ 'width': '100%'}"></p-calendar>
                     </div>
-
                   </div>
 
                   <div fxFlex="0 0 2.5em"></div>
@@ -265,12 +174,8 @@
               <div fxFlex="0 0 2.5em"
                    fxLayout="row"
                    fxLayoutAlign="start center">
-                <div class="samply-button-small"
-                     [ngClass]="{ 'samply-button-small-disabled': disabled }"
-                     (click)="addValue(i)">
-                  <fa-icon [icon]="faPlus" size="lg" class="fa-icon-times"></fa-icon>
-                  <span></span>
-                </div>
+                <app-samply-button-small [active]="!disabled" [imageIcon]="faPlus"
+                                         (click)="addValue(i)"></app-samply-button-small>
               </div>
 
             </div>

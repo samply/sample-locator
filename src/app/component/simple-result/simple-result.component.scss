@@ -1,0 +1,27 @@
+@import "../../../_variables.scss";
+
+.result-detail-button-wrapper {
+  margin: 2em 0;
+}
+
+.result-detail-button {
+  display: inline-block;
+  height: 40px;
+
+  padding: .5em 1em;
+
+  background: $background-dark;
+  color: white;
+
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.result-detail-button:hover {
+  background-color: $background-dark-semi;
+}

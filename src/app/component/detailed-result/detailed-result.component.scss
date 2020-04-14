@@ -1,0 +1,40 @@
+@import "../../../_variables.scss";
+
+.disclaimer {
+  font-size: 0.8em;
+  margin: 1em 0;
+  padding: 0 10px;
+}
+
+.negotiate-button {
+  display: inline-block;
+  height: 40px;
+  min-width: 13em;
+
+  padding: 0.5em 2.7em 0.5em 1em;
+  margin: 2em .6em;
+
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  background: $background-dark;
+  color: white;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.negotiate-button:hover {
+  background: $background-dark-semi;
+}
+
+.negotiate-button-inactive {
+  background-color: $background-dark-semi;
+}
+
+.negotiate-button fa-icon {
+  margin: 0 1em 0 0;
+}

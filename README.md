@@ -17,7 +17,7 @@ Run `ng build --prod` to build the project. The build artifacts will be stored i
     
     ng build --prod
     
-    docker build -t searchbroker-ui .
+    docker build -t sample-locator .
 
     docker run 
         --rm 

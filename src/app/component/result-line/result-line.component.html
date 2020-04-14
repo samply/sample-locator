@@ -1,0 +1,85 @@
+<div *ngIf="reply"
+     fxLayout="row wrap" fxLayoutAlign="center"
+     fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch">
+  <div fxFlex="0 0 100%"
+       fxShow="false"
+       fxShow.lt-md="true"
+       class="small-table-margin">
+  </div>
+
+  <!-- NEGOTIATE column -->
+  <!--suppress HtmlUnknownAttribute -->
+  <div fxFlex="0 0 11%"
+       fxShow.lt-md="false"
+       class="result-table-row"
+       tooltipPosition="bottom"
+       pTooltip="Include in negotiation">
+    <div fxFlex="1 1 20%" (click)="toggleNegotiateFlag()">
+      <fa-icon [icon]="getNegotiateIcon()" size="lg"></fa-icon>
+    </div>
+  </div>
+
+  <!-- BANK column (including NEGOTIATE column for small design) -->
+  <div fxFlex="0 0 30%"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row">
+    <div fxShow="true"
+         fxShow.lt-md="false">
+      {{reply['site']}}
+    </div>
+    <div fxShow="false"
+         fxShow.lt-md="true"
+         fxLayoutAlign="space-between">
+      <div fxFlex="1 0 75%">{{reply['site']}}</div>
+      <div fxFlex="1 0 10%"
+           (click)="toggleNegotiateFlag()">
+        <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
+      </div>
+      <div fxFlex="1 0 10%"
+           (click)="toggleNegotiateFlag()">
+        <fa-icon [icon]="getNegotiateIcon()" size="lg"></fa-icon>
+      </div>
+      <div fxFlex="1 0 5%"
+           (click)="toggleNegotiateFlag()">
+      </div>
+    </div>
+  </div>
+
+  <!-- DONOR column -->
+  <div fxFlex="0 0 29%"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       fxLayout="row"
+       fxLayoutAlign="start">
+    <div fxShow="true" fxShow.lt-md="false"
+         fxFlex="0 0 90%" class="align-right">{{reply['donor']}}
+    </div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="1 1 20%">
+      <fa-icon [icon]="faDonor" size="lg"></fa-icon>
+    </div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="0 0 70%" class="align-right">{{reply['donor']}}</div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="0 0 10%"></div>
+  </div>
+
+  <!-- SAMPLE column -->
+  <div fxFlex="0 0 30%"
+       fxFlex.lt-md="0 0 100%"
+       class="result-table-row"
+       fxLayout="row"
+       fxLayoutAlign="start">
+    <div fxShow="true" fxShow.lt-md="false"
+         fxFlex="0 0 90%" class="align-right">{{reply['sample']}}
+    </div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="1 1 20%">
+      <fa-icon [icon]="faSample" size="lg"></fa-icon>
+    </div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="0 0 70%" class="align-right">{{reply['sample']}}</div>
+    <div fxShow="false" fxShow.lt-md="true"
+         fxFlex="0 0 10%"></div>
+  </div>
+</div>

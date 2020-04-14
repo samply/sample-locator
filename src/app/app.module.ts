@@ -36,6 +36,14 @@ import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/una
 import {RestoreComponent} from './page/restore/restore.component';
 import {TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
+import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
+import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
+import {ValueStringComponent} from './component/value-string/value-string.component';
+import {ValueNumberComponent} from './component/value-number/value-number.component';
+import {SimpleResultComponent} from './component/simple-result/simple-result.component';
+import {DetailedResultComponent} from './component/detailed-result/detailed-result.component';
+import {ResultLineComponent} from './component/result-line/result-line.component';
+import {ResultHeaderLineComponent} from './component/result-header-line/result-header-line.component';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -83,6 +91,14 @@ export const BbmriBreakPointsProvider = {
     ForbiddenComponent,
     UnauthorizedComponent,
     RestoreComponent,
+    SamplyButtonComponent,
+    SamplyButtonSmallComponent,
+    ValueStringComponent,
+    ValueNumberComponent,
+    SimpleResultComponent,
+    DetailedResultComponent,
+    ResultLineComponent,
+    ResultHeaderLineComponent,
   ],
   imports: [
     BrowserModule,

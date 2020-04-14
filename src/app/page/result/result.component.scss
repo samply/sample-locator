@@ -10,14 +10,6 @@
   }
 }
 
-.result-table-row {
-  margin: 0 0 1em 0;
-  padding: .5em;
-
-  border: solid 1px $background-dark;
-  border-radius: 4px;
-}
-
 .result-item {
   margin: 2em 0;
 }
@@ -27,79 +19,17 @@
   margin: 2em 0;
 }
 
-.result-detail-button-wrapper {
-  margin: 0 0 2em 0;
-}
-
-.result-detail-button {
-  display: inline-block;
-  height: 40px;
-
-  padding: .5em 1em;
-
-  background: $background-dark;
-  color: white;
-
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-
-  cursor: pointer;
-}
-
-.result-detail-button:hover {
-  background-color: $background-dark-semi;
-}
-
 :host ::ng-deep .ui-progressbar-value {
   background-color: $background-gray !important;
 }
 
-.align-right {
-  text-align: right;
-}
-
-.detailed-result-flag-header {
-  width: 3.4em;
-}
-
-.detailed-result-flag-column {
-  text-align: center;
-}
-
-.negotiate-button {
-  display: inline-block;
-  height: 40px;
-  min-width: 13em;
-
-  padding: 0.5em 2.7em 0.5em 1em;
-  margin: 2em .6em;
-
-  text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-
-  background: $background-dark;
-  color: white;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-}
-
-.negotiate-button:hover {
-  background: $background-dark-semi;
-}
-
-.negotiate-button-inactive {
-  background-color: $background-dark-semi;
-}
-
-.negotiate-button fa-icon {
-  margin: 0 1em 0 0;
+.no-transition div {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  //noinspection CssUnknownProperty
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
 }
 
 .disclaimer {
@@ -118,34 +48,8 @@ h2 {
   margin: 0 1em;
 }
 
-.samply-button {
-  display: inline-block;
-  height: 40px;
-  width: 150px;
-
-  padding: 0.5em 2.7em 0.5em 1em;
-  margin: 2em .6em;
-
-  background: $background-dark;
-  color: white;
-
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 1px;
-}
-
-.samply-button-active {
-  cursor: pointer;
-}
-
-.samply-button-active:hover {
-  background: $background-gray;
-}
-
-.samply-button-inactive {
-  background-color: $background-dark-semi;
+.margin-action-buttons {
+  margin: 1.5em 0;
 }
 
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {
@@ -161,6 +65,7 @@ h2 {
   -webkit-transition: all 0s 0s;
   -moz-transition: all 0s 0s;
   -o-transition: all 0s 0s;
+  //noinspection CssUnknownProperty
   -ms-transition: all 0s 0s;
   transition: all 0s 0s;
 }

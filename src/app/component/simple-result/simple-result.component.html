@@ -1,0 +1,12 @@
+<app-result-header-line [isDetailedResult]="false"
+                        [biobanksAnswered]="biobanksAnswered"
+                        [sumDonors]="sumDonors"
+                        [sumSamples]="sumSamples"></app-result-header-line>
+
+<div *ngIf="!userService.getLoginValid()"
+     fxLayout="row"
+     fxLayoutAlign="center space-around"
+     (click)="userService.login()"
+     class="result-detail-button-wrapper">
+  <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span>
+</div>

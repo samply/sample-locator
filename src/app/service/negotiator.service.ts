@@ -91,6 +91,9 @@ export class NegotiatorService {
         humanReadable += ' and ';
       }
       const extendedMdrFieldDto = this.mdrFieldProviderService.getPossibleField(field.urn);
+      if (!extendedMdrFieldDto) {
+        continue;
+      }
       humanReadable += extendedMdrFieldDto.name + ': ';
 
       let valueString = '';

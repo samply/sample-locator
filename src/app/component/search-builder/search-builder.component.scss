@@ -71,28 +71,20 @@ h3 {
   color: white;
 }
 
-.samply-button-small {
-  height: 34px;
-  width: 34px;
-
-  margin: .2em;
-  padding: 4px 0 0 0;
-  font-size: smaller;
-
-  background-color: $background-dark;
-  color: white;
-
-  text-align: center;
-  vertical-align: center;
-
-  cursor: pointer;
+::ng-deep .ui-tooltip .ui-tooltip-arrow {
+  border-bottom-color: $background-gray !important;
 }
 
-.samply-button-small:hover {
-  background: $background-gray;
+::ng-deep .ui-tooltip .ui-tooltip-text {
+  background-color: $background-gray !important;
+  color: white !important;
 }
 
-.samply-button-small-disabled {
-  background-color: $background-dark-semi;
+::ng-deep .ui-tooltip {
+  -webkit-transition: all 0s 0s;
+  -moz-transition: all 0s 0s;
+  -o-transition: all 0s 0s;
+  //noinspection CssUnknownProperty
+  -ms-transition: all 0s 0s;
+  transition: all 0s 0s;
 }
-
