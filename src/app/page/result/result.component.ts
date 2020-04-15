@@ -226,6 +226,12 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   // noinspection JSMethodCanBeStatic
   private scrollTop() {
-    window.document.scrollingElement.scrollTop = 0;
+    if (window.document) {
+      if (window.document.scrollingElement) {
+        window.document.scrollingElement.scrollTop = 0;
+      } else if (window.document.documentElement) {
+        window.document.documentElement.scrollTop = 0;
+      }
+    }
   }
 }

@@ -18,7 +18,7 @@ import {FooterComponent} from './component/footer/footer.component';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {WorkInProgressComponent} from './component/work-in-progress/work-in-progress.component';
 import {CookieBannerComponent} from './component/cookie-banner/cookie-banner.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {ExternalUrlService} from './service/external-url.service';
 import {MdrConfigService} from './service/mdr-config.service';
@@ -44,6 +44,7 @@ import {SimpleResultComponent} from './component/simple-result/simple-result.com
 import {DetailedResultComponent} from './component/detailed-result/detailed-result.component';
 import {ResultLineComponent} from './component/result-line/result-line.component';
 import {ResultHeaderLineComponent} from './component/result-header-line/result-header-line.component';
+import {CacheInterceptor} from './interceptor/cache-interceptor';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -120,6 +121,7 @@ export const BbmriBreakPointsProvider = {
     TooltipModule,
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
     CookieService,
     ExternalUrlService,
     MolgenisService,
