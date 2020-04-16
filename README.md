@@ -10,19 +10,18 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:8085/`. The app w
 
 Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+### Docker
+
+Run `docker build .` to build a Docker image. It's not necessary to run `ng build --prod` before, because a build container is used.
+
 ## Run ([Docker](#docker))
 #### Docker
 
-    docker network create gba
-    
-    ng build --prod
-    
     docker build -t sample-locator .
 
     docker run 
         --rm 
-        --name=searchbroker-ui 
-        --network=gba 
+        --name=sample-locator
         -p 8085:80 
         -e SEARCHBROKER_URL="http://localhost:8080" 
         -e SAMPLELOCATOR_URL="http://localhost:8085" 
@@ -37,7 +36,7 @@ Run `ng build --prod` to build the project. The build artifacts will be stored i
         -e MDR_HIDDEN="[\"urn:mdr16:dataelement:1:1\",\"urn:mdr16:dataelement:25:1\",\"urn:mdr16:dataelement:34:1\",\"urn:mdr16:dataelement:18:1\",\"urn:mdr16:dataelement:11:1\",\"urn:mdr16:dataelement:19:1\",\"urn:mdr16:dataelement:30:1\",\"urn:mdr16:dataelement:4:1\",\"urn:mdr16:dataelement:21:1\",\"urn:mdr16:dataelement:22:1\",\"urn:mdr16:dataelement:24:1\",\"urn:mdr16:dataelement:13:1\"]" 
         -e MOLGENIS_USERNAME="your_molgenis_username" 
         -e MOLGENIS_PASSWORD="your_molgenis_password" 
-        searchbroker-ui:latest
+        sample-locator:latest
         
  ## License
         
