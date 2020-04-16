@@ -1,3 +1,14 @@
+FROM node as build
+
+COPY src /build/src
+COPY *.json /build/
+COPY *.js /build/
+COPY browserslist /build/
+
+WORKDIR /build
+RUN npm install
+RUN node_modules/.bin/ng build --prod
+
 FROM nginx:alpine
 
 ### Install bash
@@ -15,7 +26,7 @@ RUN apk add dos2unix --update-cache --repository http://dl-3.alpinelinux.org/alp
 WORKDIR /usr/share/nginx/html
 
 ### Copy subfolder of dist as ng buils --prod creates an extra subfolder
-COPY dist/sample-locator            .
+COPY --from=build /build/dist/sample-locator .
 COPY docker/config                  ./config
 
 ADD docker/start.sh                 /samply/
