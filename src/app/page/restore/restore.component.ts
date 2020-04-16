@@ -49,7 +49,7 @@ export class RestoreComponent implements OnInit, OnDestroy {
 
   private initQuery() {
     const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getQuery?ntoken=' + this.nToken;
-    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    const headers = new HttpHeaders().set('Accept', 'application/json; charset=utf-8');
 
     this.subscriptions.push(
       this.httpClient.get(url, {

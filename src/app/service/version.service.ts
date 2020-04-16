@@ -25,7 +25,7 @@ export class VersionService {
 
   private initBackendVersion() {
     const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/version';
-    const headers = new HttpHeaders().set('content-Type', 'text/plain');
+    const headers = new HttpHeaders().set('Accept', 'text/plain; charset=utf-8');
 
     const headerOptions = {
       headers

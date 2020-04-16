@@ -29,7 +29,6 @@ export class NegotiatorService {
     const urlBroker = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getDirectoryID';
 
     const headersBroker = new HttpHeaders()
-      .set('Content-Type', 'application/json; charset=utf-8')
       .set('Accept', 'application/json; charset=utf-8')
       .set('Authorization', 'Bearer ' + this.userService.getIdToken());
 
@@ -50,7 +49,6 @@ export class NegotiatorService {
         }
 
         const headersNegotiator = new HttpHeaders()
-          .set('Content-Type', 'application/json; charset=utf-8')
           .set('Accept', 'application/json; charset=utf-8')
           // TODO: Use Bearer-Authentication when Negotiator allows using it
           //          .set('Authorization', 'Bearer ' + this.userService.getIdToken())

@@ -3,6 +3,7 @@ import {ExternalUrlService} from './external-url.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserService} from './user.service';
+import {ReplySiteDto} from '../model/result/reply-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ResultService {
   getNumberOfBiobanks(): Observable<any> {
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getSize';
 
-    return this.httpClient.get<any>(url, {observe: 'response'});
+    return this.httpClient.get<any>(url, {observe: 'body'});
   }
 
   getResult(nToken: string): Observable<any> {
@@ -34,11 +35,13 @@ export class ResultService {
 
   private getSimpleResult(nToken: string): Observable<any> {
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getAnonymousReply?ntoken=' + nToken;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json; charset=utf-8');
 
-    return this.httpClient.get<any>(url, {observe: 'response'});
+    return this.httpClient.get<any>(url, {headers, observe: 'body'});
   }
 
-  private getDetailedResult(nToken: string): Observable<any> {
+  private getDetailedResult(nToken: string): Observable<Array<ReplySiteDto>> {
     if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
       return;
     }
@@ -46,8 +49,8 @@ export class ResultService {
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getReply?ntoken=' + nToken;
     const headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + this.userService.getIdToken())
-      .set('content-type', 'text/plain');
+      .set('Accept', 'application/json; charset=utf-8');
 
-    return this.httpClient.get<any>(url, {headers, observe: 'response'});
+    return this.httpClient.get<any>(url, {headers, observe: 'body'});
   }
 }
