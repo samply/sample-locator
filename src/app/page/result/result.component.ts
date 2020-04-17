@@ -26,7 +26,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
-    private simpleResultService: ResultService,
+    private resultService: ResultService,
     private externalUrlService: ExternalUrlService,
     public userService: UserService,
     private queryProviderService: QueryProviderService,
@@ -82,8 +82,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
     this.slStorageService.resetAppAction();
 
-    const json = JSON.stringify(this.queryProviderService.query);
-
     const headers = new HttpHeaders()
       .set('Accept', 'text/plain; charset=utf-8');
     let url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
@@ -92,16 +90,16 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(
-      this.httpClient.post<any>(url, json, {headers, observe: 'body'}).subscribe(
+      this.httpClient.post<any>(url, this.queryProviderService.query, {headers}).subscribe(
         response => {
           // Subscribe to activate POST request
           console.log('Send query and received id ' + parseInt(response, 10));
         },
-        error1 => {
-          if (error1 instanceof HttpErrorResponse && error1.status === 202) {
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 202) {
             console.log('Request is accepted but not handled, yet');
           } else {
-            console.log(error1);
+            console.log(error);
           }
         }
       )
@@ -129,7 +127,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   private initNumberBiobanks() {
     this.subscriptions.push(
-      this.simpleResultService.getNumberOfBiobanks().subscribe(
+      this.resultService.getNumberOfBiobanks().subscribe(
         response => this.limitBiobanksAnswered = Number(response)
       )
     );
@@ -163,7 +161,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         startWith(0),
         switchMap(() => {
           if (this.nToken) {
-            return this.simpleResultService.getResult(this.nToken);
+            return this.resultService.getResult(this.nToken);
           } else {
             return of(null);
           }
