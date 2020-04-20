@@ -1,9 +1,25 @@
-export interface ReplyDto {
-  replySites: Array<ReplySiteDto>;
+export interface Reply {
+  replySites: Array<ReplySite>;
 }
 
-export interface ReplySiteDto {
+export interface ReplySite {
   site: string;
-  donor: number;
-  sample: number;
+  donor: Subject;
+  sample: Subject;
+}
+
+export interface Subject {
+  label: string;
+  count: number;
+  stratifications: Array<Stratification>;
+}
+
+export interface Stratification {
+  title: string;
+  strata: Array<Stratum>;
+}
+
+export interface Stratum {
+  label: string;
+  count: number;
 }

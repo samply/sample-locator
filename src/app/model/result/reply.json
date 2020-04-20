@@ -1,0 +1,66 @@
+{
+  "replySites": [
+    {
+      "site": "Lübeck",
+      "donor": {
+        "label": "Donors",
+        "count": 500,
+        "stratifications": [
+          {
+            "title": "Age",
+            "strata": [
+              {
+                "label": "0-9",
+                "count": 20
+              },
+              {
+                "label": "10-19",
+                "count": 70
+              },
+              {
+                "label": "20-29",
+                "count": 120
+              }
+            ]
+          },
+          {
+            "title": "Sex",
+            "strata": [
+              {
+                "label": "Female",
+                "count": 220
+              },
+              {
+                "label": "male",
+                "count": 270
+              }
+            ]
+          }
+        ]
+      },
+      "sample": {
+        "label": "Samples",
+        "count": 1500,
+        "stratifications": [
+          {
+            "title": "Material",
+            "strata": [
+              {
+                "label": "fluid",
+                "count": 220
+              },
+              {
+                "label": "liquid",
+                "count": 1170
+              },
+              {
+                "label": "other",
+                "count": 20
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
