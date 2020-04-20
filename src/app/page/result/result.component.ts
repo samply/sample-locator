@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {ReplySiteDto} from '../../model/result/reply-dto';
+import {Reply} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
@@ -46,7 +46,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
 
-  detailedResult: Array<ReplySiteDto> = [];
+  detailedResult: Reply = {replySites: []};
 
   sumDonors = 0;
   sumSamples = 0;
@@ -170,7 +170,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           if (response) {
-            const result = response as Array<ReplySiteDto>;
+            const result = response as Reply;
             this.calculateResultSums(result);
 
             if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
@@ -191,15 +191,15 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  private calculateResultSums(result: Array<ReplySiteDto>) {
+  private calculateResultSums(result: Reply) {
     let donorsTemp = 0;
     let samplesTemp = 0;
     let biobanksAnsweredTemp = 0;
 
     if (result) {
-      for (const reply of result) {
-        donorsTemp += reply.donor;
-        samplesTemp += reply.sample;
+      for (const reply of result.replySites) {
+        donorsTemp += reply.donor.count;
+        samplesTemp += reply.sample.count;
         biobanksAnsweredTemp++;
       }
     }
@@ -209,8 +209,12 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.biobanksAnswered = biobanksAnsweredTemp;
   }
 
-  isResultAnonymous(result = this.detailedResult): boolean {
-    for (const reply of result) {
+  isResultAnonymous(result: Reply = this.detailedResult): boolean {
+    if (!result || !result.replySites) {
+      return true;
+    }
+
+    for (const reply of result.replySites) {
       if (reply.site.toUpperCase() === 'ANONYMOUS') {
         return true;
       }

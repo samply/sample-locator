@@ -52,14 +52,14 @@
        fxLayout="row"
        fxLayoutAlign="start">
     <div fxShow="true" fxShow.lt-md="false"
-         fxFlex="0 0 90%" class="align-right">{{reply['donor']}}
+         fxFlex="0 0 90%" class="align-right">{{reply['donor']['count']}}
     </div>
     <div fxShow="false" fxShow.lt-md="true"
          fxFlex="1 1 20%">
       <fa-icon [icon]="faDonor" size="lg"></fa-icon>
     </div>
     <div fxShow="false" fxShow.lt-md="true"
-         fxFlex="0 0 70%" class="align-right">{{reply['donor']}}</div>
+         fxFlex="0 0 70%" class="align-right">{{reply['donor']['count']}}</div>
     <div fxShow="false" fxShow.lt-md="true"
          fxFlex="0 0 10%"></div>
   </div>
@@ -71,14 +71,14 @@
        fxLayout="row"
        fxLayoutAlign="start">
     <div fxShow="true" fxShow.lt-md="false"
-         fxFlex="0 0 90%" class="align-right">{{reply['sample']}}
+         fxFlex="0 0 90%" class="align-right">{{reply['sample']['count']}}
     </div>
     <div fxShow="false" fxShow.lt-md="true"
          fxFlex="1 1 20%">
       <fa-icon [icon]="faSample" size="lg"></fa-icon>
     </div>
     <div fxShow="false" fxShow.lt-md="true"
-         fxFlex="0 0 70%" class="align-right">{{reply['sample']}}</div>
+         fxFlex="0 0 70%" class="align-right">{{reply['sample']['count']}}</div>
     <div fxShow="false" fxShow.lt-md="true"
          fxFlex="0 0 10%"></div>
   </div>
