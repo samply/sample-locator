@@ -30,5 +30,7 @@ COPY docker/config                  ./config
 ADD docker/start.sh                 /samply/
 RUN chmod +x                        /samply/start.sh
 
+ENV MDR_MAPPING=[] MDR_FIELD_PROPERTIES=[] MDR_HIDDEN=[]
+
 CMD ["/samply/start.sh"]
 
