@@ -22,7 +22,7 @@ export class ResultService {
   getNumberOfBiobanks(): Observable<any> {
     const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/getSize';
 
-    return this.httpClient.get<any>(url, {observe: 'body'});
+    return this.httpClient.get<any>(url);
   }
 
   getResult(nToken: string): Observable<any> {
@@ -38,7 +38,7 @@ export class ResultService {
     const headers = new HttpHeaders()
       .set('Accept', 'application/json; charset=utf-8');
 
-    return this.httpClient.get<any>(url, {headers, observe: 'body'});
+    return this.httpClient.get<any>(url, {headers});
   }
 
   private getDetailedResult(nToken: string): Observable<Array<ReplySiteDto>> {
@@ -51,6 +51,6 @@ export class ResultService {
       .set('Authorization', 'Bearer ' + this.userService.getIdToken())
       .set('Accept', 'application/json; charset=utf-8');
 
-    return this.httpClient.get<any>(url, {headers, observe: 'body'});
+    return this.httpClient.get<any>(url, {headers});
   }
 }
