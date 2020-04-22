@@ -1,7 +1,7 @@
 <app-result-header-line [isDetailedResult]="false"
                         [biobanksAnswered]="biobanksAnswered"
-                        [sumDonors]="sumDonors"
-                        [sumSamples]="sumSamples"></app-result-header-line>
+                        [sumDonors]="aggregatedResult?.donor.count"
+                        [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
 
 <div *ngIf="!userService.getLoginValid()"
      fxLayout="row"
@@ -10,3 +10,7 @@
      class="result-detail-button-wrapper">
   <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span>
 </div>
+
+<app-stratification [data]="dataAge"></app-stratification>
+<app-stratification [data]="dataSex"></app-stratification>
+<app-stratification [data]="dataSampleType"></app-stratification>
