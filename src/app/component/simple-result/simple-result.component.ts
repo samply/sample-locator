@@ -58,26 +58,32 @@ export class SimpleResultComponent implements OnInit, OnChanges {
 
       if (stratification.title === 'Age') {
         this.dataAge = stratificationData;
+        this.dataAge.title = 'Age';
       } else if (stratification.title === 'Gender') {
         this.dataSex = stratificationData;
+        this.dataSex.title = 'Gender';
       } else if (stratification.title === 'SampleType') {
         this.dataSampleType = stratificationData;
+        this.dataSampleType.title = 'Sample Type';
       }
     }
   }
 
   private initStratificationData() {
     this.dataSampleType = {
+      title: 'Sample Type',
       labels: ['fluid', 'tissue', 'other'],
       datasets: this.createEmptyDatasets('SampleType', 3)
     };
 
     this.dataAge = {
+      title: 'Age',
       labels: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-99'],
       datasets: this.createEmptyDatasets('Age', 10)
     };
 
     this.dataSex = {
+      title: 'Gender',
       labels: ['Female', 'Male'],
       datasets: this.createEmptyDatasets('Gender', 2)
     };

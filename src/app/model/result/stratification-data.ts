@@ -1,4 +1,5 @@
 export interface StratificationData {
+  title?: string;
   labels: Array<string>;
   datasets: Array<Dataset>;
 }
