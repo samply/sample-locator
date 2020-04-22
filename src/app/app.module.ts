@@ -34,7 +34,7 @@ import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
-import {ChartModule, TooltipModule} from 'primeng';
+import {CarouselModule, ChartModule, TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
 import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
@@ -121,6 +121,7 @@ export const BbmriBreakPointsProvider = {
     TableModule,
     TooltipModule,
     ChartModule,
+    CarouselModule,
   ],
   providers: [
     CookieService,
