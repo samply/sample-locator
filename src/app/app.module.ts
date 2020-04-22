@@ -34,7 +34,7 @@ import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
-import {TooltipModule} from 'primeng';
+import {ChartModule, TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
 import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
@@ -44,6 +44,7 @@ import {SimpleResultComponent} from './component/simple-result/simple-result.com
 import {DetailedResultComponent} from './component/detailed-result/detailed-result.component';
 import {ResultLineComponent} from './component/result-line/result-line.component';
 import {ResultHeaderLineComponent} from './component/result-header-line/result-header-line.component';
+import {StratificationComponent} from './component/stratification/stratification.component';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -99,6 +100,7 @@ export const BbmriBreakPointsProvider = {
     DetailedResultComponent,
     ResultLineComponent,
     ResultHeaderLineComponent,
+    StratificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,6 +120,7 @@ export const BbmriBreakPointsProvider = {
     ProgressBarModule,
     TableModule,
     TooltipModule,
+    ChartModule,
   ],
   providers: [
     CookieService,

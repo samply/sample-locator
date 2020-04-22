@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {Reply} from '../../model/result/reply-dto';
+import {Reply, ReplySite, Stratification} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
@@ -47,9 +47,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   faPaperPlane = faPaperPlane;
 
   detailedResult: Reply = {replySites: []};
+  aggregatedResult: ReplySite = this.createEmptyAggregatedResult();
 
-  sumDonors = 0;
-  sumSamples = 0;
   biobanksAnswered = 0;
 
   limitBiobanksAnswered = 0;
@@ -62,6 +61,23 @@ export class ResultComponent implements OnInit, OnDestroy {
   private nToken: string;
 
   private subscriptions: Array<Subscription> = [];
+
+  // noinspection JSMethodCanBeStatic
+  private createEmptyAggregatedResult(): ReplySite {
+    return {
+      site: 'anonymous',
+      donor: {
+        count: 0,
+        label: 'Donor',
+        stratifications: []
+      },
+      sample: {
+        count: 0,
+        label: 'Sample',
+        stratifications: []
+      }
+    };
+  }
 
   ngOnInit(): void {
     this.slStorageService.setAppTargetRoute('result');
@@ -171,7 +187,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         response => {
           if (response) {
             const result = response as Reply;
-            this.calculateResultSums(result);
+            this.calculateAggregatedResult(result);
 
             if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
               this.detailedResult = result;
@@ -191,22 +207,70 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  private calculateResultSums(result: Reply) {
-    let donorsTemp = 0;
-    let samplesTemp = 0;
+  private calculateAggregatedResult(result: Reply) {
+    const aggregatedResultTemp: ReplySite = this.createEmptyAggregatedResult();
+
     let biobanksAnsweredTemp = 0;
 
     if (result) {
       for (const reply of result.replySites) {
-        donorsTemp += reply.donor.count;
-        samplesTemp += reply.sample.count;
+        aggregatedResultTemp.donor.count += reply.donor.count;
+        aggregatedResultTemp.sample.count += reply.sample.count;
         biobanksAnsweredTemp++;
+
+        this.aggregateStratificationDonor(reply, aggregatedResultTemp);
+        this.aggregateStratificationSample(reply, aggregatedResultTemp);
+      }
+
+      for (const reply of result.replySites) {
+        aggregatedResultTemp.donor.count += reply.donor.count;
+        aggregatedResultTemp.sample.count += reply.sample.count;
+        biobanksAnsweredTemp++;
+
+        this.aggregateStratificationDonor(reply, aggregatedResultTemp);
+        this.aggregateStratificationSample(reply, aggregatedResultTemp);
       }
     }
 
-    this.sumDonors = donorsTemp;
-    this.sumSamples = samplesTemp;
+    this.aggregatedResult = aggregatedResultTemp;
     this.biobanksAnswered = biobanksAnsweredTemp;
+  }
+
+  private aggregateStratificationDonor(reply, aggregatedResultTemp: ReplySite) {
+    for (const stratification of reply.donor.stratifications) {
+      let aggregatedStratification = aggregatedResultTemp.donor.stratifications.find(
+        stratificationTemp => stratificationTemp.title === stratification.title
+      );
+      if (!aggregatedStratification) {
+        aggregatedStratification = {title: stratification.title, strata: []};
+        aggregatedResultTemp.donor.stratifications.push(aggregatedStratification);
+      }
+      this.aggregateStrata(stratification, aggregatedStratification);
+    }
+  }
+
+  private aggregateStratificationSample(reply, aggregatedResultTemp: ReplySite) {
+    for (const stratification of reply.sample.stratifications) {
+      let aggregatedStratification = aggregatedResultTemp.sample.stratifications.find(
+        stratificationTemp => stratificationTemp.title === stratification.title
+      );
+      if (!aggregatedStratification) {
+        aggregatedStratification = {title: stratification.title, strata: []};
+        aggregatedResultTemp.sample.stratifications.push(aggregatedStratification);
+      }
+      this.aggregateStrata(stratification, aggregatedStratification);
+    }
+  }
+
+  private aggregateStrata(stratification: Stratification, aggregatedStratification: Stratification) {
+    for (const stratum of stratification.strata) {
+      const aggregatedStratum = aggregatedStratification.strata.find(stratumTemp => stratumTemp.label === stratum.label);
+      if (aggregatedStratum) {
+        aggregatedStratum.count += stratum.count;
+      } else {
+        aggregatedStratification.strata.push({label: stratum.label, count: stratum.count});
+      }
+    }
   }
 
   isResultAnonymous(result: Reply = this.detailedResult): boolean {
