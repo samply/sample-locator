@@ -221,15 +221,6 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.aggregateStratificationDonor(reply, aggregatedResultTemp);
         this.aggregateStratificationSample(reply, aggregatedResultTemp);
       }
-
-      for (const reply of result.replySites) {
-        aggregatedResultTemp.donor.count += reply.donor.count;
-        aggregatedResultTemp.sample.count += reply.sample.count;
-        biobanksAnsweredTemp++;
-
-        this.aggregateStratificationDonor(reply, aggregatedResultTemp);
-        this.aggregateStratificationSample(reply, aggregatedResultTemp);
-      }
     }
 
     this.aggregatedResult = aggregatedResultTemp;
