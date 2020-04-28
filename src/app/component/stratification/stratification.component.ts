@@ -16,7 +16,15 @@ export class StratificationComponent {
       duration: 0
     },
     scales: {
+      xAxes: [{
+        gridLines: {
+          color: 'rgba(0, 0, 0, 0)',
+        }
+      }],
       yAxes: [{
+        gridLines: {
+          color: 'rgba(0, 0, 0, 0)',
+        },
         ticks: {
           beginAtZero: true,
         }
