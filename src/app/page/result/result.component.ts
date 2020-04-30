@@ -15,7 +15,6 @@ import {ReplySiteDto} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
-import {EssentialSimpleFieldDto} from '../../model/query/essential-query-dto';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 
 @Component({
@@ -27,7 +26,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
-    private simpleResultService: ResultService,
+    private resultService: ResultService,
     private externalUrlService: ExternalUrlService,
     public userService: UserService,
     private queryProviderService: QueryProviderService,
@@ -83,22 +82,25 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
     this.slStorageService.resetAppAction();
 
-    const json = JSON.stringify(this.queryProviderService.query);
-
-    let headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+      .set('Accept', 'text/plain; charset=utf-8');
+    let url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
     if (this.nToken) {
-      headers = headers.set('ntoken', this.nToken);
+      url += '?ntoken=' + this.nToken;
     }
 
-    const url = this.externalUrlService.externalServices.brokerUrl + '/rest/searchbroker/sendQuery';
-
     this.subscriptions.push(
-      this.httpClient.post<EssentialSimpleFieldDto>(url, json, {headers, observe: 'response'}).subscribe(
+      this.httpClient.post<any>(url, this.queryProviderService.query, {headers}).subscribe(
         response => {
           // Subscribe to activate POST request
-          console.log('Send query and received id ' + parseInt(response.headers.get('id'), 10));
+          console.log('Send query and received id ' + parseInt(response, 10));
+        },
+        error => {
+          if (error instanceof HttpErrorResponse && error.status === 202) {
+            console.log('Request is accepted but not handled, yet');
+          } else {
+            console.log(error);
+          }
         }
       )
     );
@@ -125,8 +127,8 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   private initNumberBiobanks() {
     this.subscriptions.push(
-      this.simpleResultService.getNumberOfBiobanks().subscribe(
-        response => this.limitBiobanksAnswered = Number(response.headers.get('size'))
+      this.resultService.getNumberOfBiobanks().subscribe(
+        response => this.limitBiobanksAnswered = Number(response)
       )
     );
   }
@@ -159,7 +161,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         startWith(0),
         switchMap(() => {
           if (this.nToken) {
-            return this.simpleResultService.getResult(this.nToken);
+            return this.resultService.getResult(this.nToken);
           } else {
             return of(null);
           }
@@ -168,7 +170,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           if (response) {
-            const result = JSON.parse(response.headers.get('reply')) as Array<ReplySiteDto>;
+            const result = response as Array<ReplySiteDto>;
             this.calculateResultSums(result);
 
             if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
@@ -180,6 +182,8 @@ export class ResultComponent implements OnInit, OnDestroy {
             if (error instanceof HttpErrorResponse && error.status === 403) {
               console.log('Unauthorized: No access to detailed results');
               this.userService.logout();
+            } else {
+              console.log(error);
             }
           }
         )
@@ -226,6 +230,12 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   // noinspection JSMethodCanBeStatic
   private scrollTop() {
-    window.document.scrollingElement.scrollTop = 0;
+    if (window.document) {
+      if (window.document.scrollingElement) {
+        window.document.scrollingElement.scrollTop = 0;
+      } else if (window.document.documentElement) {
+        window.document.documentElement.scrollTop = 0;
+      }
+    }
   }
 }
