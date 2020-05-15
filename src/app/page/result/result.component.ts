@@ -11,11 +11,12 @@ import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {Reply, ReplySite, Stratification} from '../../model/result/reply-dto';
+import {Reply, ReplySite, ReplyTransfer, Stratification} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
+import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
 
 @Component({
   selector: 'app-result',
@@ -50,6 +51,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   aggregatedResult: ReplySite = this.createEmptyAggregatedResult();
 
   biobanksAnswered = 0;
+  biobanksWithStratifications = 0;
 
   limitBiobanksAnswered = 0;
   elapsedPercentage = 0;
@@ -186,11 +188,13 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           if (response) {
-            const result = response as Reply;
-            this.calculateAggregatedResult(result);
+            const replyTransfer = response as ReplyTransfer;
 
-            if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
-              this.detailedResult = result;
+            const reply = this.transformFromLegacyFormat(replyTransfer);
+            this.calculateAggregatedResult(reply);
+
+            if (this.userService.getLoginValid() && !this.isResultAnonymous(reply)) {
+              this.detailedResult = reply;
             }
           }
         },
@@ -205,6 +209,45 @@ export class ResultComponent implements OnInit, OnDestroy {
         )
       )
     );
+  }
+
+  private transformFromLegacyFormat(replyTransfer: ReplyTransfer) {
+    const reply: Reply = {replySites: []};
+    let biobanksWithStratificationsTemp = 0;
+
+    for (const siteTransfer of replyTransfer.replySites) {
+      if (ResultComponent.hasLegacyFormat(siteTransfer)) {
+        reply.replySites.push(ResultComponent.transformToReplyFormat(siteTransfer as ReplySiteDto));
+      } else {
+        biobanksWithStratificationsTemp++;
+        reply.replySites.push(siteTransfer as ReplySite);
+      }
+    }
+
+    this.biobanksWithStratifications = biobanksWithStratificationsTemp;
+    return reply;
+  }
+
+  // noinspection TsLint
+  private static hasLegacyFormat(siteTransfer: ReplySite | ReplySiteDto) {
+    return (siteTransfer as ReplySite).donor.count === undefined;
+  }
+
+  // noinspection TsLint
+  private static transformToReplyFormat(siteTransfer: ReplySiteDto): ReplySite {
+    return {
+      site: siteTransfer.site,
+      donor: {
+        label: 'Donor',
+        count: siteTransfer.donor,
+        stratifications: []
+      },
+      sample: {
+        label: 'Sample',
+        count: siteTransfer.sample,
+        stratifications: []
+      }
+    };
   }
 
   private calculateAggregatedResult(result: Reply) {
@@ -255,6 +298,10 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   private aggregateStrata(stratification: Stratification, aggregatedStratification: Stratification) {
     for (const stratum of stratification.strata) {
+      if (stratum.label === 'null') {
+        continue;
+      }
+
       const aggregatedStratum = aggregatedStratification.strata.find(stratumTemp => stratumTemp.label === stratum.label);
       if (aggregatedStratum) {
         aggregatedStratum.count += stratum.count;

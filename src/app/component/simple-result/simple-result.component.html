@@ -23,4 +23,6 @@ see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-
     <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
   </ng-template>
 </p-carousel>
+<p *ngIf="biobanksAnswered !== biobanksWithStratifications"
+   class="stratification-remark">Stratifications are calculated using {{biobanksWithStratifications}} out of {{biobanksAnswered}} biobanks.</p>
 

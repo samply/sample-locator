@@ -50,6 +50,7 @@
           <div *ngIf="!userService.getLoginValid()"
                class="result-item">
             <app-simple-result [biobanksAnswered]="biobanksAnswered"
+                               [biobanksWithStratifications]="biobanksWithStratifications"
                                [aggregatedResult]="aggregatedResult"></app-simple-result>
           </div>
         </div>

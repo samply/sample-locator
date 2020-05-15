@@ -22,6 +22,9 @@ export class SimpleResultComponent implements OnInit, OnChanges {
   @Input()
   biobanksAnswered = 0;
 
+  @Input()
+  biobanksWithStratifications = 0;
+
   dataSex: StratificationData;
   dataAge: StratificationData;
   dataSampleType: StratificationData;
@@ -36,6 +39,11 @@ export class SimpleResultComponent implements OnInit, OnChanges {
   }
 
   private calculateStratificationData(stratifications: Array<Stratification>, titlePrefix = '') {
+    if (!stratifications || stratifications.length === 0) {
+      this.initStratificationData();
+      return;
+    }
+
     for (const stratification of stratifications) {
       const data = [];
       const labels = [];
