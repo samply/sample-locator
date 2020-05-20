@@ -3,7 +3,7 @@
   "redirect_url": "http://localhost:8085",
   "client_id": "88ad6e4f-af9b-430a-8884-394e29cd10c1",
   "response_type": "id_token token",
-  "scope": "openid email profile phone groupNames offline_access",
+  "scope": "openid email profile phone eduperson_entitlement offline_access",
   "start_checksession": true,
   "silent_renew": false,
   "silent_renew_url": "http://localhost:8085/silent-renew.html",
