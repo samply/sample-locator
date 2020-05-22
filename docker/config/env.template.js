@@ -1,6 +1,10 @@
 (function (window) {
   window["env"] = window["env"] || {};
 
+  window["env"]["features"] = {
+    "stratifier": ${FEATURE_STRATIFIER:-false}
+  };
+
   // Environment variables
   window["env"]["externalServices"] = {
     "brokerUrl": "${SEARCHBROKER_URL}",
