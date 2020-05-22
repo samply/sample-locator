@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {UserService} from '../../service/user.service';
 import {ReplySite, Stratification} from '../../model/result/reply-dto';
 import {StratificationData} from '../../model/result/stratification-data';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-simple-result',
@@ -10,7 +11,10 @@ import {StratificationData} from '../../model/result/stratification-data';
 })
 export class SimpleResultComponent implements OnInit, OnChanges {
 
-  constructor(public userService: UserService) {
+  constructor(
+    public userService: UserService,
+    public featureService: FeatureService
+  ) {
   }
 
   static backgroundColor = '#8C96A5';

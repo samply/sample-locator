@@ -111,11 +111,11 @@ export class ResultComponent implements OnInit, OnDestroy {
         response => {
           // Subscribe to activate POST request
           console.log('Send query and received id ' + parseInt(response, 10));
-          this.initPolling();
         },
         error => {
           if (error instanceof HttpErrorResponse && error.status === 202) {
             console.log('Request is accepted but not handled, yet');
+            this.initPolling();
           } else {
             console.log(error);
           }
