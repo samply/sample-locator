@@ -10,8 +10,6 @@ export class FeatureService {
 
   // noinspection JSMethodCanBeStatic
   public stratifier(): boolean {
-    console.
-      log((window as any).env);
     return (window as any).env.features.stratifier;
   }
 }

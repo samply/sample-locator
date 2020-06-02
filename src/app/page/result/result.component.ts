@@ -90,6 +90,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     this.sendQuery();
     this.initProgressBar();
+    this.initPolling();
     this.initNumberBiobanks();
   }
 
@@ -115,7 +116,6 @@ export class ResultComponent implements OnInit, OnDestroy {
         error => {
           if (error instanceof HttpErrorResponse && error.status === 202) {
             console.log('Request is accepted but not handled, yet');
-            this.initPolling();
           } else {
             console.log(error);
           }
