@@ -1,6 +1,10 @@
 (function (window) {
   window["env"] = window["env"] || {};
 
+  window["env"]["features"] = {
+    "stratifier": true
+  };
+
   // Environment variables
   window["env"]["externalServices"] = {
     "brokerUrl": "http://localhost:8080/broker",

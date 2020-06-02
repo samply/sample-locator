@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faHandshake} from '@fortawesome/free-regular-svg-icons';
-import {ReplySiteDto} from '../../model/result/reply-dto';
+import {Reply} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class DetailedResultComponent implements OnInit {
   biobanksAnswered = 0;
 
   @Input()
-  detailedResult: Array<ReplySiteDto> = [];
+  detailedResult: Reply = {replySites: []};
 
   negotiateFlags: Map<string, boolean> = new Map();
 

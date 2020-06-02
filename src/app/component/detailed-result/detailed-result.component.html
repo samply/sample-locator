@@ -4,7 +4,7 @@
                           [sumDonors]="sumDonors"
                           [sumSamples]="sumSamples"></app-result-header-line>
 
-  <app-result-line *ngFor="let reply of detailedResult"
+  <app-result-line *ngFor="let reply of detailedResult.replySites"
                    (toggleNegFlag)="toggleNegotiateFlag(reply.site)"
                    [reply]="reply"
                    [negFlag]="getNegotiateFlag(reply.site)"></app-result-line>

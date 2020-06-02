@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ReplySiteDto} from '../../model/result/reply-dto';
+import {Reply} from '../../model/result/reply-dto';
 import {faUser, faVial} from '@fortawesome/free-solid-svg-icons';
 import {faCheckSquare, faHandshake, faSquare} from '@fortawesome/free-regular-svg-icons';
 
@@ -17,7 +17,7 @@ export class ResultLineComponent implements OnInit {
   faNegotiator = faHandshake;
 
   @Input()
-  reply: ReplySiteDto = null;
+  reply: Reply = {replySites: []};
 
   @Input()
   negFlag = false;
