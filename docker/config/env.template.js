@@ -2,7 +2,7 @@
   window["env"] = window["env"] || {};
 
   window["env"]["features"] = {
-    "stratifier": ${FEATURE_STRATIFIER:-false}
+    "stratifier": ${FEATURE_STRATIFIER}
   };
 
   // Environment variables
