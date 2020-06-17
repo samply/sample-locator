@@ -12,4 +12,9 @@ export class FeatureService {
   public stratifier(): boolean {
     return (window as any).env.features.stratifier;
   }
+
+  // noinspection JSMethodCanBeStatic
+  public stratifierMinimalNumberBiobanks(): number {
+    return (window as any).env.features.stratifierMinimalNumberBiobanks;
+  }
 }

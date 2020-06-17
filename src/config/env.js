@@ -2,7 +2,8 @@
   window["env"] = window["env"] || {};
 
   window["env"]["features"] = {
-    "stratifier": true
+    "stratifier": true,
+    "stratifierMinimalNumberBiobanks": 1
   };
 
   // Environment variables
