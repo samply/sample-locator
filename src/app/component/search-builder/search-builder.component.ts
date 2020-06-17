@@ -75,14 +75,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   ];
 
-  operatorsRestricted = [
+  operatorsEqualsOnly = [
     {
       label: '=',
       value: SimpleValueOperator.EQUALS
-    },
-    {
-      label: '≠',
-      value: SimpleValueOperator.NOT_EQUALS
     }
   ];
 
@@ -196,7 +192,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   getPossibleOperators(valueType: EssentialValueType) {
     if (valueType === EssentialValueType.STRING || valueType === EssentialValueType.PERMITTEDVALUE) {
-      return this.operatorsRestricted;
+      return this.operatorsEqualsOnly;
     } else {
       return this.operators;
     }

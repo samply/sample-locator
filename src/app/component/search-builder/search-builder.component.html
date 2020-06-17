@@ -29,8 +29,17 @@
                 <!-- ------------- -->
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 4em">
+                  <div fxFlex="0 0 4em" *ngIf="getPossibleOperators(field.valueType).length > 1">
                     <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
+                                (select)="chooseOperator($event, i, j)"
+                                (onChange)="chooseOperator($event, i, j)"
+                                [style]="{ 'minWidth': '4em', 'width':'4em'}">
+                    </p-dropdown>
+                  </div>
+                  <div fxFlex="0 0 4em" *ngIf="getPossibleOperators(field.valueType).length <= 1">
+                    <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
+                                [disabled]="true"
+                                dropdownIcon=""
                                 (select)="chooseOperator($event, i, j)"
                                 (onChange)="chooseOperator($event, i, j)"
                                 [style]="{ 'minWidth': '4em', 'width':'4em'}">
