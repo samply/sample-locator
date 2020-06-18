@@ -31,6 +31,7 @@ ADD docker/start.sh                 /samply/
 RUN chmod +x                        /samply/start.sh
 
 ENV FEATURE_STRATIFIER=false
+ENV FEATURE_STRATIFIER_MIN_NO_BIOBANKS=3
 
 ENV MDR_MAPPING=[] MDR_FIELD_PROPERTIES=[] MDR_HIDDEN=[]
 

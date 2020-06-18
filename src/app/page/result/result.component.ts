@@ -309,6 +309,24 @@ export class ResultComponent implements OnInit, OnDestroy {
         aggregatedStratification.strata.push({label: stratum.label, count: stratum.count});
       }
     }
+
+    this.transformToPercentage(aggregatedStratification);
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private transformToPercentage(aggregatedStratification: Stratification) {
+    let totalCount = 0;
+    for (const stratum of aggregatedStratification.strata) {
+      totalCount += stratum.count;
+    }
+
+    if (totalCount === 0) {
+      return;
+    }
+
+    for (const stratum of aggregatedStratification.strata) {
+      stratum.count = 100 * stratum.count / totalCount;
+    }
   }
 
   isResultAnonymous(result: Reply = this.detailedResult): boolean {

@@ -16,7 +16,7 @@ However, this does not work in an easy way:
 see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
 <!-- TODO: Get rid of this workaround -->
 <p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
-            *ngIf="featureService.stratifier()"
+            *ngIf="showStratifier()"
             [circular]="false">
   <ng-template let-index pTemplate="item">
     <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
