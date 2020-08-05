@@ -10,7 +10,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:8085/`. The app w
 
 Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-### Docker
+### <a name="docker"></a>Docker
 
 Run `docker build .` to build a Docker image. It's not necessary to run `ng build --prod` before, because a build container is used.
 
@@ -37,6 +37,24 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
         -e MOLGENIS_USERNAME="your_molgenis_username" 
         -e MOLGENIS_PASSWORD="your_molgenis_password" 
         sample-locator:latest
+
+| Envionment variable | Meaning | Default |
+|---|---|---|
+|SAMPLELOCATOR_URL|URL of the Sample Locator|
+|SEARCHBROKER_URL|URL of the Searchbroker (Backend)|
+|NEGOTIATOR_URL|URL of the Negotiator|
+|AUTH_HOST|URL of the OpenID Connect provider|
+|AUTH_CLIENT_ID|Client-ID of the OpenID Connect Provider|
+|MOLGENIS_USERNAME|User name of Molgenis|
+|MOLGENIS_PASSWORD|Password of Molgenis|
+|MDR_API_URL|URL of the MDR|
+|MDR_NAMESPACE|Namespace of the MDR|
+|MDR_LANGUAGE|Language code for the MDR|
+|MDR_MAPPING|MDR entities and their URNs|[]|
+|MDR_FIELD_PROPERTIES|Specification of placeholder and units for fields|[]|
+|MDR_HIDDEN|Fields to be ignored|[]|
+|FEATURE_STRATIFIER|Feature toggle for stratifications|false|
+|FEATURE_STRATIFIER_MIN_NO_BIOBANKS|Minimal number of connectors which must send stratifications in order to show stratifications |3|
         
  ## License
         
