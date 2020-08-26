@@ -6,6 +6,7 @@ export interface ExtendedMdrFieldDto {
   name: string;
   placeHolder: string;
   unit: string;
+  valueSetUrl?: string;
 
   permittedValues: Array<PermittedValue>;
 }

@@ -46,10 +46,15 @@
                   <div fxFlex="0 0 13em"
                        fxFlex.lt-md="1 1 100%">
                     <!-- STRING -->
-                    <app-value-string *ngIf="field.valueType === 'STRING'"
+                    <app-value-string *ngIf="field.valueType === 'STRING' && !getValueSetUrl(extendedField)"
                                       formControlName="value"
                                       [placeholderText]="getPlaceholder(extendedField, value.condition)"
                                       (change)="changeValue(i, j)"></app-value-string>
+                    <app-valueset-choose *ngIf="field.valueType === 'STRING' && getValueSetUrl(extendedField)"
+                                         formControlName="value"
+                                         [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                         [valueSetUrl]="getValueSetUrl(extendedField)"
+                                         (change)="changeValue(i, j)"></app-valueset-choose>
                     <!-- INTEGER and DECIMAL -->
                     <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
                                       formControlName="value"

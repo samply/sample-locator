@@ -1,0 +1,17 @@
+<p-autoComplete [(ngModel)]="value"
+                [suggestions]="codesFiltered"
+                (completeMethod)="filterCodes($event)"
+                [size]="5"
+                [minLength]="3"
+                [delay]="300"
+                [inputStyle]="{'width':'100%'}"
+                (change)="onChange($event.target.value)"
+                (blur)="onTouched()"
+                [disabled]="disabled"
+                placeholder="{{placeholderText}}">
+  <ng-template let-option pTemplate="option">
+    <div>
+      <div>{{option}} - {{codesFilteredMap.get(option)}}</div>
+    </div>
+  </ng-template>
+</p-autoComplete>

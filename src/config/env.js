@@ -10,7 +10,8 @@
   window["env"]["externalServices"] = {
     "brokerUrl": "http://localhost:8080/broker",
     "sampleLocatorUrl": "http://localhost:8085",
-    "negotiatorUrl": "https://negotiator.bbmri-eric.eu"
+    "negotiatorUrl": "https://negotiator.bbmri-eric.eu",
+    "terminologyServerUrl": "https://r4.ontoserver.csiro.au/fhir"
   };
 
   window["env"]["molgenisCredentials"] = {
@@ -60,7 +61,8 @@
       {
         "urn": "urn:mdr16:dataelement:27:1",
         "placeholder": "e.g. C25.1",
-        "unit": ""
+        "unit": "",
+        "valueSetUrl": "http://hl7.org/fhir/ValueSet/condition-code"
       }
     ],
 
