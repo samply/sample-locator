@@ -82,6 +82,17 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   ];
 
+  operatorsEqualsAndNotEquals = [
+    {
+      label: '=',
+      value: SimpleValueOperator.EQUALS
+    },
+    {
+      label: '≠',
+      value: SimpleValueOperator.NOT_EQUALS
+    }
+  ];
+
   private subscriptionReady: Subscription;
 
   constructor(
@@ -199,8 +210,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   getPossibleOperators(valueType: EssentialValueType) {
-    if (valueType === EssentialValueType.STRING || valueType === EssentialValueType.PERMITTEDVALUE) {
+    if (valueType === EssentialValueType.PERMITTEDVALUE) {
       return this.operatorsEqualsOnly;
+    } else if (valueType === EssentialValueType.STRING) {
+      return this.operatorsEqualsAndNotEquals;
     } else {
       return this.operators;
     }
