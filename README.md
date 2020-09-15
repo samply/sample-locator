@@ -10,7 +10,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:8085/`. The app w
 
 Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-### <a name="docker"></a>Docker
+### Docker
 
 Run `docker build .` to build a Docker image. It's not necessary to run `ng build --prod` before, because a build container is used.
 
@@ -22,7 +22,11 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
     docker run 
         --rm 
         --name=sample-locator
-        -p 8085:80 
+        -p 8085:80 ,
+                       {
+                         label: '≠',
+                         value: SimpleValueOperator.NOT_EQUALS
+                       }
         -e SEARCHBROKER_URL="http://localhost:8080" 
         -e SAMPLELOCATOR_URL="http://localhost:8085" 
         -e NEGOTIATOR_URL="https://negotiator.bbmri-eric.eu" 
@@ -41,11 +45,11 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
 | Envionment variable | Meaning | Default |
 |---|---|---|
 |SAMPLELOCATOR_URL|URL of the Sample Locator|
-|SEARCHBROKER_URL|URL of the Searchbroker (Backend)|
+|SEARCHBROKER_URL|URL of the Searchbroker API (Backend)|
 |NEGOTIATOR_URL|URL of the Negotiator|
 |AUTH_HOST|URL of the OpenID Connect provider|
 |AUTH_CLIENT_ID|Client-ID of the OpenID Connect Provider|
-|MOLGENIS_USERNAME|User name of Molgenis|
+|MOLGENIS_USERNAME|Username of Molgenis|
 |MOLGENIS_PASSWORD|Password of Molgenis|
 |MDR_API_URL|URL of the MDR|
 |MDR_NAMESPACE|Namespace of the MDR|
