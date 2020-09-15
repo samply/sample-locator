@@ -22,11 +22,7 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
     docker run 
         --rm 
         --name=sample-locator
-        -p 8085:80 ,
-                       {
-                         label: '≠',
-                         value: SimpleValueOperator.NOT_EQUALS
-                       }
+        -p 8085:80 
         -e SEARCHBROKER_URL="http://localhost:8080" 
         -e SAMPLELOCATOR_URL="http://localhost:8085" 
         -e NEGOTIATOR_URL="https://negotiator.bbmri-eric.eu" 
