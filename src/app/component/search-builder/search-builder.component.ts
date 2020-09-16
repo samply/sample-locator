@@ -75,7 +75,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   ];
 
-  operatorsRestricted = [
+  operatorsEqualsOnly = [
+    {
+      label: '=',
+      value: SimpleValueOperator.EQUALS
+    }
+  ];
+
+  operatorsEqualsAndNotEquals = [
     {
       label: '=',
       value: SimpleValueOperator.EQUALS
@@ -133,6 +140,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
           operator: this.fb.control(value.condition.toString()),
         });
 
+        if (!this.isOperatorSelectable(field)) {
+          valueGroup.get('operator').disable();
+        }
+
         valueControls.push(valueGroup);
       }
 
@@ -156,6 +167,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     return formGroup;
+  }
+
+  isOperatorSelectable(field) {
+    return this.getPossibleOperators(field.valueType).length > 1;
   }
 
   private initAddibleFields() {
@@ -195,8 +210,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   getPossibleOperators(valueType: EssentialValueType) {
-    if (valueType === EssentialValueType.STRING || valueType === EssentialValueType.PERMITTEDVALUE) {
-      return this.operatorsRestricted;
+    if (valueType === EssentialValueType.PERMITTEDVALUE) {
+      return this.operatorsEqualsOnly;
+    } else if (valueType === EssentialValueType.STRING) {
+      return this.operatorsEqualsAndNotEquals;
     } else {
       return this.operators;
     }

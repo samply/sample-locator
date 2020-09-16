@@ -50,8 +50,8 @@
           <div *ngIf="!userService.getLoginValid()"
                class="result-item">
             <app-simple-result [biobanksAnswered]="biobanksAnswered"
-                               [sumDonors]="sumDonors"
-                               [sumSamples]="sumSamples"></app-simple-result>
+                               [biobanksWithStratifications]="biobanksWithStratifications"
+                               [aggregatedResult]="aggregatedResult"></app-simple-result>
           </div>
         </div>
 
@@ -61,8 +61,8 @@
           <div *ngIf="!isResultAnonymous()">
             <app-detailed-result [detailedResult]="detailedResult"
                                  [biobanksAnswered]="biobanksAnswered"
-                                 [sumSamples]="sumSamples"
-                                 [sumDonors]="sumDonors"></app-detailed-result>
+                                 [sumSamples]="aggregatedResult?.sample.count"
+                                 [sumDonors]="aggregatedResult?.donor.count"></app-detailed-result>
           </div>
         </div>
 

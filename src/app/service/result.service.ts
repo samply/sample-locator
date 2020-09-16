@@ -3,7 +3,7 @@ import {ExternalUrlService} from './external-url.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserService} from './user.service';
-import {ReplySiteDto} from '../model/result/reply-dto';
+import {Reply} from '../model/result/reply-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class ResultService {
     return this.httpClient.get<any>(url, {headers});
   }
 
-  private getDetailedResult(nToken: string): Observable<Array<ReplySiteDto>> {
+  private getDetailedResult(nToken: string): Observable<Reply> {
     if (!this.userService.getLoginValid() || !this.userService.getIdToken()) {
       return;
     }

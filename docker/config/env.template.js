@@ -2,6 +2,11 @@
   window["env"] = window["env"] || {};
 
   // Environment variables
+  window["env"]["features"] = {
+    "stratifier": ${FEATURE_STRATIFIER},
+    "stratifierMinimalNumberBiobanks": ${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}
+  };
+
   window["env"]["externalServices"] = {
     "brokerUrl": "${SEARCHBROKER_URL}",
     "sampleLocatorUrl": "${SAMPLELOCATOR_URL}",

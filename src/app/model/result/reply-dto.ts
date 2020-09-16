@@ -1,9 +1,31 @@
-export interface ReplyDto {
-  replySites: Array<ReplySiteDto>;
+import {ReplySiteDto} from './reply-legacy-dto';
+
+export interface ReplyTransfer {
+  replySites: Array<ReplySite|ReplySiteDto>;
 }
 
-export interface ReplySiteDto {
+export interface Reply {
+  replySites: Array<ReplySite>;
+}
+
+export interface ReplySite {
   site: string;
-  donor: number;
-  sample: number;
+  donor: ReplySubject;
+  sample: ReplySubject;
+}
+
+export interface ReplySubject {
+  label: string;
+  count: number;
+  stratifications: Array<Stratification>;
+}
+
+export interface Stratification {
+  title: string;
+  strata: Array<Stratum>;
+}
+
+export interface Stratum {
+  label: string;
+  count: number;
 }

@@ -11,11 +11,12 @@ import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {ReplySiteDto} from '../../model/result/reply-dto';
+import {Reply, ReplySite, ReplyTransfer, Stratification} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
+import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
 
 @Component({
   selector: 'app-result',
@@ -46,11 +47,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
 
-  detailedResult: Array<ReplySiteDto> = [];
+  detailedResult: Reply = {replySites: []};
+  aggregatedResult: ReplySite = this.createEmptyAggregatedResult();
 
-  sumDonors = 0;
-  sumSamples = 0;
   biobanksAnswered = 0;
+  biobanksWithStratifications = 0;
 
   limitBiobanksAnswered = 0;
   elapsedPercentage = 0;
@@ -62,6 +63,23 @@ export class ResultComponent implements OnInit, OnDestroy {
   private nToken: string;
 
   private subscriptions: Array<Subscription> = [];
+
+  // noinspection JSMethodCanBeStatic
+  private createEmptyAggregatedResult(): ReplySite {
+    return {
+      site: 'anonymous',
+      donor: {
+        count: 0,
+        label: 'Donor',
+        stratifications: []
+      },
+      sample: {
+        count: 0,
+        label: 'Sample',
+        stratifications: []
+      }
+    };
+  }
 
   ngOnInit(): void {
     this.slStorageService.setAppTargetRoute('result');
@@ -170,11 +188,13 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           if (response) {
-            const result = response as Array<ReplySiteDto>;
-            this.calculateResultSums(result);
+            const replyTransfer = response as ReplyTransfer;
 
-            if (this.userService.getLoginValid() && !this.isResultAnonymous(result)) {
-              this.detailedResult = result;
+            const reply = this.transformFromLegacyFormat(replyTransfer);
+            this.calculateAggregatedResult(reply);
+
+            if (this.userService.getLoginValid() && !this.isResultAnonymous(reply)) {
+              this.detailedResult = reply;
             }
           }
         },
@@ -191,26 +211,130 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  private calculateResultSums(result: Array<ReplySiteDto>) {
-    let donorsTemp = 0;
-    let samplesTemp = 0;
-    let biobanksAnsweredTemp = 0;
+  private transformFromLegacyFormat(replyTransfer: ReplyTransfer) {
+    const reply: Reply = {replySites: []};
+    let biobanksWithStratificationsTemp = 0;
 
-    if (result) {
-      for (const reply of result) {
-        donorsTemp += reply.donor;
-        samplesTemp += reply.sample;
-        biobanksAnsweredTemp++;
+    for (const siteTransfer of replyTransfer.replySites) {
+      if (ResultComponent.hasLegacyFormat(siteTransfer)) {
+        reply.replySites.push(ResultComponent.transformToReplyFormat(siteTransfer as ReplySiteDto));
+      } else {
+        biobanksWithStratificationsTemp++;
+        reply.replySites.push(siteTransfer as ReplySite);
       }
     }
 
-    this.sumDonors = donorsTemp;
-    this.sumSamples = samplesTemp;
+    this.biobanksWithStratifications = biobanksWithStratificationsTemp;
+    return reply;
+  }
+
+  // noinspection TsLint
+  private static hasLegacyFormat(siteTransfer: ReplySite | ReplySiteDto) {
+    return (siteTransfer as ReplySite).donor.count === undefined;
+  }
+
+  // noinspection TsLint
+  private static transformToReplyFormat(siteTransfer: ReplySiteDto): ReplySite {
+    return {
+      site: siteTransfer.site,
+      donor: {
+        label: 'Donor',
+        count: siteTransfer.donor,
+        stratifications: []
+      },
+      sample: {
+        label: 'Sample',
+        count: siteTransfer.sample,
+        stratifications: []
+      }
+    };
+  }
+
+  private calculateAggregatedResult(result: Reply) {
+    const aggregatedResultTemp: ReplySite = this.createEmptyAggregatedResult();
+
+    let biobanksAnsweredTemp = 0;
+
+    if (result) {
+      for (const reply of result.replySites) {
+        aggregatedResultTemp.donor.count += reply.donor.count;
+        aggregatedResultTemp.sample.count += reply.sample.count;
+        biobanksAnsweredTemp++;
+
+        this.aggregateStratificationDonor(reply, aggregatedResultTemp);
+        this.aggregateStratificationSample(reply, aggregatedResultTemp);
+      }
+    }
+
+    this.aggregatedResult = aggregatedResultTemp;
     this.biobanksAnswered = biobanksAnsweredTemp;
   }
 
-  isResultAnonymous(result = this.detailedResult): boolean {
-    for (const reply of result) {
+  private aggregateStratificationDonor(reply, aggregatedResultTemp: ReplySite) {
+    for (const stratification of reply.donor.stratifications) {
+      let aggregatedStratification = aggregatedResultTemp.donor.stratifications.find(
+        stratificationTemp => stratificationTemp.title === stratification.title
+      );
+      if (!aggregatedStratification) {
+        aggregatedStratification = {title: stratification.title, strata: []};
+        aggregatedResultTemp.donor.stratifications.push(aggregatedStratification);
+      }
+      this.aggregateStrata(stratification, aggregatedStratification);
+    }
+  }
+
+  private aggregateStratificationSample(reply, aggregatedResultTemp: ReplySite) {
+    for (const stratification of reply.sample.stratifications) {
+      let aggregatedStratification = aggregatedResultTemp.sample.stratifications.find(
+        stratificationTemp => stratificationTemp.title === stratification.title
+      );
+      if (!aggregatedStratification) {
+        aggregatedStratification = {title: stratification.title, strata: []};
+        aggregatedResultTemp.sample.stratifications.push(aggregatedStratification);
+      }
+      this.aggregateStrata(stratification, aggregatedStratification);
+    }
+  }
+
+  private aggregateStrata(stratification: Stratification, aggregatedStratification: Stratification) {
+    for (const stratum of stratification.strata) {
+      if (stratum.label === 'null') {
+        continue;
+      }
+
+      const aggregatedStratum = aggregatedStratification.strata.find(stratumTemp => stratumTemp.label === stratum.label);
+      if (aggregatedStratum) {
+        aggregatedStratum.count += stratum.count;
+      } else {
+        aggregatedStratification.strata.push({label: stratum.label, count: stratum.count});
+      }
+    }
+
+    this.transformToPercentage(aggregatedStratification);
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private transformToPercentage(aggregatedStratification: Stratification) {
+    let totalCount = 0;
+    for (const stratum of aggregatedStratification.strata) {
+      totalCount += stratum.count;
+    }
+
+    if (totalCount === 0) {
+      return;
+    }
+
+    for (const stratum of aggregatedStratification.strata) {
+      stratum.count = 100 * stratum.count / totalCount;
+    }
+  }
+
+  isResultAnonymous(result: Reply = this.detailedResult): boolean {
+    if (!result || !result.replySites) {
+      return true;
+    }
+
+    for (const reply of result.replySites) {
       if (reply.site.toUpperCase() === 'ANONYMOUS') {
         return true;
       }
