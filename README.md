@@ -44,6 +44,7 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
 |SAMPLELOCATOR_URL|URL of the Sample Locator|
 |SEARCHBROKER_URL|URL of the Searchbroker API (Backend)|
 |NEGOTIATOR_URL|URL of the Negotiator|
+|TERMINOLOGY_SERVER_URL|URL of the terminology server|
 |AUTH_HOST|URL of the OpenID Connect provider|
 |AUTH_CLIENT_ID|Client-ID of the OpenID Connect Provider|
 |MOLGENIS_USERNAME|Username of Molgenis|
