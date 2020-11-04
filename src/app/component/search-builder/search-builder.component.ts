@@ -197,6 +197,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   // noinspection JSMethodCanBeStatic
+  getValueSetUrl(extendedField: ExtendedMdrFieldDto) {
+    if (extendedField && extendedField.valueSetUrl) {
+      return extendedField.valueSetUrl;
+    }
+
+    return '';
+  }
+
+  // noinspection JSMethodCanBeStatic
   getPlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
     if (extendedField && extendedField.placeHolder) {
       return extendedField.placeHolder;

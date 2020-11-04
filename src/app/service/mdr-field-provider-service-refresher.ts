@@ -100,7 +100,8 @@ export class MdrFieldProviderServiceRefresher {
       permittedValues,
 
       placeHolder: this.getPlaceHolder(dataElement, mdrConfig),
-      unit: this.getUnit(dataElement, mdrConfig)
+      unit: this.getUnit(dataElement, mdrConfig),
+      valueSetUrl: this.getValueSetUrl(dataElement, mdrConfig)
     };
   }
 
@@ -184,6 +185,17 @@ export class MdrFieldProviderServiceRefresher {
     for (const dataElementTemp of mdrConfig.dataElements) {
       if (dataElementTemp.urn === dataElement.identification.urn) {
         return dataElementTemp.unit;
+      }
+    }
+
+    return '';
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private getValueSetUrl(dataElement: MdrDataElement, mdrConfig: MdrConfig) {
+    for (const dataElementTemp of mdrConfig.dataElements) {
+      if (dataElementTemp.urn === dataElement.identification.urn) {
+        return dataElementTemp.valueSetUrl;
       }
     }
 

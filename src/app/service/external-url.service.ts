@@ -25,4 +25,8 @@ export class ExternalUrlService {
   getNegotiatorUrl(): string {
     return this.externalServices ? this.externalServices.negotiatorUrl : '';
   }
+
+  getTerminologyServerUrl(): string {
+    return this.externalServices ? this.externalServices.terminologyServerUrl : '';
+  }
 }

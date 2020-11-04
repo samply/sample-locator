@@ -17,5 +17,6 @@ export interface DataElement {
   urn: string;
   placeholder: string;
   unit: string;
+  valueSetUrl?: string;
 }
 
