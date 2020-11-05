@@ -11,6 +11,19 @@
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
+        <div class="margin-action-buttons"
+             fxLayout="row"
+             fxLayoutAlign="end">
+          <div fxLayout="row"
+               fxLayout.lt-md="column-reverse"
+               fxLayoutAlign="end"
+               fxLayoutAlign.lt-md="start">
+            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear" (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send" (click)="sendQuery()"></app-samply-button>
+          </div>
+        </div>
+
         <app-search-builder headerName="Donor/Clinical Information"
                             [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
         <app-search-builder headerName="Sample"
