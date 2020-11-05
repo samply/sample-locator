@@ -2,9 +2,12 @@
 <form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
   <h3>{{headerName}}</h3>
 
-  <div formArrayName="fields">
+  <div class="all-fields IE-HACK-search-builder" formArrayName="fields">
     <div *ngFor="let field of this.filteredFields; let i=index">
       <div [formGroupName]="i">
+        <div class="show-op-outer show-and" *ngIf="i > 0">
+          <div class="show-op-inner">AND</div>
+        </div>
         <div *ngIf="getExtendedMdrField(field) as extendedField"
              class="field-container"
              fxLayout="row"
@@ -21,6 +24,9 @@
                fxFlex="0 0 20em"
                fxFlex.lt-md="1 0 100%">
             <div *ngFor="let value of field.valueDtos; let j=index">
+              <div class="show-op-outer show-or" *ngIf="j > 0">
+                <diV class="show-op-inner">OR</diV>
+              </div>
               <div [formGroupName]="j"
                    fxLayout="column">
 

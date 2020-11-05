@@ -70,7 +70,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       value: SimpleValueOperator.GREATER_OR_EQUALS
     },
     {
-      label: '...',
+      label: 'IN',
       value: SimpleValueOperator.BETWEEN
     }
   ];

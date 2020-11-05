@@ -28,6 +28,7 @@ h3 {
 :host ::ng-deep .add-field,
 :host ::ng-deep .add-field .ui-inputtext,
 :host ::ng-deep .add-field .ui-dropdown-label {
+  transition: none;
   display: inline-block;
   height: 40px;
   min-width: 150px;
@@ -51,15 +52,20 @@ h3 {
 }
 
 :host ::ng-deep .add-field .ui-dropdown-trigger {
+  transition: none;
   background-color: $background-dark;
   color: white;
+}
+
+:host ::ng-deep .add-field:hover .ui-dropdown-trigger {
+  background: $background-gray;
 }
 
 :host ::ng-deep .add-field .ui-dropdown-label {
   padding: .5em 0;
 }
 
-:host ::ng-deep .add-field .ui-dropdown-label:hover {
+:host ::ng-deep .add-field:hover .ui-dropdown-label {
   background: $background-gray;
 }
 
@@ -71,6 +77,9 @@ h3 {
   color: white;
 }
 
+::ng-deep .ui-dropdown-items-wrapper {
+  max-height: 45em !important;
+}
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {
   border-bottom-color: $background-gray !important;
 }
@@ -87,4 +96,34 @@ h3 {
   //noinspection CssUnknownProperty
   -ms-transition: all 0s 0s;
   transition: all 0s 0s;
+}
+
+.show-op-outer {
+  position: relative;
+  z-index: 1000;
+
+  height: 0;
+}
+
+.show-op-inner {
+  max-width: fit-content;
+  padding: 0 0.2em;
+  background-color: $background-gray;
+  color: white;
+  font-size: small;
+}
+
+.show-and {
+  top: -.5em;
+  left: -1em;
+}
+
+.show-or {
+  top: -.9em;
+  left: -1em;
+}
+
+.all-fields {
+  border-left: 2px solid $background-gray;
+  padding: 0 0 0 .2em;
 }
