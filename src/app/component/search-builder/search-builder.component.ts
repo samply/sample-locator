@@ -266,11 +266,13 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const values: FormArray = this.getValuesFormArray(i);
     const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
+    const operator = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
+      ? this.fb.control(SimpleValueOperator.BETWEEN) : this.fb.control(SimpleValueOperator.EQUALS);
 
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
         value,
-        operator: this.fb.control(SimpleValueOperator.EQUALS),
+        operator,
       })
     );
 
@@ -283,12 +285,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 
-    if (newValue
-      && this.getQueryField(i).valueDtos.length <= j + 1
-      && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
-      this.addValue(i);
-    }
-
     this.slStorageService.setQuery(this.getQuery());
   }
 
@@ -297,10 +293,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const newValue = this.getValueControl(i, j).value.maxValue;
 
     this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
-
-    if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
-      this.addValue(i);
-    }
 
     this.slStorageService.setQuery(this.getQuery());
   }
@@ -371,20 +363,5 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     } else {
       return extendedField.permittedValues[index].label;
     }
-  }
-
-  isLastValueEmpty(i): boolean {
-    const valueDtos = this.getQueryField(i).valueDtos;
-    if (!valueDtos || valueDtos.length === 0) {
-      return true;
-    }
-
-    const lastValueDto = valueDtos[valueDtos.length - 1];
-    if (lastValueDto.condition === SimpleValueOperator.BETWEEN) {
-      return !lastValueDto.value || lastValueDto.value === '' ||
-        !lastValueDto.maxValue || lastValueDto.maxValue === '';
-    }
-
-    return !lastValueDto.value || lastValueDto.value === '';
   }
 }

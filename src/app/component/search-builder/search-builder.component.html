@@ -35,21 +35,21 @@
                 <!-- ------------- -->
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 4em" *ngIf="this.isOperatorSelectable(field)">
+                  <div fxFlex="0 0 3.5em" *ngIf="this.isOperatorSelectable(field)">
                     <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
                                 (select)="chooseOperator($event, i, j)"
                                 (onChange)="chooseOperator($event, i, j)"
                                 [style]="{ 'minWidth': '4em', 'width':'4em'}">
                     </p-dropdown>
                   </div>
-                  <div fxFlex="0 0 4em" *ngIf="!this.isOperatorSelectable(field)">
+                  <div fxFlex="0 0 3.5em" *ngIf="!this.isOperatorSelectable(field)">
                     <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
                                 dropdownIcon=""
                                 [style]="{ 'minWidth': '4em', 'width':'4em'}">
                     </p-dropdown>
                   </div>
 
-                  <div fxFlex="0 0 13em"
+                  <div fxFlex="0 0 11em"
                        fxFlex.lt-md="1 1 100%">
                     <!-- STRING -->
                     <app-value-string *ngIf="field.valueType === 'STRING' && !getValueSetUrl(extendedField)"
@@ -114,12 +114,15 @@
 
                   </div>
 
-                  <div fxFlex="0 0 2.5em"
+                  <div fxFlex="0 0 4.5em"
                        fxLayout="row"
                        fxLayoutAlign="start center">
                     <app-samply-button-small [active]="!disabled"
                                              [imageIcon]="faMinus"
                                              (click)="deleteValue(i, j)"></app-samply-button-small>
+                    <app-samply-button-small [active]="!disabled"
+                                             [imageIcon]="faPlus"
+                                             (click)="addValue(i)"></app-samply-button-small>
                   </div>
                 </div>
 
@@ -129,9 +132,9 @@
                 <div *ngIf="value.condition === 'BETWEEN'"
                      fxLayout="row"
                      fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 4em"></div>
+                  <div fxFlex="0 0 3.5em"></div>
 
-                  <div fxFlex="0 0 13em"
+                  <div fxFlex="0 0 11em"
                        fxFlex.lt-md="1 1 100%">
 
                     <!-- INTEGER and DECIMAL -->
@@ -170,31 +173,10 @@
                     </div>
                   </div>
 
-                  <div fxFlex="0 0 2.5em"></div>
+                  <div fxFlex="0 0 4.5em"></div>
                 </div>
 
               </div>
-            </div>
-
-            <!-- ------------------------ -->
-            <!-- Row for add-value button -->
-            <!-- ------------------------ -->
-            <div fxLayout="row"
-                 fxLayoutAlign="space-between center"
-                 *ngIf="!isLastValueEmpty(i)">
-              <div fxFlex="0 0 4em">
-              </div>
-              <div fxFlex="0 0 13em"
-                   fxFlex.lt-md="1 1 100%">
-              </div>
-
-              <div fxFlex="0 0 2.5em"
-                   fxLayout="row"
-                   fxLayoutAlign="start center">
-                <app-samply-button-small [active]="!disabled" [imageIcon]="faPlus"
-                                         (click)="addValue(i)"></app-samply-button-small>
-              </div>
-
             </div>
           </div>
         </div>
