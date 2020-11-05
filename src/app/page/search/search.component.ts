@@ -17,6 +17,16 @@ import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 })
 export class SearchComponent implements OnInit {
 
+  constructor(
+    public mdrFieldProviderService: MdrFieldProviderService,
+    public queryProviderService: QueryProviderService,
+    private externalUrlService: ExternalUrlService,
+    private slStorageService: SlStorageService,
+    private httpClient: HttpClient,
+    private router: Router,
+  ) {
+  }
+
   @ViewChildren(SearchBuilderComponent)
   builderComponents: Array<SearchBuilderComponent>;
 
@@ -27,14 +37,10 @@ export class SearchComponent implements OnInit {
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
-  constructor(
-    public mdrFieldProviderService: MdrFieldProviderService,
-    public queryProviderService: QueryProviderService,
-    private externalUrlService: ExternalUrlService,
-    private slStorageService: SlStorageService,
-    private httpClient: HttpClient,
-    private router: Router,
-  ) {
+  static scrollToTop() {
+    window.scroll({
+      top: 0
+    });
   }
 
   ngOnInit(): void {
@@ -47,6 +53,7 @@ export class SearchComponent implements OnInit {
   }
 
   sendQuery() {
+    SearchComponent.scrollToTop();
     this.slStorageService.setAppAction('sendQuery');
 
     this.router.navigate([SampleLocatorConstants.ROUTE_RESULT]);
