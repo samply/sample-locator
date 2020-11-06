@@ -24,10 +24,8 @@
           </div>
         </div>
 
-        <app-search-builder headerName="Donor/Clinical Information"
-                            [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-        <app-search-builder headerName="Sample"
-                            [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+        <app-search-builder [mdrEntitiesDonor]="mdrEntitiesDonor"
+                            [mdrEntitiesSample]="mdrEntitiesSample"></app-search-builder>
 
         <div class="margin-action-buttons"
              fxLayout="row"

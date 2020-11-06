@@ -1,6 +1,5 @@
 <!--suppress HtmlUnknownAttribute -->
 <form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
-  <h3>{{headerName}}</h3>
 
   <div class="all-fields IE-HACK-search-builder" formArrayName="fields">
     <div *ngFor="let field of this.filteredFields; let i=index">
@@ -190,6 +189,7 @@
       <!--suppress TypeScriptValidateTypes -->
       <p-dropdown [options]="addibleFields"
                   formControlName="addField"
+                  [group]="true"
                   (select)="chooseField($event)"
                   (onChange)="chooseField($event)"
                   placeholder="Add Field"

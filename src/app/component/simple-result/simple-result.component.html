@@ -15,15 +15,18 @@
 However, this does not work in an easy way:
 see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
 <!-- TODO: Get rid of this workaround -->
-<p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
-            *ngIf="showStratifier()"
-            [circular]="false">
-  <ng-template let-index pTemplate="item">
-    <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
-    <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
-    <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
-  </ng-template>
-</p-carousel>
-<p *ngIf="biobanksAnswered !== biobanksWithStratifications"
-   class="stratification-remark">Stratifications are calculated using {{biobanksWithStratifications}} out of {{biobanksAnswered}} biobanks.</p>
-
+<div *ngIf="featureService.stratifier()">
+  <p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
+              *ngIf="showStratifier()"
+              [circular]="true">
+    <ng-template let-index pTemplate="item">
+      <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
+      <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
+      <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
+    </ng-template>
+  </p-carousel>
+  <p *ngIf="showStratifier()"
+     class="stratification-remark">Diagrams are calculated using {{biobanksWithStratifications}} biobanks.</p>
+  <p *ngIf="!showStratifier()"
+     class="stratification-remark">Diagrams are not calculated as not sufficiently many biobanks have answered.</p>
+</div>

@@ -31,13 +31,9 @@
         </div>
 
         <!--suppress HtmlUnknownAttribute -->
-        <app-search-builder headerName="Donor/Clinical Information"
-                            disabled="true"
-                            [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-        <!--suppress HtmlUnknownAttribute -->
-        <app-search-builder headerName="Sample"
-                            disabled="true"
-                            [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+        <app-search-builder [mdrEntitiesDonor]="mdrEntitiesDonor"
+                            [mdrEntitiesSample]="mdrEntitiesSample"
+                            disabled="true"></app-search-builder>
 
         <div class="margin-action-buttons"
              fxLayout="row"

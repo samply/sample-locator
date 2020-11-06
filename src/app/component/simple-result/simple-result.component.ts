@@ -119,7 +119,6 @@ export class SimpleResultComponent implements OnInit, OnChanges {
   }
 
   showStratifier(): boolean {
-    return this.featureService.stratifier() &&
-      this.biobanksAnswered >= this.featureService.stratifierMinimalNumberBiobanks();
+    return this.biobanksWithStratifications >= this.featureService.stratifierMinimalNumberBiobanks();
   }
 }

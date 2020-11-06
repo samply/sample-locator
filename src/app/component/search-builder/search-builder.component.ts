@@ -17,6 +17,11 @@ class AddibleField {
   value: string;
 }
 
+class AddibleFieldsGroup {
+  label = '';
+  items: Array<AddibleField> = [];
+}
+
 @Component({
   selector: 'app-search-builder',
   templateUrl: './search-builder.component.html',
@@ -25,10 +30,10 @@ class AddibleField {
 export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   @Input()
-  public mdrEntities: Array<MdrEntity>;
+  public mdrEntitiesSample: Array<MdrEntity>;
 
   @Input()
-  public headerName: string;
+  public mdrEntitiesDonor: Array<MdrEntity>;
 
   @Input()
   disabled = false;
@@ -38,8 +43,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   faMinus = faMinus;
   faPlus = faPlus;
 
-  filteredFields: Array<EssentialSimpleFieldDto>;
-  addibleFields: Array<AddibleField>;
+  filteredFields: Array<EssentialSimpleFieldDto> = [];
+  addibleFields: Array<AddibleFieldsGroup> = [];
   permittedValuesMap: Map<EssentialSimpleFieldDto, Array<PermittedValue>>;
 
   public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
@@ -113,9 +118,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   public calculateFilteredFields() {
-    this.filteredFields =
-      this.getQuery().fieldDtos.slice().filter(field =>
-        this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
+    this.filteredFields = this.getQuery().fieldDtos.slice();
     this.formGroup = this.createFormGroup();
     this.initPermittedValuesMap();
   }
@@ -176,14 +179,26 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   private initAddibleFields() {
     this.addibleFields = [];
 
-    this.mdrFieldProviderService.getAllPossibleFields(this.mdrEntities).slice().forEach(field => {
+    this.addEntities('DONOR/CLINICAL INFORMATION', this.mdrEntitiesDonor);
+    this.addEntities('SAMPLE', this.mdrEntitiesSample);
+  }
+
+  private addEntities(label: string, mdrEntities: Array<MdrEntity>) {
+    const addibleFieldsSample: AddibleFieldsGroup = {
+      label,
+      items: []
+    };
+
+    this.mdrFieldProviderService.getAllPossibleFields(mdrEntities).slice().forEach(field => {
       const addibleField = {
         label: field.name,
         value: field.urn
       };
 
-      this.addibleFields.push(addibleField);
+      addibleFieldsSample.items.push(addibleField);
     });
+
+    this.addibleFields.push(addibleFieldsSample);
   }
 
   ngOnDestroy(): void {
