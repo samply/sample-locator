@@ -379,4 +379,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       return extendedField.permittedValues[index].label;
     }
   }
+
+  isLastValue(i, j) {
+    return j + 1 === this.getQueryField(i).valueDtos.length;
+  }
 }

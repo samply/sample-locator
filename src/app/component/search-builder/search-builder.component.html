@@ -121,6 +121,7 @@
                                              (click)="deleteValue(i, j)"></app-samply-button-small>
                     <app-samply-button-small [active]="!disabled"
                                              [imageIcon]="faPlus"
+                                             [visible]="isLastValue(i, j)"
                                              (click)="addValue(i)"></app-samply-button-small>
                   </div>
                 </div>
