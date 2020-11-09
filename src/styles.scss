@@ -21,7 +21,9 @@ body {
   font-weight: normal;
 }
 
-* {
+.bbmri-transition,
+.bbmri-transition a,
+.bbmri-transition div {
   -webkit-transition: all .2s ease-out;
   -moz-transition: all .2s ease-out;
   -o-transition: all .2s ease-out;
@@ -29,7 +31,9 @@ body {
   transition: all .2s ease-out;
 }
 
-*:hover {
+.bbmri-transition:hover,
+.bbmri-transition a:hover,
+.bbmri-transition div:hover {
   -webkit-transition: all .2s ease-in;
   -moz-transition: all .2s ease-in;
   -o-transition: all .2s ease-in;

@@ -1,4 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between stretch">
+<div fxLayout="row" fxLayoutAlign="space-between stretch"
+     class="bbmri-transition">
   <div fxFlex="1 0 0"></div>
 
   <div class="bbmri-container">
@@ -18,9 +19,11 @@
                fxLayout.lt-md="column-reverse"
                fxLayoutAlign="end"
                fxLayoutAlign.lt-md="start">
-            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear" (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear"
+                               (click)="resetQuery()"></app-samply-button>
             <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"></app-samply-button>
-            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send" (click)="sendQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+                               (click)="sendQuery()"></app-samply-button>
           </div>
         </div>
 
@@ -34,9 +37,11 @@
                fxLayout.lt-md="column-reverse"
                fxLayoutAlign="end"
                fxLayoutAlign.lt-md="start">
-            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear" (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear"
+                               (click)="resetQuery()"></app-samply-button>
             <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"></app-samply-button>
-            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send" (click)="sendQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+                               (click)="sendQuery()"></app-samply-button>
           </div>
         </div>
       </div>

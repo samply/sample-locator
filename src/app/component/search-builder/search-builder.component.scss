@@ -26,9 +26,28 @@ h3 {
 }
 
 :host ::ng-deep .add-field,
+:host ::ng-deep .add-field .ui-dropdown-label,
+:host ::ng-deep .add-field .ui-dropdown-trigger {
+  -webkit-transition: all .2s ease-out !important;
+  -moz-transition: all .2s ease-out !important;
+  -o-transition: all .2s ease-out !important;
+  -ms-transition: all .2s ease-out !important;
+  transition: all .2s ease-out !important;
+}
+
+:host ::ng-deep .add-field:hover,
+:host ::ng-deep .add-field:hover .ui-dropdown-trigger,
+:host ::ng-deep .add-field:hover .ui-dropdown-label {
+  -webkit-transition: all .2s ease-in !important;
+  -moz-transition: all .2s ease-in !important;;
+  -o-transition: all .2s ease-in !important;;
+  -ms-transition: all .2s ease-in !important;;
+  transition: all .2s ease-in !important;;
+}
+
+:host ::ng-deep .add-field,
 :host ::ng-deep .add-field .ui-inputtext,
 :host ::ng-deep .add-field .ui-dropdown-label {
-  transition: none;
   display: inline-block;
   height: 40px;
   min-width: 150px;
@@ -52,7 +71,6 @@ h3 {
 }
 
 :host ::ng-deep .add-field .ui-dropdown-trigger {
-  transition: none;
   background-color: $background-dark;
   color: white;
 }
@@ -88,15 +106,6 @@ h3 {
 ::ng-deep .ui-tooltip .ui-tooltip-text {
   background-color: $background-gray !important;
   color: white !important;
-}
-
-::ng-deep .ui-tooltip {
-  -webkit-transition: all 0s 0s;
-  -moz-transition: all 0s 0s;
-  -o-transition: all 0s 0s;
-  //noinspection CssUnknownProperty
-  -ms-transition: all 0s 0s;
-  transition: all 0s 0s;
 }
 
 .show-op-outer {

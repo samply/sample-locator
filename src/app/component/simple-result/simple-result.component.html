@@ -1,32 +1,34 @@
-<app-result-header-line [isDetailedResult]="false"
-                        [biobanksAnswered]="biobanksAnswered"
-                        [sumDonors]="aggregatedResult?.donor.count"
-                        [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
+<div class="bbmri-transition">
+  <app-result-header-line [isDetailedResult]="false"
+                          [biobanksAnswered]="biobanksAnswered"
+                          [sumDonors]="aggregatedResult?.donor.count"
+                          [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
 
-<div *ngIf="!userService.getLoginValid()"
-     fxLayout="row"
-     fxLayoutAlign="center space-around"
-     (click)="userService.login()"
-     class="result-detail-button-wrapper">
-  <span class="result-detail-button" fxFlex="0 0 auto">Log in for detailed results</span>
-</div>
+  <div *ngIf="!userService.getLoginValid()"
+       fxLayout="row"
+       fxLayoutAlign="center space-around"
+       (click)="userService.login()"
+       class="result-detail-button-wrapper">
+    <div class="result-detail-button" fxFlex="0 0 auto">Log in for detailed results</div>
+  </div>
 
-<!-- We should actually loop directly over the stratificatinData list and not an index list.
-However, this does not work in an easy way:
-see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
-<!-- TODO: Get rid of this workaround -->
-<div *ngIf="featureService.stratifier()">
-  <p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
-              *ngIf="showStratifier()"
-              [circular]="true">
-    <ng-template let-index pTemplate="item">
-      <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
-      <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
-      <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
-    </ng-template>
-  </p-carousel>
-  <p *ngIf="showStratifier()"
-     class="stratification-remark">Diagrams are calculated using {{biobanksWithStratifications}} biobanks.</p>
-  <p *ngIf="!showStratifier()"
-     class="stratification-remark">Diagrams are not calculated as not sufficiently many biobanks have answered.</p>
+  <!-- We should actually loop directly over the stratificatinData list and not an index list.
+  However, this does not work in an easy way:
+  see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
+  <!-- TODO: Get rid of this workaround -->
+  <div *ngIf="featureService.stratifier()">
+    <p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
+                *ngIf="showStratifier()"
+                [circular]="true">
+      <ng-template let-index pTemplate="item">
+        <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
+        <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
+        <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
+      </ng-template>
+    </p-carousel>
+    <p *ngIf="showStratifier()"
+       class="stratification-remark">Diagrams are calculated using {{biobanksWithStratifications}} biobanks.</p>
+    <p *ngIf="!showStratifier()"
+       class="stratification-remark">Diagrams are not calculated as not sufficiently many biobanks have answered.</p>
+  </div>
 </div>

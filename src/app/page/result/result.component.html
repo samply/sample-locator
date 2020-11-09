@@ -1,4 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between stretch">
+<div fxLayout="row" fxLayoutAlign="space-between stretch"
+     class="bbmri-transition">
   <div fxFlex="1 0 0"></div>
 
   <div class="bbmri-container">
@@ -71,8 +72,7 @@
         </div>
 
         <!-- SHOW DETAILED RESULT -->
-        <div *ngIf="userService.getLoginValid()"
-             class="no-transition">
+        <div *ngIf="userService.getLoginValid()">
           <div *ngIf="!isResultAnonymous()">
             <app-detailed-result [detailedResult]="detailedResult"
                                  [biobanksAnswered]="biobanksAnswered"
