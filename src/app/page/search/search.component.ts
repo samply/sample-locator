@@ -17,6 +17,8 @@ import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 })
 export class SearchComponent implements OnInit {
 
+  private static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
+
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
@@ -63,5 +65,11 @@ export class SearchComponent implements OnInit {
     this.queryProviderService.resetQuery();
     this.builderComponents.forEach(component => component.calculateFilteredFields());
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
+  }
+
+  showTopActionButtons() {
+    let numberOfValues = 0;
+    this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
+    return numberOfValues >= SearchComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 }

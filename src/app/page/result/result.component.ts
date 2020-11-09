@@ -25,6 +25,8 @@ import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
 })
 export class ResultComponent implements OnInit, OnDestroy {
 
+  private static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
+
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
     private resultService: ResultService,
@@ -350,6 +352,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   resetQuery() {
     this.queryProviderService.resetQuery();
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
+  }
+
+  showTopActionButtons() {
+    let numberOfValues = 0;
+    this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
+    return numberOfValues >= ResultComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 
   // noinspection JSMethodCanBeStatic

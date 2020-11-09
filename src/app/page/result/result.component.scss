@@ -43,6 +43,10 @@ h2 {
   margin: 1.5em 0;
 }
 
+.top-action-buttons {
+  min-height: 3em;
+}
+
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {
   border-bottom-color: $background-gray !important;
 }

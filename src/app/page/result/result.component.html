@@ -5,14 +5,14 @@
   <div class="bbmri-container">
     <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
       <div fxFlex="0 1 50%">
-        <h2>Search</h2>
+        <h2>Search for biosamples</h2>
 
         <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
           Waiting for data from Metadata Repository
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
-        <div class="margin-action-buttons"
+        <div class="margin-action-buttons top-action-buttons"
              fxLayout="row"
              fxLayoutAlign="end">
           <div fxLayout="row"
@@ -21,13 +21,17 @@
                fxLayoutAlign.lt-md="start">
             <app-samply-button [imageIcon]="faTimes"
                                [active]="true"
+                               [visible]="showTopActionButtons()"
                                label="Clear"
                                (click)="resetQuery()"></app-samply-button>
             <app-samply-button [imageIcon]="faEdit"
                                [active]="true"
+                               [visible]="showTopActionButtons()"
                                label="Edit"
                                (click)="editQuery()"></app-samply-button>
-            <app-samply-button [imageIcon]="faPaperPlane" [active]="false" label="Send"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="false"
+                               [visible]="showTopActionButtons()"
+                               label="Send"></app-samply-button>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 <div class="samply-button samply-button-active"
      ngClass="{{active ? 'samply-button samply-button-active' : 'samply-button samply-button-inactive'}}"
+     [fxShow]="visible"
      fxLayout="row"
      fxLayoutAlign="space-between">
   <fa-icon *ngIf="imageIcon" [icon]="imageIcon" size="lg"></fa-icon>
