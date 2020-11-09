@@ -14,19 +14,8 @@
   margin: 2em 0;
 }
 
-.result-progressbar {
-  min-height: 3em;
-  margin: 2em 0;
-}
-
 :host ::ng-deep .ui-progressbar-value {
   background-color: $background-gray !important;
-}
-
-.disclaimer {
-  font-size: 0.8em;
-  margin: 1em 0;
-  padding: 0 10px;
 }
 
 h2 {
