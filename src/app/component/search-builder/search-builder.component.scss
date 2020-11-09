@@ -95,10 +95,16 @@ h3 {
   color: white;
 }
 
-::ng-deep .ui-dropdown-items-wrapper {
+::ng-deep .add-field .ui-dropdown-items-wrapper {
   max-height: 45em !important;
   width: 20em;
 }
+
+::ng-deep .operator-dropdown .ui-dropdown-items-wrapper {
+  max-height: 20em !important;
+  width: 15em;
+}
+
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {
   border-bottom-color: $background-gray !important;
 }
@@ -110,7 +116,7 @@ h3 {
 
 .show-op-outer {
   position: relative;
-  z-index: 1000;
+  z-index: 900;
 
   height: 0;
 }
@@ -137,4 +143,8 @@ h3 {
 .all-fields {
   border-left: 2px solid $background-gray;
   padding: 0 0 0 .2em;
+}
+
+.operator-dropdown fa-icon {
+  color: $background-gray-light;
 }

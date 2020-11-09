@@ -34,17 +34,32 @@
                 <!-- ------------- -->
                 <div fxLayout="row"
                      fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 3.5em" *ngIf="this.isOperatorSelectable(field)">
+                  <div fxFlex="0 0 3.5em" *ngIf="this.isOperatorSelectable(field)" class="operator-dropdown">
                     <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
                                 (select)="chooseOperator($event, i, j)"
                                 (onChange)="chooseOperator($event, i, j)"
                                 [style]="{ 'minWidth': '4em', 'width':'4em'}">
+                      <ng-template let-operator pTemplate="item">
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                          <fa-icon [icon]="getIcon(field, operator.value)" class="fa-icon-times"></fa-icon>
+                          <div>{{getOperatorDescription(operator.value)}}</div>
+                        </div>
+                      </ng-template>
+                      <ng-template let-operator pTemplate="selectedItem">
+                        <fa-icon [icon]="getIcon(field, operator.value)" class="fa-icon-times"></fa-icon>
+                      </ng-template>
                     </p-dropdown>
                   </div>
                   <div fxFlex="0 0 3.5em" *ngIf="!this.isOperatorSelectable(field)">
                     <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
                                 dropdownIcon=""
                                 [style]="{ 'minWidth': '4em', 'width':'4em'}">
+                      <ng-template let-operator pTemplate="item">
+                        <fa-icon [icon]="getIcon(field, operator.value)" class="fa-icon-times"></fa-icon>
+                      </ng-template>
+                      <ng-template let-operator pTemplate="selectedItem">
+                        <fa-icon [icon]="getIcon(field, operator.value)" class="fa-icon-times"></fa-icon>
+                      </ng-template>
                     </p-dropdown>
                   </div>
 
@@ -53,17 +68,17 @@
                     <!-- STRING -->
                     <app-value-string *ngIf="field.valueType === 'STRING' && !getValueSetUrl(extendedField)"
                                       formControlName="value"
-                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                      [placeholderText]="getValuePlaceholder(extendedField, value.condition)"
                                       (change)="changeValue(i, j)"></app-value-string>
                     <app-valueset-choose *ngIf="field.valueType === 'STRING' && getValueSetUrl(extendedField)"
                                          formControlName="value"
-                                         [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                         [placeholderText]="getValuePlaceholder(extendedField, value.condition)"
                                          [valueSetUrl]="getValueSetUrl(extendedField)"
                                          (change)="changeValue(i, j)"></app-valueset-choose>
                     <!-- INTEGER and DECIMAL -->
                     <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
                                       formControlName="value"
-                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                      [placeholderText]="getValuePlaceholder(extendedField, value.condition)"
                                       (change)="changeValue(i, j)"></app-value-number>
                     <!-- PERMITTEDVALUE -->
                     <div *ngIf="field.valueType === 'PERMITTEDVALUE'"
@@ -74,7 +89,7 @@
                                   [options]="permittedValuesMap.get(field)"
                                   (select)="changeValue(i, j)"
                                   (onChange)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                  placeholder="{{getValuePlaceholder(extendedField, value.condition)}}"
                                   tooltip="{{getDropdownTooltip(extendedField, value.value)}}"
                                   tooltipPosition="top"
                                   [style]="{ 'minWidth': '100%', 'width': '100%'}">
@@ -89,7 +104,7 @@
                       <p-calendar formControlName="value"
                                   (onSelect)="changeValue(i, j)"
                                   (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                  placeholder="{{getValuePlaceholder(extendedField, value.condition)}}"
                                   dateFormat="dd.mm.yy"
                                   [inputStyle]="{ 'width': '100%'}"
                                   [style]="{ 'width': '100%'}"></p-calendar>
@@ -103,7 +118,7 @@
                       <p-calendar formControlName="value"
                                   (onSelect)="changeValue(i, j)"
                                   (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                  placeholder="{{getValuePlaceholder(extendedField, value.condition)}}"
                                   dateFormat="dd.mm.yy"
                                   showTime="true"
                                   hourFormat="24"
@@ -150,7 +165,7 @@
                       <p-calendar formControlName="maxValue"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
-                                  placeholder="Max."
+                                  placeholder="To"
                                   dateFormat="dd.mm.yy"
                                   [inputStyle]="{ 'width': '100%'}"
                                   [style]="{ 'width': '100%'}"></p-calendar>
@@ -164,7 +179,7 @@
                       <p-calendar formControlName="maxValue"
                                   (onSelect)="changeMaxValue(i, j)"
                                   (input)="changeMaxValue(i, j)"
-                                  placeholder="Max."
+                                  placeholder="To"
                                   dateFormat="dd.mm.yy"
                                   showTime="true"
                                   hourFormat="24"

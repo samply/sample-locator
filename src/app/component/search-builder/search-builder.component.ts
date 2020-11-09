@@ -7,7 +7,13 @@ import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {
+  faMinus, faPlus,
+  faRuler, faCalendarAlt, faQuestion,
+  faEquals, faNotEqual,
+  faLessThan, faLessThanEqual,
+  faGreaterThan, faGreaterThanEqual
+} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
 import {SlStorageService} from '../../service/sl-storage.service';
@@ -42,6 +48,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   faMinus = faMinus;
   faPlus = faPlus;
+  faRuler = faRuler;
+  faCalendarAlt = faCalendarAlt;
+  faEquals = faEquals;
+  faNotEqual = faNotEqual;
+  faLessThan = faLessThan;
+  faLessThanEqual = faLessThanEqual;
+  faGreaterThan = faGreaterThan;
+  faGreaterThanEqual = faGreaterThanEqual;
+  faQuestion = faQuestion;
 
   filteredFields: Array<EssentialSimpleFieldDto> = [];
   addibleFields: Array<AddibleFieldsGroup> = [];
@@ -221,7 +236,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   // noinspection JSMethodCanBeStatic
-  getPlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
+  getValuePlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
     if (extendedField && extendedField.placeHolder) {
       return extendedField.placeHolder;
     }
@@ -230,7 +245,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       return 'Select';
     }
 
-    return operator === SimpleValueOperator.BETWEEN ? 'Min.' : '';
+    if (operator !== SimpleValueOperator.BETWEEN) {
+      return '';
+    }
+
+    if (extendedField.mdrDataType === MdrDataType.DATETIME || extendedField.mdrDataType === MdrDataType.DATE) {
+      return 'From';
+    } else {
+      return 'Min.';
+    }
   }
 
   getPossibleOperators(valueType: EssentialValueType) {
@@ -382,5 +405,54 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   isLastValue(i, j) {
     return j + 1 === this.getQueryField(i).valueDtos.length;
+  }
+
+  // noinspection JSMethodCanBeStatic
+  getOperatorDescription(value: SimpleValueOperator): string {
+    switch (value) {
+      case SimpleValueOperator.EQUALS:
+        return 'equals';
+      case SimpleValueOperator.NOT_EQUALS:
+        return 'not equals';
+      case SimpleValueOperator.LESS:
+        return 'less than';
+      case SimpleValueOperator.LESS_OR_EQUALS:
+        return 'less than or equals';
+      case SimpleValueOperator.GREATER:
+        return 'greater than';
+      case SimpleValueOperator.GREATER_OR_EQUALS:
+        return 'greater than or equals';
+      case SimpleValueOperator.BETWEEN:
+        return 'between';
+
+      default:
+        return '';
+    }
+  }
+
+  getIcon(field: EssentialSimpleFieldDto, value: SimpleValueOperator) {
+    switch (value) {
+      case SimpleValueOperator.EQUALS:
+        return this.faEquals;
+      case SimpleValueOperator.NOT_EQUALS:
+        return this.faNotEqual;
+      case SimpleValueOperator.LESS:
+        return this.faLessThan;
+      case SimpleValueOperator.LESS_OR_EQUALS:
+        return this.faLessThanEqual;
+      case SimpleValueOperator.GREATER:
+        return this.faGreaterThan;
+      case SimpleValueOperator.GREATER_OR_EQUALS:
+        return this.faGreaterThanEqual;
+      case SimpleValueOperator.BETWEEN:
+        if (field.valueType === EssentialValueType.DATE || field.valueType === EssentialValueType.DATETIME) {
+          return this.faCalendarAlt;
+        } else {
+          return this.faRuler;
+        }
+
+      default:
+        return this.faQuestion;
+    }
   }
 }
