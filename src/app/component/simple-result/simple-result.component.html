@@ -4,6 +4,10 @@
                           [sumDonors]="aggregatedResult?.donor.count"
                           [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
 
+  <div *ngIf="showNoResultsExplanation()" class="disclaimer">
+    No suitable samples are found matching your query.
+  </div>
+
   <div *ngIf="!userService.getLoginValid()"
        fxLayout="row"
        fxLayoutAlign="center space-around"

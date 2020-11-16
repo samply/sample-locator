@@ -17,3 +17,9 @@ h2 {
 .top-action-buttons {
   min-height: 3em;
 }
+
+@media (max-width: 991px) {
+  .top-action-buttons {
+    display: none;
+  }
+}

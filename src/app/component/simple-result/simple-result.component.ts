@@ -121,4 +121,10 @@ export class SimpleResultComponent implements OnInit, OnChanges {
   showStratifier(): boolean {
     return this.biobanksWithStratifications >= this.featureService.stratifierMinimalNumberBiobanks();
   }
+
+  showNoResultsExplanation(): boolean {
+    return (this.biobanksAnswered > 0)
+      && (this.aggregatedResult.sample.count === 0)
+      && (this.aggregatedResult.donor.count === 0);
+  }
 }

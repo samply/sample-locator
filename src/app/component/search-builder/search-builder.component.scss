@@ -145,6 +145,28 @@ h3 {
   padding: 0 0 0 .2em;
 }
 
+@media (max-width: 991px) {
+  .all-fields {
+    border-left: 0 solid $background-gray;
+    padding: 0;
+  }
+}
+
 .operator-dropdown fa-icon {
   color: $background-gray-light;
+}
+
+::ng-deep .operator-dropdown .ui-state-highlight fa-icon {
+  color: white !important;
+}
+
+::ng-deep body .ui-dropdown:not(.ui-state-disabled).ui-state-focus,
+::ng-deep body .ui-inputtext:enabled:focus:not(.ui-state-error) {
+  box-shadow: 0 0 0 0.2em $color-gold !important;
+}
+
+::ng-deep body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight,
+::ng-deep body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight {
+  background-color: $color-gold;
+  color: white;
 }

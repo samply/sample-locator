@@ -1,12 +1,12 @@
 @import "../../../_variables.scss";
 
 .result-extra-margin {
-  margin: 92px 0 0 0;
+  margin: 106px 0 0 0;
 }
 
 @media (max-width: 991px) {
   .result-extra-margin {
-    margin: 124px 0 0 0;
+    margin: 52px 0 0 0;
   }
 }
 
@@ -34,6 +34,12 @@ h2 {
 
 .top-action-buttons {
   min-height: 3em;
+}
+
+@media (max-width: 991px) {
+  .top-action-buttons {
+    display: none !important;
+  }
 }
 
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {

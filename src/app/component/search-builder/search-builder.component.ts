@@ -9,7 +9,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
 import {
   faMinus, faPlus,
-  faRuler, faCalendarAlt, faQuestion,
+  faArrowsAltH, faCalendarAlt, faQuestion,
   faEquals, faNotEqual,
   faLessThan, faLessThanEqual,
   faGreaterThan, faGreaterThanEqual
@@ -48,7 +48,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   faMinus = faMinus;
   faPlus = faPlus;
-  faRuler = faRuler;
+  faArrowsAltH = faArrowsAltH;
   faCalendarAlt = faCalendarAlt;
   faEquals = faEquals;
   faNotEqual = faNotEqual;
@@ -408,22 +408,22 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   // noinspection JSMethodCanBeStatic
-  getOperatorDescription(value: SimpleValueOperator): string {
+  getOperatorDescription(field: EssentialSimpleFieldDto, value: SimpleValueOperator): string {
     switch (value) {
       case SimpleValueOperator.EQUALS:
-        return 'equals';
+        return this.isDateType(field) ? 'on' : 'equal';
       case SimpleValueOperator.NOT_EQUALS:
-        return 'not equals';
+        return this.isDateType(field) ? 'not on' : 'unequal';
       case SimpleValueOperator.LESS:
-        return 'less than';
+        return this.isDateType(field) ? 'before' : 'less than';
       case SimpleValueOperator.LESS_OR_EQUALS:
-        return 'less than or equals';
+        return this.isDateType(field) ? 'before or on' : 'less than or equal';
       case SimpleValueOperator.GREATER:
-        return 'greater than';
+        return this.isDateType(field) ? 'after' : 'greater than';
       case SimpleValueOperator.GREATER_OR_EQUALS:
-        return 'greater than or equals';
+        return this.isDateType(field) ? 'after or on' : 'greater than or equal';
       case SimpleValueOperator.BETWEEN:
-        return 'between';
+        return this.isDateType(field) ? 'between' : 'in range of';
 
       default:
         return '';
@@ -445,14 +445,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       case SimpleValueOperator.GREATER_OR_EQUALS:
         return this.faGreaterThanEqual;
       case SimpleValueOperator.BETWEEN:
-        if (field.valueType === EssentialValueType.DATE || field.valueType === EssentialValueType.DATETIME) {
-          return this.faCalendarAlt;
-        } else {
-          return this.faRuler;
-        }
+          return this.isDateType(field) ? this.faCalendarAlt : this.faArrowsAltH;
 
       default:
         return this.faQuestion;
     }
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private isDateType(field: EssentialSimpleFieldDto) {
+    return field.valueType === EssentialValueType.DATE || field.valueType === EssentialValueType.DATETIME;
   }
 }

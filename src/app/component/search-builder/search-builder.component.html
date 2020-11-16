@@ -42,7 +42,7 @@
                       <ng-template let-operator pTemplate="item">
                         <div fxLayout="row" fxLayoutAlign="space-between center">
                           <fa-icon [icon]="getIcon(field, operator.value)" class="fa-icon-times"></fa-icon>
-                          <div>{{getOperatorDescription(operator.value)}}</div>
+                          <div>{{getOperatorDescription(field, operator.value)}}</div>
                         </div>
                       </ng-template>
                       <ng-template let-operator pTemplate="selectedItem">
