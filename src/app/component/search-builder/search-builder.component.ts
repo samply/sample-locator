@@ -299,13 +299,14 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     const fieldDto = this.getQueryField(i);
+    const operatorDisabled = this.getPossibleOperators(fieldDto.valueType).length <= 1;
 
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
     const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
     const operator = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
-      ? this.fb.control(SimpleValueOperator.BETWEEN) : this.fb.control(SimpleValueOperator.EQUALS);
+      ? this.fb.control(SimpleValueOperator.BETWEEN) : this.fb.control({value: SimpleValueOperator.EQUALS, disabled: operatorDisabled});
 
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
@@ -445,7 +446,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       case SimpleValueOperator.GREATER_OR_EQUALS:
         return this.faGreaterThanEqual;
       case SimpleValueOperator.BETWEEN:
-          return this.isDateType(field) ? this.faCalendarAlt : this.faArrowsAltH;
+        return this.isDateType(field) ? this.faCalendarAlt : this.faArrowsAltH;
 
       default:
         return this.faQuestion;
