@@ -17,6 +17,7 @@ import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
+import {SearchComponent} from '../search/search.component';
 
 @Component({
   selector: 'app-result',
@@ -24,8 +25,6 @@ import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
   styleUrls: ['./result.component.scss']
 })
 export class ResultComponent implements OnInit, OnDestroy {
-
-  private static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
@@ -330,7 +329,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   showTopActionButtons() {
     let numberOfValues = 0;
     this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
-    return numberOfValues >= ResultComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
+    return numberOfValues >= SearchComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 
   // noinspection JSMethodCanBeStatic

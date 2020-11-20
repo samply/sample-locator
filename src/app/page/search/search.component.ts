@@ -17,7 +17,7 @@ import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 })
 export class SearchComponent implements OnInit {
 
-  private static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
+  static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
