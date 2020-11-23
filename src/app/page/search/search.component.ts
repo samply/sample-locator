@@ -17,6 +17,18 @@ import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 })
 export class SearchComponent implements OnInit {
 
+  static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
+
+  constructor(
+    public mdrFieldProviderService: MdrFieldProviderService,
+    public queryProviderService: QueryProviderService,
+    private externalUrlService: ExternalUrlService,
+    private slStorageService: SlStorageService,
+    private httpClient: HttpClient,
+    private router: Router,
+  ) {
+  }
+
   @ViewChildren(SearchBuilderComponent)
   builderComponents: Array<SearchBuilderComponent>;
 
@@ -27,14 +39,10 @@ export class SearchComponent implements OnInit {
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
 
-  constructor(
-    public mdrFieldProviderService: MdrFieldProviderService,
-    public queryProviderService: QueryProviderService,
-    private externalUrlService: ExternalUrlService,
-    private slStorageService: SlStorageService,
-    private httpClient: HttpClient,
-    private router: Router,
-  ) {
+  static scrollToTop() {
+    window.scroll({
+      top: 0
+    });
   }
 
   ngOnInit(): void {
@@ -47,6 +55,7 @@ export class SearchComponent implements OnInit {
   }
 
   sendQuery() {
+    SearchComponent.scrollToTop();
     this.slStorageService.setAppAction('sendQuery');
 
     this.router.navigate([SampleLocatorConstants.ROUTE_RESULT]);
@@ -56,5 +65,11 @@ export class SearchComponent implements OnInit {
     this.queryProviderService.resetQuery();
     this.builderComponents.forEach(component => component.calculateFilteredFields());
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
+  }
+
+  showTopActionButtons() {
+    let numberOfValues = 0;
+    this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
+    return numberOfValues >= SearchComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 }

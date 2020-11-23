@@ -66,8 +66,11 @@ export class QueryProviderService {
 
   // noinspection JSMethodCanBeStatic
   addEmptyValue(fieldDto: EssentialSimpleFieldDto): void {
+    const condition = (fieldDto.valueType === EssentialValueType.DATETIME || fieldDto.valueType === EssentialValueType.DATE) ?
+      SimpleValueOperator.BETWEEN : SimpleValueOperator.EQUALS;
+
     fieldDto.valueDtos.push({
-      condition: SimpleValueOperator.EQUALS,
+      condition,
       value: '',
       maxValue: '',
     });

@@ -11,3 +11,13 @@
     padding-top: 3em;
   }
 }
+
+@media (-ms-high-contrast:none) {
+  .IE-HACK-search-builder .show-and {
+    width: 1.8em;
+  }
+
+  .IE-HACK-search-builder .show-or {
+    width: 1.3em;
+  }
+}

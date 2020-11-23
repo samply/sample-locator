@@ -1,29 +1,43 @@
-<app-result-header-line [isDetailedResult]="false"
-                        [biobanksAnswered]="biobanksAnswered"
-                        [sumDonors]="aggregatedResult?.donor.count"
-                        [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
+<div class="bbmri-transition">
+  <app-result-header-line [isDetailedResult]="false"
+                          [biobanksAnswered]="biobanksAnswered"
+                          [sumDonors]="aggregatedResult?.donor.count"
+                          [sumSamples]="aggregatedResult?.sample.count"></app-result-header-line>
 
-<div *ngIf="!userService.getLoginValid()"
-     fxLayout="row"
-     fxLayoutAlign="center space-around"
-     (click)="userService.login()"
-     class="result-detail-button-wrapper">
-  <span class="result-detail-button" fxFlex="0 0 auto">Show results per biobank</span>
+  <div *ngIf="showNoResultsExplanation()" class="disclaimer">
+    No suitable samples are found matching your query.
+  </div>
+
+  <div *ngIf="!userService.getLoginValid()"
+       fxLayout="row"
+       fxLayoutAlign="center space-around"
+       (click)="userService.login()"
+       class="result-detail-button-wrapper">
+    <div class="result-detail-button" fxFlex="0 0 auto">Log in for results per biobank</div>
+  </div>
+
+  <div class="disclaimer">
+    Most results have been received after one minute.
+    However, in some cases it might take up to five minutes for the last results to appear.
+  </div>
+
+  <!-- We should actually loop directly over the stratificatinData list and not an index list.
+  However, this does not work in an easy way:
+  see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
+  <!-- TODO: Get rid of this workaround -->
+  <div *ngIf="featureService.stratifier()">
+    <p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
+                *ngIf="showStratifier()"
+                [circular]="true">
+      <ng-template let-index pTemplate="item">
+        <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
+        <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
+        <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
+      </ng-template>
+    </p-carousel>
+    <p *ngIf="showStratifier()"
+       class="stratification-remark">
+      Stratification data are provided by
+      {{biobanksWithStratifications}} out of {{biobanksAnswered}} biobanks.</p>
+  </div>
 </div>
-
-<!-- We should actually loop directly over the stratificatinData list and not an index list.
-However, this does not work in an easy way:
-see https://stackoverflow.com/questions/45541431/how-to-get-index-from-template-inside-prime-ng-carousel-in-angular2 -->
-<!-- TODO: Get rid of this workaround -->
-<p-carousel [value]="[1, 2, 3]" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000"
-            *ngIf="showStratifier()"
-            [circular]="false">
-  <ng-template let-index pTemplate="item">
-    <app-stratification *ngIf="index === 1" [data]="dataAge"></app-stratification>
-    <app-stratification *ngIf="index === 2" [data]="dataSex"></app-stratification>
-    <app-stratification *ngIf="index === 3" [data]="dataSampleType"></app-stratification>
-  </ng-template>
-</p-carousel>
-<p *ngIf="biobanksAnswered !== biobanksWithStratifications"
-   class="stratification-remark">Stratifications are calculated using {{biobanksWithStratifications}} out of {{biobanksAnswered}} biobanks.</p>
-

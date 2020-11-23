@@ -1,12 +1,12 @@
 @import "../../../_variables.scss";
 
 .result-extra-margin {
-  margin: 92px 0 0 0;
+  margin: 106px 0 0 0;
 }
 
 @media (max-width: 991px) {
   .result-extra-margin {
-    margin: 124px 0 0 0;
+    margin: 52px 0 0 0;
   }
 }
 
@@ -14,28 +14,8 @@
   margin: 2em 0;
 }
 
-.result-progressbar {
-  min-height: 3em;
-  margin: 2em 0;
-}
-
 :host ::ng-deep .ui-progressbar-value {
   background-color: $background-gray !important;
-}
-
-.no-transition div {
-  -webkit-transition: all 0s 0s;
-  -moz-transition: all 0s 0s;
-  -o-transition: all 0s 0s;
-  //noinspection CssUnknownProperty
-  -ms-transition: all 0s 0s;
-  transition: all 0s 0s;
-}
-
-.disclaimer {
-  font-size: 0.8em;
-  margin: 1em 0;
-  padding: 0 10px;
 }
 
 h2 {
@@ -52,6 +32,16 @@ h2 {
   margin: 1.5em 0;
 }
 
+.top-action-buttons {
+  min-height: 3em;
+}
+
+@media (max-width: 991px) {
+  .top-action-buttons {
+    display: none !important;
+  }
+}
+
 ::ng-deep .ui-tooltip .ui-tooltip-arrow {
   border-bottom-color: $background-gray !important;
 }
@@ -59,13 +49,4 @@ h2 {
 ::ng-deep .ui-tooltip .ui-tooltip-text {
   background-color: $background-gray !important;
   color: white !important;
-}
-
-::ng-deep .ui-tooltip {
-  -webkit-transition: all 0s 0s;
-  -moz-transition: all 0s 0s;
-  -o-transition: all 0s 0s;
-  //noinspection CssUnknownProperty
-  -ms-transition: all 0s 0s;
-  transition: all 0s 0s;
 }
