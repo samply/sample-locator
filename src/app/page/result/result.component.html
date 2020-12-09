@@ -1,4 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between stretch">
+<div fxLayout="row" fxLayoutAlign="space-between stretch"
+     class="bbmri-transition">
   <div fxFlex="1 0 0"></div>
 
   <div class="bbmri-container">
@@ -11,14 +12,33 @@
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
 
+        <div class="margin-action-buttons top-action-buttons"
+             fxLayout="row"
+             fxLayoutAlign="end">
+          <div fxLayout="row"
+               fxLayout.lt-md="column-reverse"
+               fxLayoutAlign="end"
+               fxLayoutAlign.lt-md="start">
+            <app-samply-button [imageIcon]="faTimes"
+                               [active]="true"
+                               [visible]="showTopActionButtons()"
+                               label="Clear"
+                               (click)="resetQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faEdit"
+                               [active]="true"
+                               [visible]="showTopActionButtons()"
+                               label="Edit"
+                               (click)="editQuery()"></app-samply-button>
+            <app-samply-button [imageIcon]="faPaperPlane" [active]="false"
+                               [visible]="showTopActionButtons()"
+                               label="Send"></app-samply-button>
+          </div>
+        </div>
+
         <!--suppress HtmlUnknownAttribute -->
-        <app-search-builder headerName="Donor/Clinical Information"
-                            disabled="true"
-                            [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
-        <!--suppress HtmlUnknownAttribute -->
-        <app-search-builder headerName="Sample"
-                            disabled="true"
-                            [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+        <app-search-builder [mdrEntitiesDonor]="mdrEntitiesDonor"
+                            [mdrEntitiesSample]="mdrEntitiesSample"
+                            disabled="true"></app-search-builder>
 
         <div class="margin-action-buttons"
              fxLayout="row"
@@ -56,31 +76,12 @@
         </div>
 
         <!-- SHOW DETAILED RESULT -->
-        <div *ngIf="userService.getLoginValid()"
-             class="no-transition">
+        <div *ngIf="userService.getLoginValid()">
           <div *ngIf="!isResultAnonymous()">
             <app-detailed-result [detailedResult]="detailedResult"
                                  [biobanksAnswered]="biobanksAnswered"
                                  [sumSamples]="aggregatedResult?.sample.count"
                                  [sumDonors]="aggregatedResult?.donor.count"></app-detailed-result>
-          </div>
-        </div>
-
-        <div class="result-progressbar">
-          <div *ngIf="showProcessingBar && !userService.getLoginValid()">
-            <p-progressBar [value]="elapsedPercentage"
-                           [showValue]="false"
-                           [style]="{'height': '6px'}"></p-progressBar>
-            Searching in {{limitBiobanksAnswered}} biobanks for 60 seconds...
-          </div>
-
-          <div class="disclaimer">
-            <div *ngIf="!showProcessingBar">
-              <div>
-                Most results have been received after one minute.
-                However, in some cases it might take up to five minutes for the last results to appear.
-              </div>
-            </div>
           </div>
         </div>
 

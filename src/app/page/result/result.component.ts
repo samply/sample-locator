@@ -17,6 +17,7 @@ import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
+import {SearchComponent} from '../search/search.component';
 
 @Component({
   selector: 'app-result',
@@ -40,9 +41,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   static MAX_TIME_POLLING = 300;
   static POLLING_INTERVAL = 1;
 
-  static TIME_LIMIT_PROCESSING_BAR = 60;
-  static TIME_STEP_DECI_SECOND = 0.1;
-
   faTimes = faTimes;
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
@@ -54,8 +52,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   biobanksWithStratifications = 0;
 
   limitBiobanksAnswered = 0;
-  elapsedPercentage = 0;
-  showProcessingBar = true;
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
@@ -89,7 +85,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.initNToken();
 
     this.sendQuery();
-    this.initProgressBar();
     this.initPolling();
     this.initNumberBiobanks();
   }
@@ -147,27 +142,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.resultService.getNumberOfBiobanks().subscribe(
         response => this.limitBiobanksAnswered = Number(response)
-      )
-    );
-  }
-
-  private initProgressBar() {
-    this.elapsedPercentage = 0;
-    this.showProcessingBar = true;
-
-    this.subscriptions.push(
-      interval(ResultComponent.TIME_STEP_DECI_SECOND * 1000).pipe(
-        takeUntil(timer(ResultComponent.TIME_LIMIT_PROCESSING_BAR * 1000)),
-        startWith(0)
-      ).subscribe((value) => {
-          this.elapsedPercentage = value * 10 / ResultComponent.TIME_LIMIT_PROCESSING_BAR;
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          this.showProcessingBar = false;
-        }
       )
     );
   }
@@ -350,6 +324,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   resetQuery() {
     this.queryProviderService.resetQuery();
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
+  }
+
+  showTopActionButtons() {
+    let numberOfValues = 0;
+    this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
+    return numberOfValues >= SearchComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 
   // noinspection JSMethodCanBeStatic

@@ -10,7 +10,8 @@
   window["env"]["externalServices"] = {
     "brokerUrl": "${SEARCHBROKER_URL}",
     "sampleLocatorUrl": "${SAMPLELOCATOR_URL}",
-    "negotiatorUrl": "${NEGOTIATOR_URL}"
+    "negotiatorUrl": "${NEGOTIATOR_URL}",
+    "terminologyServerUrl": ${TERMINOLOGY_SERVER_URL}
   };
 
   window["env"]["molgenisCredentials"] = {

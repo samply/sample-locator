@@ -11,6 +11,9 @@ export class SamplyButtonComponent {
   active = true;
 
   @Input()
+  visible = true;
+
+  @Input()
   label = '';
 
   @Input()

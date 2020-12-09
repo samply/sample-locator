@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MdrConfigService} from './mdr-config.service';
 import {ExtendedMdrFieldDto, MdrEntity} from '../model/mdr/extended-mdr-field-dto';
-import {EssentialSimpleFieldDto} from '../model/query/essential-query-dto';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {SlStorageService} from './sl-storage.service';
 import {MdrFieldProviderServiceRefresher} from './mdr-field-provider-service-refresher';
@@ -49,23 +48,5 @@ export class MdrFieldProviderService {
 
   public getPossibleField(urn: string): ExtendedMdrFieldDto | null {
     return this.slStorageService.getAllDataElments().find(field => field.urn === urn);
-  }
-
-  public getPossibleFields(mdrEntity: MdrEntity) {
-    if (this.slStorageService.getDataElementGroupMembersMap().has(mdrEntity)) {
-      return this.slStorageService.getDataElementGroupMembersMap().get(mdrEntity);
-    } else {
-      return [];
-    }
-  }
-
-  public isFieldOfTypes(field: EssentialSimpleFieldDto, mdrEntities: Array<MdrEntity>): boolean {
-    for (const mdrEntity of mdrEntities) {
-      if (!!this.slStorageService.getEntityUrnsMap().get(mdrEntity).find(urn => urn === field.urn)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 }

@@ -11,5 +11,8 @@ export class SamplyButtonSmallComponent {
   active = true;
 
   @Input()
+  visible = true;
+
+  @Input()
   imageIcon: any;
 }

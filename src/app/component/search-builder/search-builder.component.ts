@@ -7,7 +7,13 @@ import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '
 
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {
+  faMinus, faPlus,
+  faArrowsAltH, faCalendarAlt, faQuestion,
+  faEquals, faNotEqual,
+  faLessThan, faLessThanEqual,
+  faGreaterThan, faGreaterThanEqual
+} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
 import {SlStorageService} from '../../service/sl-storage.service';
@@ -15,6 +21,11 @@ import {SlStorageService} from '../../service/sl-storage.service';
 class AddibleField {
   label: string;
   value: string;
+}
+
+class AddibleFieldsGroup {
+  label = '';
+  items: Array<AddibleField> = [];
 }
 
 @Component({
@@ -25,10 +36,10 @@ class AddibleField {
 export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   @Input()
-  public mdrEntities: Array<MdrEntity>;
+  public mdrEntitiesSample: Array<MdrEntity>;
 
   @Input()
-  public headerName: string;
+  public mdrEntitiesDonor: Array<MdrEntity>;
 
   @Input()
   disabled = false;
@@ -37,9 +48,18 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   faMinus = faMinus;
   faPlus = faPlus;
+  faArrowsAltH = faArrowsAltH;
+  faCalendarAlt = faCalendarAlt;
+  faEquals = faEquals;
+  faNotEqual = faNotEqual;
+  faLessThan = faLessThan;
+  faLessThanEqual = faLessThanEqual;
+  faGreaterThan = faGreaterThan;
+  faGreaterThanEqual = faGreaterThanEqual;
+  faQuestion = faQuestion;
 
-  filteredFields: Array<EssentialSimpleFieldDto>;
-  addibleFields: Array<AddibleField>;
+  filteredFields: Array<EssentialSimpleFieldDto> = [];
+  addibleFields: Array<AddibleFieldsGroup> = [];
   permittedValuesMap: Map<EssentialSimpleFieldDto, Array<PermittedValue>>;
 
   public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
@@ -70,7 +90,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       value: SimpleValueOperator.GREATER_OR_EQUALS
     },
     {
-      label: '...',
+      label: 'IN',
       value: SimpleValueOperator.BETWEEN
     }
   ];
@@ -113,9 +133,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   public calculateFilteredFields() {
-    this.filteredFields =
-      this.getQuery().fieldDtos.slice().filter(field =>
-        this.mdrFieldProviderService.isFieldOfTypes(field, this.mdrEntities));
+    this.filteredFields = this.getQuery().fieldDtos.slice();
     this.formGroup = this.createFormGroup();
     this.initPermittedValuesMap();
   }
@@ -176,14 +194,26 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   private initAddibleFields() {
     this.addibleFields = [];
 
-    this.mdrFieldProviderService.getAllPossibleFields(this.mdrEntities).slice().forEach(field => {
+    this.addEntities('DONOR/CLINICAL INFORMATION', this.mdrEntitiesDonor);
+    this.addEntities('SAMPLE', this.mdrEntitiesSample);
+  }
+
+  private addEntities(label: string, mdrEntities: Array<MdrEntity>) {
+    const addibleFieldsSample: AddibleFieldsGroup = {
+      label,
+      items: []
+    };
+
+    this.mdrFieldProviderService.getAllPossibleFields(mdrEntities).slice().forEach(field => {
       const addibleField = {
         label: field.name,
         value: field.urn
       };
 
-      this.addibleFields.push(addibleField);
+      addibleFieldsSample.items.push(addibleField);
     });
+
+    this.addibleFields.push(addibleFieldsSample);
   }
 
   ngOnDestroy(): void {
@@ -197,7 +227,16 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   // noinspection JSMethodCanBeStatic
-  getPlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
+  getValueSetUrl(extendedField: ExtendedMdrFieldDto) {
+    if (extendedField && extendedField.valueSetUrl) {
+      return extendedField.valueSetUrl;
+    }
+
+    return '';
+  }
+
+  // noinspection JSMethodCanBeStatic
+  getValuePlaceholder(extendedField: ExtendedMdrFieldDto, operator: SimpleValueOperator) {
     if (extendedField && extendedField.placeHolder) {
       return extendedField.placeHolder;
     }
@@ -206,7 +245,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
       return 'Select';
     }
 
-    return operator === SimpleValueOperator.BETWEEN ? 'Min.' : '';
+    if (operator !== SimpleValueOperator.BETWEEN) {
+      return '';
+    }
+
+    if (extendedField.mdrDataType === MdrDataType.DATETIME || extendedField.mdrDataType === MdrDataType.DATE) {
+      return 'From';
+    } else {
+      return 'Min.';
+    }
   }
 
   getPossibleOperators(valueType: EssentialValueType) {
@@ -252,16 +299,19 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     const fieldDto = this.getQueryField(i);
+    const operatorDisabled = this.getPossibleOperators(fieldDto.valueType).length <= 1;
 
     this.queryProviderService.addEmptyValue(fieldDto);
     const values: FormArray = this.getValuesFormArray(i);
     const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
+    const operator = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
+      ? this.fb.control(SimpleValueOperator.BETWEEN) : this.fb.control({value: SimpleValueOperator.EQUALS, disabled: operatorDisabled});
 
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
         value,
-        operator: this.fb.control(SimpleValueOperator.EQUALS),
+        operator,
       })
     );
 
@@ -274,12 +324,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 
-    if (newValue
-      && this.getQueryField(i).valueDtos.length <= j + 1
-      && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
-      this.addValue(i);
-    }
-
     this.slStorageService.setQuery(this.getQuery());
   }
 
@@ -288,10 +332,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const newValue = this.getValueControl(i, j).value.maxValue;
 
     this.getQueryValue(i, j).maxValue = this.adoptDateFormat(newValue, valueType);
-
-    if (newValue && this.getQueryField(i).valueDtos.length <= j + 1) {
-      this.addValue(i);
-    }
 
     this.slStorageService.setQuery(this.getQuery());
   }
@@ -364,18 +404,57 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   }
 
-  isLastValueEmpty(i): boolean {
-    const valueDtos = this.getQueryField(i).valueDtos;
-    if (!valueDtos || valueDtos.length === 0) {
-      return true;
-    }
+  isLastValue(i, j) {
+    return j + 1 === this.getQueryField(i).valueDtos.length;
+  }
 
-    const lastValueDto = valueDtos[valueDtos.length - 1];
-    if (lastValueDto.condition === SimpleValueOperator.BETWEEN) {
-      return !lastValueDto.value || lastValueDto.value === '' ||
-        !lastValueDto.maxValue || lastValueDto.maxValue === '';
-    }
+  // noinspection JSMethodCanBeStatic
+  getOperatorDescription(field: EssentialSimpleFieldDto, value: SimpleValueOperator): string {
+    switch (value) {
+      case SimpleValueOperator.EQUALS:
+        return this.isDateType(field) ? 'on' : 'equal';
+      case SimpleValueOperator.NOT_EQUALS:
+        return this.isDateType(field) ? 'not on' : 'unequal';
+      case SimpleValueOperator.LESS:
+        return this.isDateType(field) ? 'before' : 'less than';
+      case SimpleValueOperator.LESS_OR_EQUALS:
+        return this.isDateType(field) ? 'before or on' : 'less than or equal';
+      case SimpleValueOperator.GREATER:
+        return this.isDateType(field) ? 'after' : 'greater than';
+      case SimpleValueOperator.GREATER_OR_EQUALS:
+        return this.isDateType(field) ? 'after or on' : 'greater than or equal';
+      case SimpleValueOperator.BETWEEN:
+        return this.isDateType(field) ? 'between' : 'in range of';
 
-    return !lastValueDto.value || lastValueDto.value === '';
+      default:
+        return '';
+    }
+  }
+
+  getIcon(field: EssentialSimpleFieldDto, value: SimpleValueOperator) {
+    switch (value) {
+      case SimpleValueOperator.EQUALS:
+        return this.faEquals;
+      case SimpleValueOperator.NOT_EQUALS:
+        return this.faNotEqual;
+      case SimpleValueOperator.LESS:
+        return this.faLessThan;
+      case SimpleValueOperator.LESS_OR_EQUALS:
+        return this.faLessThanEqual;
+      case SimpleValueOperator.GREATER:
+        return this.faGreaterThan;
+      case SimpleValueOperator.GREATER_OR_EQUALS:
+        return this.faGreaterThanEqual;
+      case SimpleValueOperator.BETWEEN:
+        return this.isDateType(field) ? this.faCalendarAlt : this.faArrowsAltH;
+
+      default:
+        return this.faQuestion;
+    }
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private isDateType(field: EssentialSimpleFieldDto) {
+    return field.valueType === EssentialValueType.DATE || field.valueType === EssentialValueType.DATETIME;
   }
 }
