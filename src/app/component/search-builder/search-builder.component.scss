@@ -92,7 +92,14 @@ h3 {
 }
 
 :host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
-  color: white;
+  background-color: white;
+  color: $color-dark;
+}
+
+:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item-group,
+:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item-group:hover {
+  background-color: $color-gold !important;
+  color: white !important;;
 }
 
 ::ng-deep .add-field .ui-dropdown-items-wrapper {
