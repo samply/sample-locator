@@ -245,16 +245,54 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private aggregateStratificationDonor(reply, aggregatedResultTemp: ReplySite) {
-    for (const stratification of reply.donor.stratifications) {
-      let aggregatedStratification = aggregatedResultTemp.donor.stratifications.find(
+    for (const stratification: Stratification of reply.donor.stratifications) {
+      let aggregatedStratification: Stratification = aggregatedResultTemp.donor.stratifications.find(
         stratificationTemp => stratificationTemp.title === stratification.title
       );
       if (!aggregatedStratification) {
-        aggregatedStratification = {title: stratification.title, strata: []};
+        aggregatedStratification = {title: stratification.title, strata: this.createEmptyStrata(stratification.title)} as Stratification;
         aggregatedResultTemp.donor.stratifications.push(aggregatedStratification);
       }
       this.aggregateStrata(stratification, aggregatedStratification);
     }
+  }
+
+  private createEmptyStrata(title: string): Array<Stratum> {
+    if (title === 'Age') {
+      return [
+        this.createEmptyStratum('0'),
+        this.createEmptyStratum('10'),
+        this.createEmptyStratum('20'),
+        this.createEmptyStratum('30'),
+        this.createEmptyStratum('40'),
+        this.createEmptyStratum('50'),
+        this.createEmptyStratum('60'),
+        this.createEmptyStratum('70'),
+        this.createEmptyStratum('80'),
+        this.createEmptyStratum('90'),
+      ];
+    }
+
+    if (title === 'Gender') {
+      return [
+        this.createEmptyStratum('female'),
+        this.createEmptyStratum('male'),
+      ];
+    }
+
+    if (title === 'SampleType') {
+      return [
+        this.createEmptyStratum('liquid'),
+        this.createEmptyStratum('tissue'),
+        this.createEmptyStratum('other'),
+      ];
+    }
+
+    return [];
+  }
+
+  private createEmptyStratum(label: string): Stratum {
+    return {label, count: 0};
   }
 
   private aggregateStratificationSample(reply, aggregatedResultTemp: ReplySite) {
