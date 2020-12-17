@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 import {interval, of, Subscription, timer} from 'rxjs';
 import {ResultService} from '../../service/result.service';
 import {startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {Reply, ReplySite, ReplyTransfer, Stratification} from '../../model/result/reply-dto';
+import {Reply, ReplySite, ReplyTransfer, Stratification, Stratum} from '../../model/result/reply-dto';
 import {UserService} from '../../service/user.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {QueryProviderService} from '../../service/query-provider.service';
@@ -245,7 +245,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private aggregateStratificationDonor(reply, aggregatedResultTemp: ReplySite) {
-    for (const stratification: Stratification of reply.donor.stratifications) {
+    for (const stratification of reply.donor.stratifications) {
       let aggregatedStratification: Stratification = aggregatedResultTemp.donor.stratifications.find(
         stratificationTemp => stratificationTemp.title === stratification.title
       );
