@@ -10,8 +10,8 @@
                 [disabled]="disabled"
                 placeholder="{{placeholderText}}">
   <ng-template let-option pTemplate="option">
-    <div>
-      <div>{{option}} - {{codesFilteredMap.get(option)}}</div>
+    <div (click)="doSelectOption(option)">
+      {{option}} - {{codesFilteredMap.get(option)}}
     </div>
   </ng-template>
 </p-autoComplete>
