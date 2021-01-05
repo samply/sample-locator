@@ -1,0 +1,15 @@
+<!--suppress HtmlUnknownAttribute -->
+<form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
+  <h3>{{headerName}}</h3>
+
+  <div fxLayout="row"
+       fxLayoutAlign="end">
+    <div class="add-field-wrapper">
+      <!--suppress TypeScriptValidateTypes -->
+      <div fxFlex="1 1 20%" (click)="toggleRelativesFlag()">
+        <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
+      </div>
+    </div>
+  </div>
+
+</form>

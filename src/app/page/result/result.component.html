@@ -6,6 +6,8 @@
       <div fxFlex="0 1 50%">
         <h2>Search</h2>
 
+        <p>This page show result of searchings but not give patient embarrassing personal info</p>
+
         <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
           Waiting for data from Metadata Repository
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
@@ -19,6 +21,14 @@
         <app-search-builder headerName="Sample"
                             disabled="true"
                             [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+        <!--suppress HtmlUnknownAttribute -->
+        <app-search-builder headerName="Relatives"
+                            disabled="true"
+                            [mdrEntities]="mdrEntitiesRelative"></app-search-builder>
+        <!--suppress HtmlUnknownAttribute -->
+        <app-search-exists headerName="Has Relatives"
+                            disabled="true"
+                            [mdrEntities]="mdrEntitiesRelative"></app-search-exists>
 
         <div class="margin-action-buttons"
              fxLayout="row"

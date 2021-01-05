@@ -34,6 +34,10 @@
       {
         "nameOfEnum": "EVENT",
         "urn": "urn:mdr16:dataelementgroup:6:1"
+      },
+      {
+        "nameOfEnum": "RELATIVE",
+        "urn": "urn:mdr16:dataelementgroup:7:1"
       }
     ],
     "dataElements": [
@@ -61,6 +65,24 @@
         "urn": "urn:mdr16:dataelement:27:1",
         "placeholder": "e.g. C25.1",
         "unit": ""
+      },
+      {
+        "urn": "urn:mdr16:dataelement:36:1",
+        "placeholder": "e.g. 423461",
+        "unit": ""
+      },
+      {
+        "urn": "urn:mdr16:dataelement:42:1",
+        "placeholder": "e.g. 423461",
+        "unit": ""
+      },
+
+
+
+      {
+        "urn": "urn:mdr16:dataelement:41:1",
+        "placeholder": "e.g. FAMMEMB",
+        "unit": ""
       }
     ],
 
@@ -76,7 +98,12 @@
       "urn:mdr16:dataelement:21:1",
       "urn:mdr16:dataelement:22:1",
       "urn:mdr16:dataelement:24:1",
-      "urn:mdr16:dataelement:13:1"
+      "urn:mdr16:dataelement:13:1",
+
+      "urn:mdr16:dataelement:38:1",
+      "urn:mdr16:dataelement:39:1",
+      "urn:mdr16:dataelement:40:1"
+
     ]
   };
 })(this);

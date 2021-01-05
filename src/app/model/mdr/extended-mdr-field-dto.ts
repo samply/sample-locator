@@ -18,11 +18,12 @@ export interface PermittedValue {
 export enum MdrEntity {
   DONOR = 'DONOR',
   SAMPLE = 'SAMPLE',
-  EVENT = 'EVENT'
+  EVENT = 'EVENT',
+  RELATIVE = "RELATIVE"
 }
 
 export function getAllMdrEntities(): Array<MdrEntity> {
-  return [MdrEntity.DONOR, MdrEntity.EVENT, MdrEntity.SAMPLE];
+  return [MdrEntity.DONOR, MdrEntity.EVENT, MdrEntity.SAMPLE, MdrEntity.RELATIVE];
 }
 
 export function getMdrEntity(name: string): MdrEntity | null {
@@ -30,6 +31,7 @@ export function getMdrEntity(name: string): MdrEntity | null {
     case MdrEntity.SAMPLE: return MdrEntity.SAMPLE;
     case MdrEntity.EVENT: return MdrEntity.EVENT;
     case MdrEntity.DONOR: return MdrEntity.DONOR;
+    case MdrEntity.RELATIVE: return MdrEntity.RELATIVE;
     default: return null;
   }
 }

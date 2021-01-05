@@ -26,6 +26,7 @@ export class SearchComponent implements OnInit {
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
+  mdrEntitiesRelative = [MdrEntity.RELATIVE];
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,

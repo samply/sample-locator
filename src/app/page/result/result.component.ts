@@ -59,6 +59,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
+  mdrEntitiesRelative = [MdrEntity.RELATIVE];
 
   private nToken: string;
 

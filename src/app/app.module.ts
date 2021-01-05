@@ -29,6 +29,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {TableModule} from 'primeng/table';
 import {SearchBuilderComponent} from './component/search-builder/search-builder.component';
+import {SearchExistsComponent} from './component/search-exists/search-exists.component';
 import {AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration} from 'angular-auth-oidc-client';
 import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.component';
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
@@ -88,6 +89,7 @@ export const BbmriBreakPointsProvider = {
     WorkInProgressComponent,
     CookieBannerComponent,
     SearchBuilderComponent,
+    SearchExistsComponent,
     LoggedInComponent,
     ForbiddenComponent,
     UnauthorizedComponent,

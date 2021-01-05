@@ -6,6 +6,8 @@
       <div fxFlex="0 1 50%">
         <h2>Search</h2>
 
+        <p>This page do search in medicine data</p>
+
         <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
           Waiting for data from Metadata Repository
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
@@ -15,6 +17,10 @@
                             [mdrEntities]="mdrEntitiesDonor"></app-search-builder>
         <app-search-builder headerName="Sample"
                             [mdrEntities]="mdrEntitiesSample"></app-search-builder>
+        <app-search-builder headerName="Relatives"
+                            [mdrEntities]="mdrEntitiesRelative"></app-search-builder>
+        <app-search-exists headerName="Has Relatives"
+                            [mdrEntities]="mdrEntitiesRelative"></app-search-exists>
 
         <div class="margin-action-buttons"
              fxLayout="row"
