@@ -74,7 +74,8 @@
                                          formControlName="value"
                                          [placeholderText]="getValuePlaceholder(extendedField, value.condition)"
                                          [valueSetUrl]="getValueSetUrl(extendedField)"
-                                         (change)="changeValue(i, j)"></app-valueset-choose>
+                                         (change)="changeValue(i, j)"
+                                         (selectOption)="changeValue(i, j, $event)"></app-valueset-choose>
                     <!-- INTEGER and DECIMAL -->
                     <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
                                       formControlName="value"

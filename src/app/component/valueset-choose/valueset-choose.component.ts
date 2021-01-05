@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ValueSetChooseService} from '../../service/valueset-choose.service';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -22,6 +22,9 @@ export class ValueSetChooseComponent implements ControlValueAccessor {
 
   @Input()
   placeholderText: '';
+
+  @Output()
+  selectOption = new EventEmitter();
 
   value = '';
 
@@ -81,5 +84,10 @@ export class ValueSetChooseComponent implements ControlValueAccessor {
         }
       }
     );
+  }
+
+  doSelectOption(option) {
+    this.value = option;
+    this.selectOption.emit(option);
   }
 }

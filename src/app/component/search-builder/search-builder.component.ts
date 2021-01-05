@@ -318,9 +318,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     this.slStorageService.setQuery(this.getQuery());
   }
 
-  changeValue(i: number, j: number) {
+  changeValue(i: number, j: number, newValue?) {
     const valueType = this.getQueryField(i).valueType;
-    const newValue = this.getValueControl(i, j).value.value;
+    newValue = newValue ? newValue : this.getValueControl(i, j).value.value;
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 
