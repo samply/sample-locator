@@ -2,14 +2,72 @@
 <form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
   <h3>{{headerName}}</h3>
 
+  <div formArrayName="fields">
+<!--
+    <div *ngFor="let field of this.filteredFields; let i=index">
+      <p>Grinz: i = {{i}}</p>
+      <div [formGroupName]="i">
+        <p>Smylz: i = {{i}}</p>
+        <div *ngIf="getExtendedMdrField(field) as extendedField"
+             class="field-container"
+             fxLayout="row"
+             fxLayoutAlign="space-between start"
+             fxLayout.lt-md="column"
+             fxLayoutAlign.lt-md="none">
+          <div class="field-name">{{extendedField.name}}
+            <span *ngIf="extendedField.unit">({{extendedField.unit}})</span>
+          </div>
+          <p>Stuph</p>
+-->
+
+
+          <div formArrayName="values"
+               class="value-container"
+               fxFlex="0 0 20em"
+               fxFlex.lt-md="1 0 100%">
+<!--
+            <div *ngFor="let value of field.valueDtos; let j=index">
+-->
+              <div [formGroupName]="0"
+                   fxLayout="column">
+
+
+                <!-- ------------- -->
+                <!-- Row for value -->
+                <!-- ------------- -->
+                <div fxLayout="row"
+                     fxLayoutAlign="space-between center">
+
+
+                    <div fxFlex="1 1 20%" (click)="toggleRelativesFlag($event, 0, 0)">
+                      <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
+                    </div>
+                    <p>negFlag: {{negFlag}}</p>
+
+
+                </div>
+              </div>
+<!--
+            </div>
+-->
+          </div>
+<!--
+        </div>
+      </div>
+    </div>
+-->
+  </div>
+
   <div fxLayout="row"
        fxLayoutAlign="end">
+<!--
     <div class="add-field-wrapper">
-      <!--suppress TypeScriptValidateTypes -->
+      &lt;!&ndash;suppress TypeScriptValidateTypes &ndash;&gt;
       <div fxFlex="1 1 20%" (click)="toggleRelativesFlag()">
         <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
       </div>
     </div>
+-->
   </div>
 
 </form>

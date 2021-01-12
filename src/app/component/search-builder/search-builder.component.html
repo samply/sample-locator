@@ -2,213 +2,256 @@
 <form [formGroup]="formGroup" *ngIf="(mdrFieldProviderService.ready$ | async)">
   <h3>{{headerName}}</h3>
 
-  <div formArrayName="fields">
-    <div *ngFor="let field of this.filteredFields; let i=index">
-      <div [formGroupName]="i">
-        <div *ngIf="getExtendedMdrField(field) as extendedField"
-             class="field-container"
-             fxLayout="row"
-             fxLayoutAlign="space-between start"
-             fxLayout.lt-md="column"
-             fxLayoutAlign.lt-md="none">
-          <div class="field-name">{{extendedField.name}}
-            <span *ngIf="extendedField.unit">({{extendedField.unit}})</span>
+  <div *ngIf="this.isRelative()">
+
+    <div formArrayName="fields">
+      <div formArrayName="values"
+           class="value-container"
+           fxFlex="0 0 20em"
+           fxFlex.lt-md="1 0 100%">
+        <div [formGroupName]="0"
+             fxLayout="column">
+          <div fxLayout="row"
+               fxLayoutAlign="space-between center">
+
+
+<!--
+            <p>Preceding</p>
+-->
+            <div fxFlex="1 1 20%" (click)="toggleRelativesFlag($event, 0, 0)">
+              <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
+            </div>
+<!--
+            <p>Following</p>
+            <p>headerName: {{this.headerName}}</p>
+            <p>Event value: {{$event.value}}</p>
+            <p>Query-value: {{this.gqv(0,0)}}</p>
+-->
+
+
           </div>
+        </div>
+      </div>
+    </div>
+
+<!--
+    <p>Preceding</p>
+    <div fxFlex="1 1 20%" (click)="toggleRelativesFlag($event, 0, 0)">
+      <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
+    </div>
+    <p>Following</p>
+-->
+<!--
+    <p>Query-value: {{gqv(0,0)}}</p>
+-->
+  </div>
+  <div *ngIf="!this.isRelative()">
+    <div formArrayName="fields">
+      <div *ngFor="let field of this.filteredFields; let i=index">
+        <div [formGroupName]="i">
+          <div *ngIf="getExtendedMdrField(field) as extendedField"
+               class="field-container"
+               fxLayout="row"
+               fxLayoutAlign="space-between start"
+               fxLayout.lt-md="column"
+               fxLayoutAlign.lt-md="none">
+            <div class="field-name">{{extendedField.name}}
+              <span *ngIf="extendedField.unit">({{extendedField.unit}})</span>
+            </div>
 
 
-          <div formArrayName="values"
-               class="value-container"
-               fxFlex="0 0 20em"
-               fxFlex.lt-md="1 0 100%">
-            <div *ngFor="let value of field.valueDtos; let j=index">
-              <div [formGroupName]="j"
-                   fxLayout="column">
+            <div formArrayName="values"
+                 class="value-container"
+                 fxFlex="0 0 20em"
+                 fxFlex.lt-md="1 0 100%">
+              <div *ngFor="let value of field.valueDtos; let j=index">
+                <div [formGroupName]="j"
+                     fxLayout="column">
 
-                <!--       Larf!         -->
-                <p>Larf: i,j</p>
-                <p>More larfz: {{i}},{{j}}</p>
-                <p>Har har!</p>
-
-                <!-- ------------- -->
-                <!-- Row for value -->
-                <!-- ------------- -->
-                <div fxLayout="row"
-                     fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 4em" *ngIf="this.isOperatorSelectable(field)">
-                    <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
-                                (select)="chooseOperator($event, i, j)"
-                                (onChange)="chooseOperator($event, i, j)"
-                                [style]="{ 'minWidth': '4em', 'width':'4em'}">
-                    </p-dropdown>
-                  </div>
-                  <div fxFlex="0 0 4em" *ngIf="!this.isOperatorSelectable(field)">
-                    <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
-                                dropdownIcon=""
-                                [style]="{ 'minWidth': '4em', 'width':'4em'}">
-                    </p-dropdown>
-                  </div>
-
-                  <div fxFlex="0 0 13em"
-                       fxFlex.lt-md="1 1 100%">
-                    <!-- STRING -->
-                    <app-value-string *ngIf="field.valueType === 'STRING'"
-                                      formControlName="value"
-                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
-                                      (change)="changeValue(i, j)"></app-value-string>
-                    <!-- INTEGER and DECIMAL -->
-                    <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
-                                      formControlName="value"
-                                      [placeholderText]="getPlaceholder(extendedField, value.condition)"
-                                      (change)="changeValue(i, j)"></app-value-number>
-                    <!-- PERMITTEDVALUE -->
-                    <div *ngIf="field.valueType === 'PERMITTEDVALUE'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <p-dropdown formControlName="value"
-                                  [options]="permittedValuesMap.get(field)"
-                                  (select)="changeValue(i, j)"
-                                  (onChange)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                                  tooltip="{{getDropdownTooltip(extendedField, value.value)}}"
-                                  tooltipPosition="top"
-                                  [style]="{ 'minWidth': '100%', 'width': '100%'}">
+                  <!-- ------------- -->
+                  <!-- Row for value -->
+                  <!-- ------------- -->
+                  <div fxLayout="row"
+                       fxLayoutAlign="space-between center">
+                    <div fxFlex="0 0 4em" *ngIf="this.isOperatorSelectable(field)">
+                      <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
+                                  (select)="chooseOperator($event, i, j)"
+                                  (onChange)="chooseOperator($event, i, j)"
+                                  [style]="{ 'minWidth': '4em', 'width':'4em'}">
+                      </p-dropdown>
+                    </div>
+                    <div fxFlex="0 0 4em" *ngIf="!this.isOperatorSelectable(field)">
+                      <p-dropdown [options]="getPossibleOperators(field.valueType)" formControlName="operator"
+                                  dropdownIcon=""
+                                  [style]="{ 'minWidth': '4em', 'width':'4em'}">
                       </p-dropdown>
                     </div>
 
-                    <!-- DATE -->
-                    <div *ngIf="field.valueType === 'DATE'"
-                         fxFlex="1 0 10em"
+                    <div fxFlex="0 0 13em"
                          fxFlex.lt-md="1 1 100%">
+                      <!-- STRING -->
+                      <app-value-string *ngIf="field.valueType === 'STRING'"
+                                        formControlName="value"
+                                        [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                        (change)="changeValue(i, j)"></app-value-string>
+                      <!-- INTEGER and DECIMAL -->
+                      <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
+                                        formControlName="value"
+                                        [placeholderText]="getPlaceholder(extendedField, value.condition)"
+                                        (change)="changeValue(i, j)"></app-value-number>
+                      <!-- PERMITTEDVALUE -->
+                      <div *ngIf="field.valueType === 'PERMITTEDVALUE'"
+                           fxFlex="1 0 10em"
+                           fxFlex.lt-md="1 1 100%">
 
-                      <p-calendar formControlName="value"
-                                  (onSelect)="changeValue(i, j)"
-                                  (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                                  dateFormat="dd.mm.yy"
-                                  [inputStyle]="{ 'width': '100%'}"
-                                  [style]="{ 'width': '100%'}"></p-calendar>
+                        <p-dropdown formControlName="value"
+                                    [options]="permittedValuesMap.get(field)"
+                                    (select)="changeValue(i, j)"
+                                    (onChange)="changeValue(i, j)"
+                                    placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                    tooltip="{{getDropdownTooltip(extendedField, value.value)}}"
+                                    tooltipPosition="top"
+                                    [style]="{ 'minWidth': '100%', 'width': '100%'}">
+                        </p-dropdown>
+                      </div>
+
+                      <!-- DATE -->
+                      <div *ngIf="field.valueType === 'DATE'"
+                           fxFlex="1 0 10em"
+                           fxFlex.lt-md="1 1 100%">
+
+                        <p-calendar formControlName="value"
+                                    (onSelect)="changeValue(i, j)"
+                                    (input)="changeValue(i, j)"
+                                    placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                    dateFormat="dd.mm.yy"
+                                    [inputStyle]="{ 'width': '100%'}"
+                                    [style]="{ 'width': '100%'}"></p-calendar>
+                      </div>
+
+                      <!-- DATETIME -->
+                      <div *ngIf="field.valueType === 'DATETIME'"
+                           fxFlex="1 0 10em"
+                           fxFlex.lt-md="1 1 100%">
+
+                        <p-calendar formControlName="value"
+                                    (onSelect)="changeValue(i, j)"
+                                    (input)="changeValue(i, j)"
+                                    placeholder="{{getPlaceholder(extendedField, value.condition)}}"
+                                    dateFormat="dd.mm.yy"
+                                    showTime="true"
+                                    hourFormat="24"
+                                    [inputStyle]="{ 'width': '100%'}"
+                                    [style]="{ 'width': '100%'}"></p-calendar>
+                      </div>
+
                     </div>
 
-                    <!-- DATETIME -->
-                    <div *ngIf="field.valueType === 'DATETIME'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <p-calendar formControlName="value"
-                                  (onSelect)="changeValue(i, j)"
-                                  (input)="changeValue(i, j)"
-                                  placeholder="{{getPlaceholder(extendedField, value.condition)}}"
-                                  dateFormat="dd.mm.yy"
-                                  showTime="true"
-                                  hourFormat="24"
-                                  [inputStyle]="{ 'width': '100%'}"
-                                  [style]="{ 'width': '100%'}"></p-calendar>
+                    <div fxFlex="0 0 2.5em"
+                         fxLayout="row"
+                         fxLayoutAlign="start center">
+                      <app-samply-button-small [active]="!disabled"
+                                               [imageIcon]="faMinus"
+                                               (click)="deleteValue(i, j)"></app-samply-button-small>
                     </div>
-
                   </div>
 
-                  <div fxFlex="0 0 2.5em"
+                  <!-- ----------------- -->
+                  <!-- Row for max value -->
+                  <!-- ----------------- -->
+                  <div *ngIf="value.condition === 'BETWEEN'"
                        fxLayout="row"
-                       fxLayoutAlign="start center">
-                    <app-samply-button-small [active]="!disabled"
-                                             [imageIcon]="faMinus"
-                                             (click)="deleteValue(i, j)"></app-samply-button-small>
+                       fxLayoutAlign="space-between center">
+                    <div fxFlex="0 0 4em"></div>
+
+                    <div fxFlex="0 0 13em"
+                         fxFlex.lt-md="1 1 100%">
+
+                      <!-- INTEGER and DECIMAL -->
+                      <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
+                                        formControlName="maxValue"
+                                        placeholderText="Max."
+                                        (change)="changeMaxValue(i, j)"></app-value-number>
+                      <!-- DATE -->
+                      <div *ngIf="field.valueType === 'DATE'"
+                           fxFlex="1 0 10em"
+                           fxFlex.lt-md="1 1 100%">
+
+                        <p-calendar formControlName="maxValue"
+                                    (onSelect)="changeMaxValue(i, j)"
+                                    (input)="changeMaxValue(i, j)"
+                                    placeholder="Max."
+                                    dateFormat="dd.mm.yy"
+                                    [inputStyle]="{ 'width': '100%'}"
+                                    [style]="{ 'width': '100%'}"></p-calendar>
+                      </div>
+
+                      <!-- DATETIME -->
+                      <div *ngIf="field.valueType === 'DATETIME'"
+                           fxFlex="1 0 10em"
+                           fxFlex.lt-md="1 1 100%">
+
+                        <p-calendar formControlName="maxValue"
+                                    (onSelect)="changeMaxValue(i, j)"
+                                    (input)="changeMaxValue(i, j)"
+                                    placeholder="Max."
+                                    dateFormat="dd.mm.yy"
+                                    showTime="true"
+                                    hourFormat="24"
+                                    [inputStyle]="{ 'width': '100%'}"
+                                    [style]="{ 'width': '100%'}"></p-calendar>
+                      </div>
+                    </div>
+
+                    <div fxFlex="0 0 2.5em"></div>
                   </div>
+
+                </div>
+              </div>
+
+              <!-- ------------------------ -->
+              <!-- Row for add-value button -->
+              <!-- ------------------------ -->
+              <div fxLayout="row"
+                   fxLayoutAlign="space-between center"
+                   *ngIf="!isLastValueEmpty(i)">
+                <div fxFlex="0 0 4em">
+                </div>
+                <div fxFlex="0 0 13em"
+                     fxFlex.lt-md="1 1 100%">
                 </div>
 
-                <!-- ----------------- -->
-                <!-- Row for max value -->
-                <!-- ----------------- -->
-                <div *ngIf="value.condition === 'BETWEEN'"
+                <div fxFlex="0 0 2.5em"
                      fxLayout="row"
-                     fxLayoutAlign="space-between center">
-                  <div fxFlex="0 0 4em"></div>
-
-                  <div fxFlex="0 0 13em"
-                       fxFlex.lt-md="1 1 100%">
-
-                    <!-- INTEGER and DECIMAL -->
-                    <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
-                                      formControlName="maxValue"
-                                      placeholderText="Max."
-                                      (change)="changeMaxValue(i, j)"></app-value-number>
-                    <!-- DATE -->
-                    <div *ngIf="field.valueType === 'DATE'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <p-calendar formControlName="maxValue"
-                                  (onSelect)="changeMaxValue(i, j)"
-                                  (input)="changeMaxValue(i, j)"
-                                  placeholder="Max."
-                                  dateFormat="dd.mm.yy"
-                                  [inputStyle]="{ 'width': '100%'}"
-                                  [style]="{ 'width': '100%'}"></p-calendar>
-                    </div>
-
-                    <!-- DATETIME -->
-                    <div *ngIf="field.valueType === 'DATETIME'"
-                         fxFlex="1 0 10em"
-                         fxFlex.lt-md="1 1 100%">
-
-                      <p-calendar formControlName="maxValue"
-                                  (onSelect)="changeMaxValue(i, j)"
-                                  (input)="changeMaxValue(i, j)"
-                                  placeholder="Max."
-                                  dateFormat="dd.mm.yy"
-                                  showTime="true"
-                                  hourFormat="24"
-                                  [inputStyle]="{ 'width': '100%'}"
-                                  [style]="{ 'width': '100%'}"></p-calendar>
-                    </div>
-                  </div>
-
-                  <div fxFlex="0 0 2.5em"></div>
+                     fxLayoutAlign="start center">
+                  <app-samply-button-small [active]="!disabled" [imageIcon]="faPlus"
+                                           (click)="addValue(i)"></app-samply-button-small>
                 </div>
 
               </div>
-            </div>
-
-            <!-- ------------------------ -->
-            <!-- Row for add-value button -->
-            <!-- ------------------------ -->
-            <div fxLayout="row"
-                 fxLayoutAlign="space-between center"
-                 *ngIf="!isLastValueEmpty(i)">
-              <div fxFlex="0 0 4em">
-              </div>
-              <div fxFlex="0 0 13em"
-                   fxFlex.lt-md="1 1 100%">
-              </div>
-
-              <div fxFlex="0 0 2.5em"
-                   fxLayout="row"
-                   fxLayoutAlign="start center">
-                <app-samply-button-small [active]="!disabled" [imageIcon]="faPlus"
-                                         (click)="addValue(i)"></app-samply-button-small>
-              </div>
-
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div fxLayout="row"
-       fxLayoutAlign="end">
-    <div class="add-field-wrapper">
-      <!--suppress TypeScriptValidateTypes -->
-      <p-dropdown [options]="addibleFields"
-                  formControlName="addField"
-                  (select)="chooseField($event)"
-                  (onChange)="chooseField($event)"
-                  placeholder="Add Field"
-                  [styleClass]="getAddFieldStyleClass()"
-                  panelStyleClass="add-field-panel">
-      </p-dropdown>
+    <div fxLayout="row"
+         fxLayoutAlign="end">
+      <div class="add-field-wrapper">
+        <!--suppress TypeScriptValidateTypes -->
+        <p-dropdown [options]="addibleFields"
+                    formControlName="addField"
+                    (select)="chooseField($event)"
+                    (onChange)="chooseField($event)"
+                    placeholder="Add Field"
+                    [styleClass]="getAddFieldStyleClass()"
+                    panelStyleClass="add-field-panel">
+        </p-dropdown>
+      </div>
     </div>
+<!--
+    <p>Query-value: {{gqv(0,0)}}</p>
+-->
   </div>
 
 </form>

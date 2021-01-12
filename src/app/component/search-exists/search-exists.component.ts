@@ -118,13 +118,12 @@ export class SearchExistsComponent implements OnInit, OnDestroy {
   }
 
   // Checkbox stuff
-  toggleRelativesFlag() {
+  toggleRelativesFlag($event: any, i: number, j: number) {
     this.negFlag = !this.negFlag;
-    var val;
-    val="urn:mdr16:dataelement:42:1";
-    this.chooseField(val);
-    this.slStorageService.setQuery(this.getQuery());
     this.toggleNegFlag.emit(this.negFlag);
+
+    this.chooseOperator($event, i, j);
+    this.changeValueToggler(i, j);
   }
 
   // Checkbox stuff
@@ -309,6 +308,24 @@ export class SearchExistsComponent implements OnInit, OnDestroy {
       && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
       this.addValue(i);
     }
+
+    this.slStorageService.setQuery(this.getQuery());
+  }
+
+  changeValueToggler(i: number, j: number) {
+    const valueType = EssentialValueType.STRING;
+    const newValue = "string";
+
+    this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
+
+/*
+    if (newValue
+      && this.getQueryField(i).valueDtos.length <= j + 1
+      && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
+      this.addValue(i);
+    }
+*/
+    this.addValue(i);
 
     this.slStorageService.setQuery(this.getQuery());
   }
