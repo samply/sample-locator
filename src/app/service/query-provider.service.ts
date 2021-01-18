@@ -21,7 +21,6 @@ export class QueryProviderService {
   }
 
   restoreQuery() {
-    console.log("restoreQuery: entered")
     this.query = this.slStorageService.getQuery();
 
     if (!this.query) {
@@ -32,7 +31,6 @@ export class QueryProviderService {
   }
 
   resetQuery(): void {
-    console.log("resetQuery: entered")
     this.query = {
       fieldDtos: []
     };
@@ -41,10 +39,10 @@ export class QueryProviderService {
 
     this.slStorageService.setNToken('');
     this.slStorageService.setQuery(this.query);
+    this.slStorageService.hasRelativesWithCondition = false;
   }
 
   addField(urn: string, valueType?: MdrDataType): void {
-    console.log("addField: entered")
     if (!valueType) {
       const extendedFieldDto = this.mdrFieldProviderService.getPossibleField(urn);
       if (!extendedFieldDto) {
@@ -69,9 +67,6 @@ export class QueryProviderService {
 
   // noinspection JSMethodCanBeStatic
   addEmptyValue(fieldDto: EssentialSimpleFieldDto): void {
-    console.log("addEmptyValue: entered")
-    console.log("addEmptyValue: fieldDto: ", fieldDto)
-    console.log("addEmptyValue: valueDtos: ", fieldDto.valueDtos)
     fieldDto.valueDtos.push({
       condition: SimpleValueOperator.EQUALS,
       value: '',

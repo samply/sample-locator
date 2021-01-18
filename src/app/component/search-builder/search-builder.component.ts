@@ -106,6 +106,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log("ngOnInit: Upon entry, negFlag: ", this.negFlag);
+    this.negFlag = ! this.slStorageService.hasRelativesWithCondition;
+    console.log("ngOnInit: After update, negFlag: ", this.negFlag);
     this.subscriptionReady = this.mdrFieldProviderService.ready$.subscribe(value => {
       if (value) {
         this.calculateFilteredFields();
@@ -222,7 +225,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   chooseOperator($event: any, i: number, j: number) {
-    console.log("chooseOperator: i,j: ", i, j);
     this.getQueryValue(i, j).condition = $event.value;
     this.slStorageService.setQuery(this.getQuery());
   }
@@ -250,58 +252,40 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   addValue(i: number) {
-    console.log("addValue: i: ", i)
     if (this.disabled) {
       return;
     }
 
     const fieldDto = this.getQueryField(i);
 
-    console.log("addValue: hmm...")
-    console.log("addValue: queryProviderService: ", this.queryProviderService)
-    console.log("addValue: add empty")
     this.queryProviderService.addEmptyValue(fieldDto);
-    console.log("addValue: get values")
     const values: FormArray = this.getValuesFormArray(i);
-    console.log("addValue: extract value")
     const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
-    console.log("addValue: BEFORE setting value, values length: ", values.length);
-    console.log("addValue: value: ", value)
 
-    console.log("addValue: push")
     values.push(this.fb.group({
         maxValue: this.fb.control(''),
         value,
         operator: this.fb.control(SimpleValueOperator.EQUALS),
       })
     );
-    console.log("addValue: AFTER setting value, values length: ", values.length);
 
     this.slStorageService.setQuery(this.getQuery());
   }
 
   changeValue(i: number, j: number) {
-    console.log("changeValue: i,j: ", i, j);
     const valueType = this.getQueryField(i).valueType;
     const newValue = this.getValueControl(i, j).value.value;
 
-    console.log("changeValue: valueType: ", valueType);
-    console.log("changeValue: newValue: ", newValue);
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
-
-    console.log("changeValue: getQueryValue: ", this.getQueryValue(i, j).value);
 
     if (newValue
       && this.getQueryField(i).valueDtos.length <= j + 1
       && this.getQueryValue(i, j).condition !== SimpleValueOperator.BETWEEN) {
       this.addValue(i);
-      console.log("changeValue: Added new value")
     }
 
-    console.log("changeValue: getQuery: ", this.getQuery());
     this.slStorageService.setQuery(this.getQuery());
-    console.log("changeValue: DONE");
   }
 
   changeMaxValue(i: number, j: number) {
@@ -329,18 +313,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   chooseField({value}) {
-    console.log("chooseField: value: ", value);
     const urn = value;
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {
-      console.log("chooseField: extendedField: ", extendedField);
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
       this.calculateFilteredFields();
     }
     this.addField.setValue('');
 
     this.slStorageService.setQuery(this.getQuery());
-    console.log("chooseField: DONE");
   }
 
   private getQueryValue(i: number, j: number) {
@@ -403,19 +384,22 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     return !lastValueDto.value || lastValueDto.value === '';
   }
 
-  // New code related to the insertion of a checkbox for filtering those patients
+  // What follows is code related to the insertion of a checkbox for filtering those patients
   // who have family members with the same condition.
   faCheckSquare = faCheckSquare;
   faSquare = faSquare;
 
   @Input()
-  negFlag = false;
+  negFlag = true;
 
   @Output()
   toggleNegFlag = new EventEmitter();
 
-  toggleRelativesFlag($event: any, i: number, j: number) {
-    console.log("toggleRelativesFlag: i,j: ", i, j);
+  // Called directly from the HTML when the relatives checkbox is clicked.
+  // has two effects: 1. the GUI is changed, so that the "ticked" status of
+  // the checkbox gets toggled, and 2. a "relatives" term is added or deleted from
+  // the query that will be sent to the server.
+  toggleRelativesFlag() {
     if (this.disabled) {
       return;
     }
@@ -423,61 +407,49 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     this.negFlag = !this.negFlag;
     this.toggleNegFlag.emit(this.negFlag);
 
-//    console.log("toggleRelativesFlag: event: ", $event);
-    console.log("toggleRelativesFlag: choose field");
-
-    const urn: any = 'urn:mdr16:dataelement:42:1'; // FamilyMember.orpha
-    this.chooseFieldToggling(urn);
-//    this.chooseOperator($event, i, j);
-    console.log("toggleRelativesFlag: changeValueToggler");
-    this.changeValueToggler(i, j);
-    console.log("toggleRelativesFlag: DONE");
+    this.slStorageService.hasRelativesWithCondition = ! this.negFlag;
+    if (this.negFlag) {
+      this.deleteValue(0, 0);
+    } else {
+      this.chooseFieldToggling();
+      this.changeValueToggler();
+    }
   }
 
-  // Returns either an empty box or a box with a tick, depending on 'negFlag'
+  // Returns either an empty box or a box with a tick, depending on 'negFlag'.
+  // This is called directly from the HTML by the icon.
   getRelativesIcon(): any {
-    return this.negFlag ? this.faCheckSquare : this.faSquare;
+    return this.negFlag ? this.faSquare : this.faCheckSquare;
   }
 
+  // Called directly by the HTML to determine if we are in the "Relative" div of the GUI.
   public isRelative(): boolean {
     return this.headerName === "Relatives";
   }
 
-  // Inserting this into the HTML seems to kill off some elements, i.e. it's toxic
-  public gqv(i: number, j: number) {
-    return this.getQueryValue(i, j).value;
-  }
-
-  changeValueToggler(i: number, j: number) {
-    console.log("changeValueToggler: i,j: ", i, j);
+  // A modified version of changeValue, adapted for the needs of an on/off toggle
+  changeValueToggler() {
     const valueType = EssentialValueType.STRING;
-    const newValue = "string";
+    const newValue = "RelativeHasSameCondition";
 
-    console.log("changeValueToggler: valueType: ", valueType);
-    console.log("changeValueToggler: newValue: ", newValue);
-    this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
+    this.getQueryValue(0, 0).value = this.adoptDateFormat(newValue, valueType);
 
-    console.log("changeValueToggler: getQueryValue: ", this.getQueryValue(i, j).value);
+    this.addValue(0);
 
-    this.addValue(i);
-    console.log("changeValueToggler: Added new value")
-
-    console.log("changeValueToggler: getQuery: ", this.getQuery());
     this.slStorageService.setQuery(this.getQuery());
-    console.log("changeValueToggler: DONE");
   }
 
-  chooseFieldToggling(urn) {
-    console.log("chooseFieldToggling: urn: ", urn);
+  // A modified version of chooseField, adapted for the needs of an on/off toggle
+  chooseFieldToggling() {
+    // Hard-code the MDR URN for this query to be the FamilyMembers.orpha attribute
+    const urn: any = 'urn:mdr16:dataelement:42:1';
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {
-      console.log("chooseFieldToggling: extendedField: ", extendedField);
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
       this.calculateFilteredFields();
     }
     this.addField.setValue('');
 
     this.slStorageService.setQuery(this.getQuery());
-    console.log("chooseFieldToggling: DONE");
   }
 }

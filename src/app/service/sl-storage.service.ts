@@ -22,6 +22,9 @@ export class SlStorageService {
   private static STORAGE_KEY_MDR_DATA_ELEMENT_GROUP_MEMBERS_MAP = 'mdr-data-element-group-members-map';
   private static STORAGE_KEY_MDR_ENTITY_URNS_MAP = 'mdr-entity-urns-map';
 
+  // Toggle for relatives
+  public hasRelativesWithCondition = false;
+
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
   }
 

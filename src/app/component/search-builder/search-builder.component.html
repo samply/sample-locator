@@ -3,47 +3,21 @@
   <h3>{{headerName}}</h3>
 
   <div *ngIf="this.isRelative()">
-
+<!--
+    If we are in the "relatives" div of the GUI, use a different layout.
+    In particular, present a checkbox for selecting whether to filter
+    for relatives with the same condition or not.
+-->
     <div formArrayName="fields">
-      <div formArrayName="values"
-           class="value-container"
-           fxFlex="0 0 20em"
-           fxFlex.lt-md="1 0 100%">
-        <div [formGroupName]="0"
-             fxLayout="column">
-          <div fxLayout="row"
-               fxLayoutAlign="space-between center">
-
-
-<!--
-            <p>Preceding</p>
--->
-            <div fxFlex="1 1 20%" (click)="toggleRelativesFlag($event, 0, 0)">
-              <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
-            </div>
-<!--
-            <p>Following</p>
-            <p>headerName: {{this.headerName}}</p>
-            <p>Event value: {{$event.value}}</p>
-            <p>Query-value: {{this.gqv(0,0)}}</p>
--->
-
-
+      <div fxLayout="row"
+           fxLayoutAlign="end">
+        <div class="add-field-wrapper">
+          <div fxFlex="1 1 20%" (click)="toggleRelativesFlag()">
+            <fa-icon [icon]="getRelativesIcon()" size="lg" slot="end"></fa-icon>
           </div>
         </div>
       </div>
     </div>
-
-<!--
-    <p>Preceding</p>
-    <div fxFlex="1 1 20%" (click)="toggleRelativesFlag($event, 0, 0)">
-      <fa-icon [icon]="getRelativesIcon()" size="lg"></fa-icon>
-    </div>
-    <p>Following</p>
--->
-<!--
-    <p>Query-value: {{gqv(0,0)}}</p>
--->
   </div>
   <div *ngIf="!this.isRelative()">
     <div formArrayName="fields">
