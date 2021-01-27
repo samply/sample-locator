@@ -68,11 +68,16 @@
       },
       {
         "urn": "urn:mdr16:dataelement:36:1",
+        "placeholder": "e.g. del ex 3-12 gene DMD",
+        "unit": ""
+      },
+      {
+        "urn": "urn:mdr16:dataelement:46:1",
         "placeholder": "e.g. 423461",
         "unit": ""
       },
       {
-        "urn": "urn:mdr16:dataelement:42:1",
+        "urn": "urn:mdr16:dataelement:43:1",
         "placeholder": "e.g. 423461",
         "unit": ""
       },

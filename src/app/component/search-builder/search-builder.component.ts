@@ -106,9 +106,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit: Upon entry, negFlag: ", this.negFlag);
     this.negFlag = ! this.slStorageService.hasRelativesWithCondition;
-    console.log("ngOnInit: After update, negFlag: ", this.negFlag);
     this.subscriptionReady = this.mdrFieldProviderService.ready$.subscribe(value => {
       if (value) {
         this.calculateFilteredFields();
@@ -314,6 +312,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   chooseField({value}) {
     const urn = value;
+//    console.log("chooseField: urn: ", urn);
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
@@ -424,7 +423,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   // Called directly by the HTML to determine if we are in the "Relative" div of the GUI.
   public isRelative(): boolean {
-    return this.headerName === "Relatives";
+    return this.headerName === "Rare disease attributes";
+  }
+
+  public getSearchAttributeSlice(): number {
+    if (this.isRelative()) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   // A modified version of changeValue, adapted for the needs of an on/off toggle
@@ -442,7 +449,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   // A modified version of chooseField, adapted for the needs of an on/off toggle
   chooseFieldToggling() {
     // Hard-code the MDR URN for this query to be the FamilyMembers.orpha attribute
-    const urn: any = 'urn:mdr16:dataelement:42:1';
+    const urn: any = 'urn:mdr16:dataelement:43:1';
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
