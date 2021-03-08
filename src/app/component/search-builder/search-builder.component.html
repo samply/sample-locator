@@ -26,7 +26,7 @@
     <p> </p>
   </div>
   <div formArrayName="fields">
-    <div *ngFor="let field of this.filteredFields.slice(getSearchAttributeSlice()); let i=index">
+    <div *ngFor="let field of this.getFilteredFieldsForDisplay().slice(getSearchAttributeSlice()); let i=index">
       <div [formGroupName]="i">
         <div *ngIf="getExtendedMdrField(field) as extendedField"
              class="field-container"

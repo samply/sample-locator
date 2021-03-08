@@ -312,7 +312,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   chooseField({value}) {
     const urn = value;
-//    console.log("chooseField: urn: ", urn);
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
@@ -451,6 +450,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     // Hard-code the MDR URN for this query to be the FamilyMembers.orpha attribute
     const urn: any = 'urn:mdr16:dataelement:43:1';
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
+    // console.log("chooseFieldToggling: urn: ", urn);
+    // console.log("chooseFieldToggling: extendedField: ", extendedField);
     if (extendedField) {
       this.queryProviderService.addField(urn, extendedField.mdrDataType);
       this.calculateFilteredFields();
@@ -458,5 +459,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     this.addField.setValue('');
 
     this.slStorageService.setQuery(this.getQuery());
+  }
+
+  public getFilteredFieldsForDisplay(): Array<EssentialSimpleFieldDto> {
+    console.log("getFilteredFieldsForDisplay: filteredFields: ", this.filteredFields);
+    return this.filteredFields;
   }
 }

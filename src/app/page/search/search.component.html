@@ -5,9 +5,6 @@
     <div fxLayout="row nowrap" fxLayoutAlign="space-between stretch">
       <div fxFlex="0 1 50%">
         <h2>Search</h2>
-
-        <p>This page do search in medicine data</p>
-
         <div *ngIf="!(mdrFieldProviderService.ready$ | async)">
           Waiting for data from Metadata Repository
           <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
