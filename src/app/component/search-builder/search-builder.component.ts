@@ -20,7 +20,8 @@ import {SlStorageService} from '../../service/sl-storage.service';
 
 class AddibleField {
   label: string;
-  value: string;
+  command?: (event: any) => void;
+  items?: Array<AddibleField> = [];
 }
 
 class AddibleFieldsGroup {
@@ -40,6 +41,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   @Input()
   public mdrEntitiesDonor: Array<MdrEntity>;
+
+  @Input()
+  public mdrEntitiesCCDG: Array<MdrEntity>;
 
   @Input()
   disabled = false;
@@ -196,6 +200,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.addEntities('DONOR/CLINICAL INFORMATION', this.mdrEntitiesDonor);
     this.addEntities('SAMPLE', this.mdrEntitiesSample);
+    this.addEntities('CCDG', this.mdrEntitiesCCDG);
   }
 
   private addEntities(label: string, mdrEntities: Array<MdrEntity>) {
@@ -205,15 +210,65 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     };
 
     this.mdrFieldProviderService.getAllPossibleFields(mdrEntities).slice().forEach(field => {
-      const addibleField = {
-        label: field.name,
-        value: field.urn
-      };
+      console.log(field);
+      if (label === 'CCDG') {
+        const Index = addibleFieldsSample.items.findIndex(x => x.label === field.mdrEntity);
+        if (Index === -1) {
+          if (field.mdrEntityChild !== '') {
+              addibleFieldsSample.items.push({
+                label: field.mdrEntity,
+                items: [{
+                  label: field.mdrEntityChild,
+                  items: [{
+                    label: field.name,
+                    command: (event) => { this.chooseField(field.urn); }
+                  }]
+                }]
+              });
+            } else {
+              addibleFieldsSample.items.push({
+                label: field.mdrEntity,
+                items: [{
+                  label: field.name,
+                  command: (event) => { this.chooseField(field.urn); }
+                }]
+              });
+            }
+          } else {
+            if (field.mdrEntityChild !== '') {
+              const childIndex = addibleFieldsSample.items[Index].items.findIndex(x => x.label === field.mdrEntityChild);
+              if (childIndex === -1) {
+                addibleFieldsSample.items[Index].items.push({
+                  label: field.mdrEntityChild,
+                  items: [{
+                    label: field.name,
+                    command: (event) => { this.chooseField(field.urn); }
+                  }]
+                });
+              } else {
+                addibleFieldsSample.items[Index].items[childIndex].items.push({
+                  label: field.name,
+                  command: (event) => { this.chooseField(field.urn); }
+                });
+              }
+            } else {
+              addibleFieldsSample.items[Index].items.push({
+                label: field.name,
+                command: (event) => { this.chooseField(field.urn); }
+              });
+            }
+          }
+        } else {
+          addibleFieldsSample.items.push({
+            label: field.name,
+            command: (event) => { this.chooseField(field.urn); }
+          });
+        }
 
-      addibleFieldsSample.items.push(addibleField);
     });
 
     this.addibleFields.push(addibleFieldsSample);
+    console.log(this.addibleFields);
   }
 
   ngOnDestroy(): void {
@@ -347,7 +402,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     return newValue;
   }
 
-  chooseField({value}) {
+  chooseField(value) {
     const urn = value;
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {

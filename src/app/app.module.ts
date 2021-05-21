@@ -34,7 +34,7 @@ import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
-import {AutoCompleteModule, CarouselModule, ChartModule, TooltipModule} from 'primeng';
+import {AutoCompleteModule, CarouselModule, ChartModule, TieredMenuModule, TooltipModule} from 'primeng';
 import {MolgenisService} from './service/molgenis.service';
 import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
 import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
@@ -104,28 +104,29 @@ export const BbmriBreakPointsProvider = {
     StratificationComponent,
     ValueSetChooseComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    AuthModule.forRoot(),
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        AuthModule.forRoot(),
 
-    HttpClientModule,
-    FlexLayoutModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    FormsModule,
+        HttpClientModule,
+        FlexLayoutModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-    InputTextModule,
-    CalendarModule,
-    DropdownModule,
-    ProgressBarModule,
-    TableModule,
-    TooltipModule,
-    ChartModule,
-    CarouselModule,
-    AutoCompleteModule,
-  ],
+        InputTextModule,
+        CalendarModule,
+        DropdownModule,
+        ProgressBarModule,
+        TableModule,
+        TooltipModule,
+        ChartModule,
+        CarouselModule,
+        AutoCompleteModule,
+        TieredMenuModule,
+    ],
   providers: [
     CookieService,
     ExternalUrlService,

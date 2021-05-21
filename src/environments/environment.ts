@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   externalServices: (window as any).env.externalServices || {},
-  mdrConfig: (window as any).env.mdrConfig || {},
+  mdrConfigGBN: (window as any).env.mdrConfigGBN || {},
+  mdrConfigCCDG: (window as any).env.mdrConfigCCDG || {},
   molgenisCredentials: (window as any).env.molgenisCredentials || {},
 };
 

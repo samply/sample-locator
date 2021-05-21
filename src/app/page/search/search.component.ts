@@ -38,6 +38,19 @@ export class SearchComponent implements OnInit {
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
+  mdrEntitiesCCDG = [
+    MdrEntity.Histopathology,
+    MdrEntity.Pharmacotherapy,
+    MdrEntity.DiagnosticExam,
+    MdrEntity.MolecularMarkers,
+    MdrEntity.PatientData,
+    MdrEntity.RadiationTherapy,
+    MdrEntity.ResponseToTherapy,
+    MdrEntity.Sample,
+    MdrEntity.Surgery,
+    MdrEntity.TargetedTherapy,
+    MdrEntity.VitalStatus
+  ];
 
   static scrollToTop() {
     window.scroll({

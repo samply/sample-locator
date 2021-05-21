@@ -203,6 +203,7 @@
        fxLayoutAlign="end">
     <div class="add-field-wrapper">
       <!--suppress TypeScriptValidateTypes -->
+      <!--
       <p-dropdown [options]="addibleFields"
                   formControlName="addField"
                   [group]="true"
@@ -211,7 +212,15 @@
                   placeholder="Add Field"
                   [styleClass]="getAddFieldStyleClass()"
                   panelStyleClass="add-field-panel">
-      </p-dropdown>
+      </p-dropdown>-->
+
+      <app-samply-button [active]="true" label="Add Field" (click)="menu.toggle($event)"></app-samply-button>
+      <p-tieredMenu #menu
+                    [model]="addibleFields"
+                    [popup]="true"
+                    appendTo="body"
+                    >
+      </p-tieredMenu>
     </div>
   </div>
 
