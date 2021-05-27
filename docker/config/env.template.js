@@ -19,7 +19,15 @@
     "molgenisPassword": "${MOLGENIS_PASSWORD}"
   };
 
-  window["env"]["mdrConfig"] = {
+  window["env"]["mdrConfigGBN"] = {
+    "mdrRestUrl": "${MDR_API_URL}",
+    "mdrNamespace": "${MDR_NAMESPACE}",
+    "languageCode": "${MDR_LANGUAGE}",
+    "dataElementGroups": "${MDR_MAPPING}",
+    "dataElements": "${MDR_FIELD_PROPERTIES}",
+    "hiddenDataElements": "${MDR_HIDDEN}"
+  };
+  window["env"]["mdrConfigCCDG"] = {
     "mdrRestUrl": "${MDR_API_URL}",
     "mdrNamespace": "${MDR_NAMESPACE}",
     "languageCode": "${MDR_LANGUAGE}",
