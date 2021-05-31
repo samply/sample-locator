@@ -26,6 +26,7 @@ WORKDIR /usr/share/nginx/html
 ### Copy subfolder of dist as ng buils --prod creates an extra subfolder
 COPY --from=build /build/dist/sample-locator .
 COPY docker/config                  ./config
+COPY src/config/env.js              ./config/env.js
 
 ADD docker/start.sh                 /samply/
 RUN chmod +x                        /samply/start.sh
