@@ -1,14 +1,15 @@
 <div fxLayout="row" fxLayoutAlign="start start" class="bbmri-container footer bbmri-transition">
-  <span><a routerLink="/imprint">Imprint</a></span>
+  <span *ngIf="featureService.brandingUI() === 'GBA'"><a routerLink="/imprint">Imprint</a></span>
+  <span *ngIf="featureService.brandingUI() === 'BBMRI'"><a href="https://www.bbmri-eric.eu/contact/">Contact</a></span>
   <span>|</span>
-  <span><a routerLink="/privacy">Privacy Policy</a></span>
+  <span *ngIf="featureService.brandingUI() === 'GBA'"><a routerLink="/privacy">Privacy Policy</a></span>
+  <span *ngIf="featureService.brandingUI() === 'BBMRI'"><a href="https://www.bbmri-eric.eu/privacy-notice/">Privacy Policy</a></span>
   <span class="version-text">|</span>
   <div class="version-text">{{versionService.getUiVersion()}} (UI)</div>
   <span class="version-text">|</span>
   <div class="version-text">{{versionService.getBackendVersion()}} (Backend)</div>
   <div fxFlex="1 0 0"></div>
-  <a href="https://www.bmbf.de/" title="BMBF" target="_blank">
-    <!--suppress HtmlUnknownTarget -->
+  <a *ngIf="featureService.brandingUI() === 'GBA'" href="https://www.bmbf.de/" title="BMBF" target="_blank">
     <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
   </a>
 </div>

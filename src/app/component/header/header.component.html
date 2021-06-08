@@ -3,8 +3,14 @@
   <div class="bbmri-container">
     <div fxLayout="row" fxLayoutAlign="flex-start flex-start" class="mainNav">
 
-      <div class="logo-main col-md-5">
+      <div *ngIf="featureService.brandingUI() === 'GBA'" class="logo-main col-md-5">
         <a routerLink="/" title="samplelocator.bbmri.de">
+          <!--suppress HtmlUnknownTarget -->
+          <img src="assets/img/GBN_CMYK_schwarz.svg" alt="GBA-LOGO" class="gba-logo"/>
+        </a>
+      </div>
+      <div *ngIf="featureService.brandingUI() === 'BBMRI'" class="logo-main col-md-5">
+        <a href="https://locator.bbmri-eric.eu" title="locator.bbmri-eric.eu">
           <!--suppress HtmlUnknownTarget -->
           <img src="assets/img/BBMRI-ERIC-gateway-for-health.svg" alt="BBMRI-ERIC-LOGO" class="bbmri-logo"/>
         </a>
@@ -14,7 +20,8 @@
 
       <div fxLayout="column" fxFlexAlign="flex-end flex-end" class="IE-HACK-header-links">
         <div fxFlex="row" fxLayoutAlign="flex-end flex-end">
-          <a routerLink="/about-us" class="nav-link nav-link-about-us">About Us</a>
+          <a *ngIf="featureService.brandingUI() === 'GBA'" routerLink="/about-us" class="nav-link nav-link-about-us">About Us</a>
+          <a *ngIf="featureService.brandingUI() === 'BBMRI'" href="https://www.bbmri-eric.eu/about/" class="nav-link nav-link-about-us">About Us</a>
           <a href="{{externalUrlService.getNegotiatorUrl()}}" class="nav-link" target="_blank">Negotiator</a>
           <a *ngIf="!userService.getLoginValid()" (click)="userService.login()" class="nav-link">Login</a>
           <a *ngIf="userService.getLoginValid()" (click)="userService.logout()" class="nav-link">Logout</a>

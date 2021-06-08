@@ -6,6 +6,11 @@
     "stratifierMinimalNumberBiobanks": 1
   };
 
+  // GBA || BBMRI
+  window["env"]["branding"] = {
+    "ui": "BBMRI"
+  };
+
   // Environment variables
   window["env"]["externalServices"] = {
     "brokerUrl": "http://localhost:8080/broker",

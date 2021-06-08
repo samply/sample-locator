@@ -7,6 +7,10 @@
     "stratifierMinimalNumberBiobanks": "${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}"
   };
 
+  window["env"]["branding"] = {
+    "ui": "${BRANDING_UI}"
+  };
+
   window["env"]["externalServices"] = {
     "brokerUrl": "${SEARCHBROKER_URL}",
     "sampleLocatorUrl": "${SAMPLELOCATOR_URL}",

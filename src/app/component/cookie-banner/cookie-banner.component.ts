@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SlCookieService} from '../../service/sl-cookie.service';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-cookie-banner',
@@ -8,7 +9,7 @@ import {SlCookieService} from '../../service/sl-cookie.service';
 })
 export class CookieBannerComponent implements OnInit {
 
-  constructor(private slCookieService: SlCookieService) {
+  constructor(private slCookieService: SlCookieService, public featureService: FeatureService) {
   }
 
   ngOnInit(): void {
