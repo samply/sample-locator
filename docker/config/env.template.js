@@ -23,7 +23,7 @@
     "molgenisPassword": "${MOLGENIS_PASSWORD}"
   };
 
-  window["env"]["mdrConfigGBN"] = {
+  window["env"]["mdrConfig"] = {
     "mdrRestUrl": "${MDR_API_URL}",
     "mdrNamespace": "${MDR_NAMESPACE}",
     "languageCode": "${MDR_LANGUAGE}",

@@ -6,9 +6,9 @@
     "stratifierMinimalNumberBiobanks": 1
   };
 
-  // GBA || BBMRI
+  // für ui: GBA || BBMRI
   window["env"]["branding"] = {
-    "ui": "BBMRI"
+    "ui": "BBMRI",
   };
 
   // Environment variables
@@ -25,7 +25,7 @@
     "molgenisPassword": "your-molgenis-password"
   };
 
-  window["env"]["mdrConfigGBN"] =
+  window["env"]["mdrConfig"] =
     {
       "mdrRestUrl": "http://mdr.germanbiobanknode.de/v3/api/mdr",
       "mdrNamespace": "mdr16",

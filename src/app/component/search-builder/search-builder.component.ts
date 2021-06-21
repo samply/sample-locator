@@ -17,6 +17,7 @@ import {
 import {Subscription} from 'rxjs';
 
 import {SlStorageService} from '../../service/sl-storage.service';
+import {FeatureService} from '../../service/feature.service';
 
 class AddibleField {
   label: string;
@@ -26,7 +27,7 @@ class AddibleField {
 
 class AddibleFieldsGroup {
   label = '';
-  items: Array<AddibleField> = [];
+  items?: Array<AddibleField> = [];
 }
 
 @Component({
@@ -123,7 +124,8 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private slStorageService: SlStorageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public featureService: FeatureService
   ) {
   }
 
@@ -267,7 +269,19 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     });
 
-    this.addibleFields.push(addibleFieldsSample);
+    console.log(addibleFieldsSample);
+    // if (this.featureService.brandingUI() === 'GBA') {
+      if (addibleFieldsSample.label === 'DONOR/CLINICAL INFORMATION' || addibleFieldsSample.label === 'SAMPLE') {
+        this.addibleFields.push(addibleFieldsSample);
+      }
+    // }
+    // if (this.featureService.brandingUI() === 'BBMRI') {
+      if (addibleFieldsSample.label === 'CCDG') {
+        addibleFieldsSample.items.forEach(item => {
+          this.addibleFields.push(item);
+        });
+      // }
+    }
     console.log(this.addibleFields);
   }
 
@@ -373,9 +387,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     this.slStorageService.setQuery(this.getQuery());
   }
 
-  changeValue(i: number, j: number) {
+  changeValue(i: number, j: number, newValue?) {
     const valueType = this.getQueryField(i).valueType;
-    const newValue = this.getValueControl(i, j).value.value;
+    newValue = newValue ? newValue : this.getValueControl(i, j).value.value;
 
     this.getQueryValue(i, j).value = this.adoptDateFormat(newValue, valueType);
 

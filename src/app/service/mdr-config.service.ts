@@ -6,15 +6,16 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class MdrConfigService {
-  mdrConfigGBN: MdrConfig;
+  mdrConfig: MdrConfig;
   mdrConfigCCDG: MdrConfig;
 
   constructor() {
-    this.mdrConfigGBN = environment.mdrConfigGBN as MdrConfig;
+    this.mdrConfig = environment.mdrConfig as MdrConfig;
     this.mdrConfigCCDG = environment.mdrConfigCCDG as MdrConfig;
   }
 
   getMdrConfig(): Array<MdrConfig> {
-    return [this.mdrConfigGBN, this.mdrConfigCCDG];
+    return [this.mdrConfig];
+    // return [this.mdrConfig, this.mdrConfigCCDG];
   }
 }

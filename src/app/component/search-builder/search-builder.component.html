@@ -74,7 +74,8 @@
                                          formControlName="value"
                                          [placeholderText]="getValuePlaceholder(extendedField, value.condition)"
                                          [valueSetUrl]="getValueSetUrl(extendedField)"
-                                         (change)="changeValue(i, j)"></app-valueset-choose>
+                                         (change)="changeValue(i, j)"
+                                         (selectOption)="changeValue(i, j, $event)"></app-valueset-choose>
                     <!-- INTEGER and DECIMAL -->
                     <app-value-number *ngIf="field.valueType === 'INTEGER' || field.valueType === 'DECIMAL'"
                                       formControlName="value"
@@ -204,7 +205,8 @@
     <div class="add-field-wrapper">
       <!--suppress TypeScriptValidateTypes -->
       <!--
-      <p-dropdown [options]="addibleFields"
+      <p-dropdown *ngIf="featureService.brandingUI() === 'GBA'"
+                  [options]="addibleFields"
                   formControlName="addField"
                   [group]="true"
                   (select)="chooseField($event)"
@@ -214,8 +216,13 @@
                   panelStyleClass="add-field-panel">
       </p-dropdown>-->
 
-      <app-samply-button [active]="true" label="Add Field" (click)="menu.toggle($event)"></app-samply-button>
-      <p-tieredMenu #menu
+      <app-samply-button
+
+                  [active]="true" label="Add Field"
+                  (click)="menu.toggle($event)">
+      </app-samply-button>
+      <p-tieredMenu
+                    #menu
                     [model]="addibleFields"
                     [popup]="true"
                     appendTo="body"
