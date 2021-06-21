@@ -3,8 +3,8 @@
 
   // Environment variables
   window["env"]["features"] = {
-    "stratifier": "${FEATURE_STRATIFIER}",
-    "stratifierMinimalNumberBiobanks": "${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}"
+    "stratifier": ${FEATURE_STRATIFIER},
+    "stratifierMinimalNumberBiobanks": ${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}
   };
 
   window["env"]["branding"] = {
@@ -27,9 +27,9 @@
     "mdrRestUrl": "${MDR_API_URL}",
     "mdrNamespace": "${MDR_NAMESPACE}",
     "languageCode": "${MDR_LANGUAGE}",
-    "dataElementGroups": "${MDR_MAPPING}",
-    "dataElements": "${MDR_FIELD_PROPERTIES}",
-    "hiddenDataElements": "${MDR_HIDDEN}"
+    "dataElementGroups": ${MDR_MAPPING},
+    "dataElements": ${MDR_FIELD_PROPERTIES},
+    "hiddenDataElements": ${MDR_HIDDEN}
   };
   window["env"]["mdrConfigCCDG"] = {
     "mdrRestUrl": "${MDR_API_URL}",
