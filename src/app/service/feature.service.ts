@@ -20,6 +20,12 @@ export class FeatureService {
 
   // noinspection JSMethodCanBeStatic
   public brandingUI(): string {
-    return (window as any).env.branding.ui;
+    let branding = (window as any).env.branding.ui;
+
+    if (branding === '' || branding === undefined) {
+      branding = 'GBA';
+    }
+
+    return branding;
   }
 }

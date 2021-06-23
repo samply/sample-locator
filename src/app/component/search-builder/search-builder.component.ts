@@ -21,6 +21,7 @@ import {FeatureService} from '../../service/feature.service';
 
 class AddibleField {
   label: string;
+  value?: string;
   command?: (event: any) => void;
   items?: Array<AddibleField> = [];
 }
@@ -212,7 +213,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     };
 
     this.mdrFieldProviderService.getAllPossibleFields(mdrEntities).slice().forEach(field => {
-      console.log(field);
       if (label === 'CCDG') {
         const Index = addibleFieldsSample.items.findIndex(x => x.label === field.mdrEntity);
         if (Index === -1) {
@@ -223,6 +223,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
                   label: field.mdrEntityChild,
                   items: [{
                     label: field.name,
+                    value: field.urn,
                     command: (event) => { this.chooseField(field.urn); }
                   }]
                 }]
@@ -232,6 +233,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
                 label: field.mdrEntity,
                 items: [{
                   label: field.name,
+                  value: field.urn,
                   command: (event) => { this.chooseField(field.urn); }
                 }]
               });
@@ -244,18 +246,21 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
                   label: field.mdrEntityChild,
                   items: [{
                     label: field.name,
+                    value: field.urn,
                     command: (event) => { this.chooseField(field.urn); }
                   }]
                 });
               } else {
                 addibleFieldsSample.items[Index].items[childIndex].items.push({
                   label: field.name,
+                  value: field.urn,
                   command: (event) => { this.chooseField(field.urn); }
                 });
               }
             } else {
               addibleFieldsSample.items[Index].items.push({
                 label: field.name,
+                value: field.urn,
                 command: (event) => { this.chooseField(field.urn); }
               });
             }
@@ -263,6 +268,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
         } else {
           addibleFieldsSample.items.push({
             label: field.name,
+            value: field.urn,
             command: (event) => { this.chooseField(field.urn); }
           });
         }
@@ -271,12 +277,12 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     console.log(addibleFieldsSample);
     // if (this.featureService.brandingUI() === 'GBA') {
-      if (addibleFieldsSample.label === 'DONOR/CLINICAL INFORMATION' || addibleFieldsSample.label === 'SAMPLE') {
+    if (addibleFieldsSample.label === 'DONOR/CLINICAL INFORMATION' || addibleFieldsSample.label === 'SAMPLE') {
         this.addibleFields.push(addibleFieldsSample);
       }
     // }
     // if (this.featureService.brandingUI() === 'BBMRI') {
-      if (addibleFieldsSample.label === 'CCDG') {
+    if (addibleFieldsSample.label === 'CCDG') {
         addibleFieldsSample.items.forEach(item => {
           this.addibleFields.push(item);
         });
@@ -416,6 +422,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     return newValue;
   }
 
+  chooseFieldEvent({value}) {
+    this.chooseField(value);
+  }
   chooseField(value) {
     const urn = value;
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);

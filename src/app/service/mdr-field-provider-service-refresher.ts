@@ -121,12 +121,11 @@ export class MdrFieldProviderServiceRefresher {
 
   private checkAllHttpRequestsResolved() {
     this.numberOfHandledResults++;
-    console.log(this.numberOfHandledResults + ' ' + this.urlsFromAllResults.size);
+    // console.log(this.numberOfHandledResults + ' ' + this.urlsFromAllResults.size);
     // If all urls from MDR have been dealt with by either
     // - being ignored as a hidden element or by
     // - having been added to allDataElements
     // then the initialization of this service is done and we can resolve the promise
-    // TODO: es werden 3 HiddenElements zu wenig ausgeführt
     if (this.urlsFromAllResults.size === this.numberOfHandledResults) {
       this.slStorageService.setAllDataElments(this.allDataElements);
       this.slStorageService.setDataElementGroupMembersMap(this.dataElementGroupMembersMap);
