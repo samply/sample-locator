@@ -15,4 +15,11 @@
   <a *ngIf="featureService.brandingUI() === 'GBA'" href="https://www.bmbf.de/" title="BMBF" target="_blank">
     <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
   </a>
+  <div *ngIf="featureService.brandingUI() === 'BBMRI'" class="funding-box">
+    <span>We gratefully acknowledge funding from:</span>
+    <ul>
+      <li><a href="https://www.bbmri-eric.eu/scientific-collaboration/adopt-bbmri-eric/">H2020 ADOPT BBMRI-ERIC</a></li>
+      <li><a href="https://www.ejprarediseases.org/">EJP RD</a></li>
+    </ul>
+  </div>
 </div>
