@@ -15,6 +15,7 @@
   <a *ngIf="featureService.brandingUI() === 'GBA'" href="https://www.bmbf.de/" title="BMBF" target="_blank">
     <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
   </a>
+  <img *ngIf="featureService.brandingUI() === 'BBMRI'" src="assets/img/eu_flag_yellow_low.jpg" alt="EU_Flag" class="eu_flag"/>
   <div *ngIf="featureService.brandingUI() === 'BBMRI'" class="funding-box">
     <span>We gratefully acknowledge funding from:</span>
     <ul>
