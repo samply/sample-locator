@@ -8,18 +8,22 @@ import {FeatureService} from 'src/app/service/feature.service';
 })
 export class AppComponent implements OnInit {
   constructor(public featureService: FeatureService) {}
+
+  public static brandingTitle: string;
+
   title = 'sample-locator';
 
   ngOnInit(): void {
+    const favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+
     if (this.featureService.brandingUI() === 'GBA') {
-      document.title = 'Sample Locator';
-      const favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+      AppComponent.brandingTitle = 'Sample Locator';
       favIcon.href = '../assets/img/favicon.ico';
     }
     if (this.featureService.brandingUI() === 'BBMRI') {
-      document.title = 'BBMRI Locator';
-      const favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+      AppComponent.brandingTitle = 'BBMRI Locator';
       favIcon.href = '../assets/img/favicon_BBMRI.png';
     }
+    document.title = AppComponent.brandingTitle;
   }
 }

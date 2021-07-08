@@ -275,7 +275,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     });
 
-    console.log(addibleFieldsSample);
     // if (this.featureService.brandingUI() === 'GBA') {
     if (addibleFieldsSample.label === 'DONOR/CLINICAL INFORMATION' || addibleFieldsSample.label === 'SAMPLE') {
         this.addibleFields.push(addibleFieldsSample);
@@ -288,7 +287,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
         });
       // }
     }
-    console.log(this.addibleFields);
   }
 
   ngOnDestroy(): void {
