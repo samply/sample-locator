@@ -1,6 +1,5 @@
 export interface ExtendedMdrFieldDto {
   mdrEntity: MdrEntity;
-  mdrEntityChild: string;
   mdrDataType: MdrDataType;
 
   urn: string;
@@ -20,37 +19,11 @@ export interface PermittedValue {
 export enum MdrEntity {
   DONOR = 'DONOR',
   SAMPLE = 'SAMPLE',
-  EVENT = 'EVENT',
-  Histopathology = 'Histopathology',
-  Pharmacotherapy = 'Pharmacotherapy',
-  DiagnosticExam = 'Diagnostic exam',
-  MolecularMarkers = 'Molecular markers',
-  PatientData = 'Patient data',
-  RadiationTherapy = 'Radiation therapy',
-  ResponseToTherapy = 'Response to therapy',
-  Sample = 'Sample',
-  Surgery = 'Surgery',
-  TargetedTherapy = 'Targeted therapy',
-  VitalStatus = 'Vital status and survival information'
+  EVENT = 'EVENT'
 }
 
 export function getAllMdrEntities(): Array<MdrEntity> {
-  return [
-    MdrEntity.DONOR,
-    MdrEntity.EVENT,
-    MdrEntity.SAMPLE,
-    MdrEntity.Histopathology,
-    MdrEntity.Pharmacotherapy,
-    MdrEntity.DiagnosticExam,
-    MdrEntity.MolecularMarkers,
-    MdrEntity.PatientData,
-    MdrEntity.RadiationTherapy,
-    MdrEntity.ResponseToTherapy,
-    MdrEntity.Sample,
-    MdrEntity.Surgery,
-    MdrEntity.TargetedTherapy,
-    MdrEntity.VitalStatus
-  ];
+  return [MdrEntity.DONOR, MdrEntity.EVENT, MdrEntity.SAMPLE];
 }
 
 export function getMdrEntity(name: string): MdrEntity | null {
@@ -58,17 +31,6 @@ export function getMdrEntity(name: string): MdrEntity | null {
     case MdrEntity.SAMPLE: return MdrEntity.SAMPLE;
     case MdrEntity.EVENT: return MdrEntity.EVENT;
     case MdrEntity.DONOR: return MdrEntity.DONOR;
-    case MdrEntity.Histopathology: return MdrEntity.Histopathology;
-    case MdrEntity.Pharmacotherapy: return MdrEntity.Pharmacotherapy;
-    case MdrEntity.DiagnosticExam: return MdrEntity.DiagnosticExam;
-    case MdrEntity.MolecularMarkers: return MdrEntity.MolecularMarkers;
-    case MdrEntity.PatientData: return MdrEntity.PatientData;
-    case MdrEntity.RadiationTherapy: return MdrEntity.RadiationTherapy;
-    case MdrEntity.ResponseToTherapy: return MdrEntity.ResponseToTherapy;
-    case MdrEntity.Sample: return MdrEntity.Sample;
-    case MdrEntity.Surgery: return MdrEntity.Surgery;
-    case MdrEntity.TargetedTherapy: return MdrEntity.TargetedTherapy;
-    case MdrEntity.VitalStatus: return MdrEntity.VitalStatus;
     default: return null;
   }
 }

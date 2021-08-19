@@ -1,7 +1,7 @@
 @import "../../../_variables.scss";
 
 .footer {
-  padding: 1.5em 0 0 0;
+  padding: 6.5em 0 0 0;
   color: $color-dark;
   line-height: 22px;
   font-size: smaller;
@@ -10,6 +10,10 @@
   font-stretch: 100%;
 }
 
+.footer-logos {
+  width: 100%;
+  margin-top: 20px !important;
+}
 .footer span, .footer div {
   margin: 0 .25em;
 }
@@ -22,18 +26,27 @@
   color: $color-version;
 }
 
-.bmbf-logo, .dkfz-logo {
-  height: 139px;
+.bmbf-logo {
+  height: 120px;
+  width: 185px;
+}
+.gba-logo {
+  width: 180px;
+  margin-right: 30px;
+}
+.dkfz-logo {
+  height: 100px;
   width:220px;
 }
 .eu_flag {
-  width: 115px;
-  margin-top: 30px;
-  margin-left: 10px;
+  width: 100px;
+  height: 65px;
+  margin-left: 40px;
 }
 .funding-box {
-  padding-top: 30px;
   padding-left: 10px;
+  padding-top: 5px;
+  font-size: 13px;
 }
 .funding-box ul {
   margin-top: 5px;

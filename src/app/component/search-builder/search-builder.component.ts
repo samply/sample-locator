@@ -17,18 +17,15 @@ import {
 import {Subscription} from 'rxjs';
 
 import {SlStorageService} from '../../service/sl-storage.service';
-import {FeatureService} from '../../service/feature.service';
 
 class AddibleField {
   label: string;
-  value?: string;
-  command?: (event: any) => void;
-  items?: Array<AddibleField> = [];
+  value: string;
 }
 
 class AddibleFieldsGroup {
   label = '';
-  items?: Array<AddibleField> = [];
+  items: Array<AddibleField> = [];
 }
 
 @Component({
@@ -43,9 +40,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
   @Input()
   public mdrEntitiesDonor: Array<MdrEntity>;
-
-  @Input()
-  public mdrEntitiesCCDG: Array<MdrEntity>;
 
   @Input()
   disabled = false;
@@ -125,8 +119,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private slStorageService: SlStorageService,
-    private fb: FormBuilder,
-    public featureService: FeatureService
+    private fb: FormBuilder
   ) {
   }
 
@@ -203,7 +196,6 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
 
     this.addEntities('DONOR/CLINICAL INFORMATION', this.mdrEntitiesDonor);
     this.addEntities('SAMPLE', this.mdrEntitiesSample);
-    this.addEntities('CCDG', this.mdrEntitiesCCDG);
   }
 
   private addEntities(label: string, mdrEntities: Array<MdrEntity>) {
@@ -213,80 +205,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     };
 
     this.mdrFieldProviderService.getAllPossibleFields(mdrEntities).slice().forEach(field => {
-      if (label === 'CCDG') {
-        const Index = addibleFieldsSample.items.findIndex(x => x.label === field.mdrEntity);
-        if (Index === -1) {
-          if (field.mdrEntityChild !== '') {
-              addibleFieldsSample.items.push({
-                label: field.mdrEntity,
-                items: [{
-                  label: field.mdrEntityChild,
-                  items: [{
-                    label: field.name,
-                    value: field.urn,
-                    command: (event) => { this.chooseField(field.urn); }
-                  }]
-                }]
-              });
-            } else {
-              addibleFieldsSample.items.push({
-                label: field.mdrEntity,
-                items: [{
-                  label: field.name,
-                  value: field.urn,
-                  command: (event) => { this.chooseField(field.urn); }
-                }]
-              });
-            }
-          } else {
-            if (field.mdrEntityChild !== '') {
-              const childIndex = addibleFieldsSample.items[Index].items.findIndex(x => x.label === field.mdrEntityChild);
-              if (childIndex === -1) {
-                addibleFieldsSample.items[Index].items.push({
-                  label: field.mdrEntityChild,
-                  items: [{
-                    label: field.name,
-                    value: field.urn,
-                    command: (event) => { this.chooseField(field.urn); }
-                  }]
-                });
-              } else {
-                addibleFieldsSample.items[Index].items[childIndex].items.push({
-                  label: field.name,
-                  value: field.urn,
-                  command: (event) => { this.chooseField(field.urn); }
-                });
-              }
-            } else {
-              addibleFieldsSample.items[Index].items.push({
-                label: field.name,
-                value: field.urn,
-                command: (event) => { this.chooseField(field.urn); }
-              });
-            }
-          }
-        } else {
-          addibleFieldsSample.items.push({
-            label: field.name,
-            value: field.urn,
-            command: (event) => { this.chooseField(field.urn); }
-          });
-        }
+      const addibleField = {
+        label: field.name,
+        value: field.urn
+      };
 
+      addibleFieldsSample.items.push(addibleField);
     });
 
-    // if (this.featureService.brandingUI() === 'GBA') {
-    if (addibleFieldsSample.label === 'DONOR/CLINICAL INFORMATION' || addibleFieldsSample.label === 'SAMPLE') {
-        this.addibleFields.push(addibleFieldsSample);
-      }
-    // }
-    // if (this.featureService.brandingUI() === 'BBMRI') {
-    if (addibleFieldsSample.label === 'CCDG') {
-        addibleFieldsSample.items.forEach(item => {
-          this.addibleFields.push(item);
-        });
-      // }
-    }
+    this.addibleFields.push(addibleFieldsSample);
   }
 
   ngOnDestroy(): void {

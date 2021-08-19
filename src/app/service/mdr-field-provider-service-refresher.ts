@@ -32,39 +32,30 @@ export class MdrFieldProviderServiceRefresher {
   refreshMdrData() {
     this.resetTempInstanceVariables();
 
-    const mdrConfigAll = this.mdrConfigService.getMdrConfig();
+    const mdrConfig = this.mdrConfigService.getMdrConfig();
 
-    for (const mdrConfig of mdrConfigAll) {
-      for (const mdrEntity of getAllMdrEntities()) {
-        const urnEntity = this.getUrn(mdrEntity, mdrConfig);
-        if (!urnEntity) {
-          continue;
-        }
-
-        this.getSingleElement(mdrConfig, mdrEntity, '', urnEntity);
+    for (const mdrEntity of getAllMdrEntities()) {
+      const urnEntity = this.getUrn(mdrEntity, mdrConfig);
+      if (!urnEntity) {
+        continue;
       }
-    }
-    console.log(this.allDataElements);
-  }
 
-  getSingleElement(mdrConfig, mdrEntity, mdrEntityChild, urnEntity): void {
-    const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
+      const urlEntity = mdrConfig.mdrRestUrl + '/dataelementgroups/' + urnEntity + '/members';
 
-    this.httpClient.get<MdrResults>(urlEntity).subscribe(value => {
-      this.addToUrlsFromAllResults(value);
+      this.httpClient.get<MdrResults>(urlEntity).subscribe(value => {
+        this.addToUrlsFromAllResults(value);
 
-      for (const mdrResult of value.results) {
-        if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
-          this.checkAllHttpRequestsResolved();
-          continue;
-        }
+        for (const mdrResult of value.results) {
+          if (mdrConfig.hiddenDataElements.find(hiddenUrn => hiddenUrn === mdrResult.id)) {
+            this.checkAllHttpRequestsResolved();
+            continue;
+          }
 
-        if (mdrResult.type !== 'DATAELEMENTGROUP') {
           const urlElement = mdrConfig.mdrRestUrl + '/dataelements/' + mdrResult.id;
           this.httpClient.get<MdrDataElement>(urlElement).subscribe(
             dataElement => {
               const dataElementDto =
-                this.createExtendedMdrFieldDto(mdrEntity, mdrEntityChild, mdrResult, dataElement, mdrConfig);
+                this.createExtendedMdrFieldDto(mdrEntity, mdrResult, dataElement, mdrConfig);
 
               this.allDataElements.push(dataElementDto);
               this.entityUrnsMap.get(mdrEntity).push(dataElementDto.urn);
@@ -72,12 +63,9 @@ export class MdrFieldProviderServiceRefresher {
               this.checkAllHttpRequestsResolved();
             }
           );
-        } else {
-          this.checkAllHttpRequestsResolved();
-          this.getSingleElement(mdrConfig, mdrEntity, mdrResult.designations[0].designation, mdrResult.id);
         }
-      }
-    });
+      });
+    }
   }
 
   private addToUrlsFromAllResults(value: MdrResults): void {
@@ -88,7 +76,6 @@ export class MdrFieldProviderServiceRefresher {
 
   private createExtendedMdrFieldDto(
     mdrEntity: MdrEntity,
-    mdrEntityChild: string,
     mdrResult: MdrResult,
     dataElement: MdrDataElement,
     mdrConfig: MdrConfig): ExtendedMdrFieldDto {
@@ -106,7 +93,6 @@ export class MdrFieldProviderServiceRefresher {
 
     return {
       mdrEntity,
-      mdrEntityChild,
       mdrDataType: getMdrDataType(dataElement.validation.datatype),
 
       urn: mdrResult.id,
@@ -121,7 +107,6 @@ export class MdrFieldProviderServiceRefresher {
 
   private checkAllHttpRequestsResolved() {
     this.numberOfHandledResults++;
-    // console.log(this.numberOfHandledResults + ' ' + this.urlsFromAllResults.size);
     // If all urls from MDR have been dealt with by either
     // - being ignored as a hidden element or by
     // - having been added to allDataElements

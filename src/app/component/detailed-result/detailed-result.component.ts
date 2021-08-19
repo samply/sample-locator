@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {faHandshake} from '@fortawesome/free-regular-svg-icons';
 import {Reply} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
+import {SlStorageService} from '../../service/sl-storage.service';
 
 @Component({
   selector: 'app-detailed-result',
@@ -27,11 +28,18 @@ export class DetailedResultComponent implements OnInit {
   negotiateFlags: Map<string, boolean> = new Map();
 
   constructor(
-    private negotiatorService: NegotiatorService
+    private negotiatorService: NegotiatorService,
+    private slStorageService: SlStorageService
   ) {
   }
 
+  selectedBiobanks: Array<string>;
+
   ngOnInit(): void {
+    this.selectedBiobanks = this.slStorageService.getBiobankCollection();
+    this.selectedBiobanks.forEach(biobank => {
+      this.toggleNegotiateFlag(biobank);
+    });
   }
 
   navigateToNegotiator() {

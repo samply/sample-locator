@@ -204,9 +204,7 @@
        fxLayoutAlign="end">
     <div class="add-field-wrapper">
       <!--suppress TypeScriptValidateTypes -->
-
-      <p-dropdown
-                  [options]="addibleFields"
+      <p-dropdown [options]="addibleFields"
                   formControlName="addField"
                   [group]="true"
                   (select)="chooseFieldEvent($event)"
@@ -215,19 +213,6 @@
                   [styleClass]="getAddFieldStyleClass()"
                   panelStyleClass="add-field-panel">
       </p-dropdown>
-      <!--
-      <app-samply-button
-                  *ngIf="featureService.brandingUI() === 'BBMRI'"
-                  [active]="true" label="Add Field"
-                  (click)="menu.toggle($event)">
-      </app-samply-button>
-      <p-tieredMenu
-                    #menu
-                    [model]="addibleFields"
-                    [popup]="true"
-                    appendTo="body"
-                    >
-      </p-tieredMenu>-->
     </div>
   </div>
 

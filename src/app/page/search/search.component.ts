@@ -38,19 +38,6 @@ export class SearchComponent implements OnInit {
 
   mdrEntitiesDonor = [MdrEntity.DONOR, MdrEntity.EVENT];
   mdrEntitiesSample = [MdrEntity.SAMPLE];
-  mdrEntitiesCCDG = [
-    MdrEntity.Histopathology,
-    MdrEntity.Pharmacotherapy,
-    MdrEntity.DiagnosticExam,
-    MdrEntity.MolecularMarkers,
-    MdrEntity.PatientData,
-    MdrEntity.RadiationTherapy,
-    MdrEntity.ResponseToTherapy,
-    MdrEntity.Sample,
-    MdrEntity.Surgery,
-    MdrEntity.TargetedTherapy,
-    MdrEntity.VitalStatus
-  ];
 
   static scrollToTop() {
     window.scroll({
@@ -77,6 +64,7 @@ export class SearchComponent implements OnInit {
   resetQuery() {
     this.queryProviderService.resetQuery();
     this.builderComponents.forEach(component => component.calculateFilteredFields());
+    this.slStorageService.setBiobankCollection('');
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
   }
 

@@ -36,6 +36,7 @@ export class RestoreComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.route.queryParams.subscribe(parms => {
       this.nToken = parms.ntoken;
       this.slStorageService.setNToken(this.nToken);
+      this.slStorageService.setBiobankCollection(parms.selectedBiobanks);
 
       if (!this.nToken) {
         this.queryProviderService.restoreQuery();
