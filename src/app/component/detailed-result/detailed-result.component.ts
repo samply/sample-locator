@@ -37,9 +37,11 @@ export class DetailedResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedBiobanks = this.slStorageService.getBiobankCollection();
-    this.selectedBiobanks.forEach(biobank => {
-      this.toggleNegotiateFlag(biobank);
-    });
+    if (this.selectedBiobanks !== undefined) {
+      this.selectedBiobanks.forEach(biobank => {
+        this.toggleNegotiateFlag(biobank);
+      });
+    }
   }
 
   navigateToNegotiator() {
