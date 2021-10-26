@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faHandshake} from '@fortawesome/free-regular-svg-icons';
-import {Reply} from '../../model/result/reply-dto';
+import {Reply, ReplySite} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 
@@ -37,10 +37,11 @@ export class DetailedResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedBiobanks = this.slStorageService.getBiobankCollection();
-    if (this.selectedBiobanks !== undefined) {
-      this.selectedBiobanks.forEach(biobank => {
+    if (this.selectedBiobanks !== undefined && this.selectedBiobanks.length > 0) {
+      this.selectedBiobanks?.forEach(biobank => {
         this.toggleNegotiateFlag(biobank);
       });
+      this.slStorageService.setBiobankCollection('');
     }
   }
 
@@ -49,13 +50,13 @@ export class DetailedResultComponent implements OnInit {
       return;
     }
 
-    const sites: Array<string> = [];
+    const sites: Array<ReplySite> = [];
     for (const key of this.negotiateFlags.keys()) {
       if (this.negotiateFlags.get(key)) {
-        sites.push(key);
+        const element = this.detailedResult.replySites.filter((x) => x.site === key);
+        sites.push(element[0]);
       }
     }
-
     this.negotiatorService.redirectToNegotiator(sites);
   }
 

@@ -14,7 +14,8 @@
   // Environment variables
   window["env"]["externalServices"] = {
     // "brokerUrl": "http://localhost:8080/broker",
-    "brokerUrl": "https://samplelocator.bbmri.de/broker",
+    // "brokerUrl": "https://samplelocator.bbmri.de/broker",
+    "brokerUrl": "https://locator.bbmri-eric.eu/broker",
     "sampleLocatorUrl": "http://localhost:8085",
     "negotiatorUrl": "https://negotiator.bbmri-eric.eu",
     "terminologyServerUrl": "https://samplelocator.bbmri.de/icd10"

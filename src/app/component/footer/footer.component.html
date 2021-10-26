@@ -23,18 +23,15 @@
     </div>
     <div *ngIf="featureService.brandingUI() === 'GBA'"></div>
 
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
       <div fxFlex="1 0 0"></div>
       <a href="https://www.bmbf.de/" title="BMBF" target="_blank">
         <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
       </a>
-      <img *ngIf="featureService.brandingUI() === 'BBMRI'" src="assets/img/eu_flag_yellow_low.jpg" alt="EU_Flag" class="eu_flag"/>
-      <div *ngIf="featureService.brandingUI() === 'BBMRI'" class="funding-box">
-        <span>We gratefully acknowledge funding from:</span>
-        <ul>
-          <li><a href="https://www.bbmri-eric.eu/scientific-collaboration/adopt-bbmri-eric/">H2020 ADOPT BBMRI-ERIC</a></li>
-          <li><a href="https://www.ejprarediseases.org/">EJP RD</a></li>
-        </ul>
+
+      <div *ngIf="featureService.brandingUI() === 'BBMRI'" fxLayout="column" fxLayoutAlign="start start" class="funding-box">
+        <span>Co-funded by the</span>
+        <img src="assets/img/logo_ce-en-rvb-lr.jpg" alt="EU_Logo" class="eu_flag"/>
       </div>
     </div>
   </div>

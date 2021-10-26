@@ -35,6 +35,7 @@ export class RestoreComponent implements OnInit, OnDestroy {
   private initParameters() {
     this.subscriptions.push(this.route.queryParams.subscribe(parms => {
       this.nToken = parms.ntoken;
+      console.log(parms.ntoken);
       this.slStorageService.setNToken(this.nToken);
       this.slStorageService.setBiobankCollection(parms.selectedBiobanks);
 

@@ -27,6 +27,7 @@
 }
 
 .bmbf-logo {
+  margin-top: 5px;
   height: 120px;
   width: 185px;
 }
@@ -39,18 +40,16 @@
   width:220px;
 }
 .eu_flag {
-  width: 100px;
-  height: 65px;
-  margin-left: 40px;
+  width: 150px;
+  height: 100px;
+  margin-left: 10px;
+  margin-top: 5px;
 }
 .funding-box {
   padding-left: 10px;
-  padding-top: 5px;
-  font-size: 13px;
+  font-size: 11px;
 }
-.funding-box ul {
-  margin-top: 5px;
-}
+
 @media screen and (max-width: 1199px) {
   .bmbf-logo {
     height: 100px;

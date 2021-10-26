@@ -8,6 +8,7 @@ import {SimpleValueOperator} from '../model/query/essential-query-dto';
 import {MolgenisService} from './molgenis.service';
 import {SlStorageService} from './sl-storage.service';
 import {ExtendedMdrFieldDto, MdrDataType} from '../model/mdr/extended-mdr-field-dto';
+import {ReplyDirectory, ReplySite} from '../model/result/reply-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,19 +26,27 @@ export class NegotiatorService {
   ) {
   }
 
-  public redirectToNegotiator(biobankNames: Array<string>): void {
+  public redirectToNegotiator(biobankElements: Array<ReplySite>): void {
     const urlBroker = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getDirectoryID';
 
     const headersBroker = new HttpHeaders()
       .set('Accept', 'application/json; charset=utf-8')
       .set('Authorization', 'Bearer ' + this.userService.getIdToken());
 
+    const biobankNames: Array<string> = [];
+    biobankElements.forEach((element) => { biobankNames.push(element.site); });
+
     this.httpClient.post(urlBroker, biobankNames, {headers: headersBroker, observe: 'response'}).subscribe(
       responseBroker => {
         this.slStorageService.setBiobankCollection('');
 
         const humanReadable = this.getHumanReadableDescription();
-        const collections = responseBroker.body;
+        const collections = responseBroker.body as Array<ReplyDirectory>;
+        collections.forEach((biobank) => {
+          if (biobank.name) {
+            biobank.redirectUrl = biobankElements.filter((x) => x.site === biobank.name)[0].redirectURL;
+          }
+        });
         const URL = this.createQueryUrl(biobankNames);
 
         const nToken = this.slStorageService.getNToken();

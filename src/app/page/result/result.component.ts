@@ -73,7 +73,8 @@ export class ResultComponent implements OnInit, OnDestroy {
         count: 0,
         label: 'Sample',
         stratifications: []
-      }
+      },
+      redirectURL: ''
     };
   }
 
@@ -220,7 +221,8 @@ export class ResultComponent implements OnInit, OnDestroy {
         label: 'Sample',
         count: siteTransfer.sample,
         stratifications: []
-      }
+      },
+      redirectURL: siteTransfer.redirectURL
     };
   }
 
