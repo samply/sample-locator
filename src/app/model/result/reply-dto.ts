@@ -12,7 +12,7 @@ export interface ReplySite {
   site: string;
   donor: ReplySubject;
   sample: ReplySubject;
-  redirectURL: string;
+  redirectUrl: string;
 }
 
 export interface ReplySubject {

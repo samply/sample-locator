@@ -44,7 +44,7 @@ export class NegotiatorService {
         const collections = responseBroker.body as Array<ReplyDirectory>;
         collections.forEach((biobank) => {
           if (biobank.name) {
-            biobank.redirectUrl = biobankElements.filter((x) => x.site === biobank.name)[0].redirectURL;
+            biobank.redirectUrl = biobankElements.filter((x) => x.site === biobank.name)[0].redirectUrl;
           }
         });
         const URL = this.createQueryUrl(biobankNames);
