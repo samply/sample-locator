@@ -28,4 +28,7 @@ export class FeatureService {
 
     return branding;
   }
+  public branding(): any {
+    return (window as any).env.branding;
+  }
 }

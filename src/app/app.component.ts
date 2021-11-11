@@ -17,22 +17,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const favIcon: HTMLLinkElement = document.querySelector('#appIcon');
 
-    if (this.featureService.brandingUI() === 'GBA') {
-      AppComponent.brandingTitle = 'Sample Locator';
-      favIcon.href = '../assets/img/favicon.ico';
-      this.metaService.addTags([
-        // tslint:disable-next-line:max-line-length
-        {name: 'description', content: 'The Sample Locator enables scientists to search for biosamples and related data across multiple academic biobanks.'}
-      ]);
-    }
-    if (this.featureService.brandingUI() === 'BBMRI') {
-      AppComponent.brandingTitle = 'BBMRI Locator';
-      favIcon.href = '../assets/img/favicon_BBMRI.png';
-      this.metaService.addTags([
-        // tslint:disable-next-line:max-line-length
-        {name: 'description', content: 'The BBMRI Locator enables scientists to search for biosamples and related data across multiple academic biobanks.'}
-      ]);
-    }
+    AppComponent.brandingTitle = this.featureService.branding().title;
+    favIcon.href = '../assets/img/' + this.featureService.branding().favicon;
+    this.metaService.addTags([
+      // tslint:disable-next-line:max-line-length
+      {name: 'description', content: this.featureService.branding().metaDescription}
+    ]);
+
     document.title = AppComponent.brandingTitle;
   }
 }

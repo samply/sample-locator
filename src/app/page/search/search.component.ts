@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChildren} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 import {QueryProviderService} from '../../service/query-provider.service';
@@ -6,18 +6,20 @@ import {faEdit, faPaperPlane, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {HttpClient} from '@angular/common/http';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {SearchBuilderComponent} from '../../component/search-builder/search-builder.component';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   static MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS = 7;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     public mdrFieldProviderService: MdrFieldProviderService,
@@ -26,6 +28,7 @@ export class SearchComponent implements OnInit {
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
     private router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -52,6 +55,22 @@ export class SearchComponent implements OnInit {
     }
 
     this.queryProviderService.restoreQuery();
+
+    this.subscriptions.push(this.route.queryParams.subscribe(parms => {
+      console.log(parms.nToken);
+
+      if (parms.nToken) {
+        console.log('test');
+        this.slStorageService.setNToken(parms.nToken);
+      }
+
+    }));
+  }
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 
   sendQuery() {

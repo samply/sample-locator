@@ -20,8 +20,10 @@
 
       <div fxLayout="column" fxFlexAlign="flex-end flex-end" class="IE-HACK-header-links">
         <div fxFlex="row" fxLayoutAlign="flex-end flex-end">
-          <a *ngIf="featureService.brandingUI() === 'GBA'" routerLink="/about-us" class="nav-link nav-link-about-us">About Us</a>
-          <a *ngIf="featureService.brandingUI() === 'BBMRI'" href="https://www.bbmri-eric.eu/about/" class="nav-link nav-link-about-us">About Us</a>
+          <a *ngIf="featureService.branding().aboutUsLink.startsWith('http'); else useRouterLink" href="{{featureService.branding().aboutUsLink}}" class="nav-link nav-link-about-us">About Us</a>
+          <ng-template #useRouterLink>
+            <a routerLink="{{featureService.branding().aboutUsLink}}" class="nav-link nav-link-about-us">About Us</a>
+          </ng-template>
           <a href="{{externalUrlService.getNegotiatorUrl()}}" class="nav-link" target="_blank">Negotiator</a>
           <a *ngIf="!userService.getLoginValid()" (click)="userService.login()" class="nav-link">Login</a>
           <a *ngIf="userService.getLoginValid()" (click)="userService.logout()" class="nav-link">Logout</a>

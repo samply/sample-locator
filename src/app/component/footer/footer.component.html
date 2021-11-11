@@ -1,10 +1,18 @@
 <div fxLayout="column" fxLayoutAlign="start start" class="bbmri-container footer bbmri-transition">
   <div>
-    <span *ngIf="featureService.brandingUI() === 'GBA'"><a routerLink="/imprint">Imprint</a></span>
-    <span *ngIf="featureService.brandingUI() === 'BBMRI'"><a href="https://www.bbmri-eric.eu/contact/">Contact</a></span>
+    <span *ngIf="featureService.branding().contactLink.startsWith('http'); else useRouterLinkContact">
+      <a href="{{featureService.branding().contactLink}}">{{featureService.branding().contactText}}</a>
+    </span>
+    <ng-template #useRouterLinkContact>
+      <span><a routerLink="{{featureService.branding().contactLink}}">{{featureService.branding().contactText}}</a></span>
+    </ng-template>
     <span>|</span>
-    <span *ngIf="featureService.brandingUI() === 'GBA'"><a routerLink="/privacy">Privacy Policy</a></span>
-    <span *ngIf="featureService.brandingUI() === 'BBMRI'"><a href="https://www.bbmri-eric.eu/privacy-notice/">Privacy Policy</a></span>
+    <span *ngIf="featureService.branding().privacyPolicyLink.startsWith('http'); else useRouterLinkPrivacy">
+      <a href="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a>
+    </span>
+    <ng-template #useRouterLinkPrivacy>
+      <span><a routerLink="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a></span>
+    </ng-template>
     <span class="version-text">|</span>
     <div class="version-text">{{versionService.getUiVersion()}} (UI)</div>
     <span class="version-text">|</span>

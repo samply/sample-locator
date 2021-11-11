@@ -8,7 +8,14 @@
   };
 
   window["env"]["branding"] = {
-    "ui": "${BRANDING_UI}"
+    "ui": "${BRANDING_UI}",
+    "title": "${BRANDING_TITLE}",
+    "favicon": "${FAVICON_PATH}",
+    "metaDescription": "${META_DESCRIPTION}",
+    "aboutUsLink": "${ABOUTUS_PATH}",
+    "contactLink": "${CONTACT_PATH}",
+    "contactText": "${CONTACT_TEXT}",
+    "privacyPolicyLink": "${PRIVACY_PATH}"
   };
 
   window["env"]["externalServices"] = {
