@@ -6,9 +6,15 @@
     "stratifierMinimalNumberBiobanks": 1
   };
 
-  // für ui: GBA || BBMRI
   window["env"]["branding"] = {
-    "ui": "BBMRI",
+    "ui": "BBMRI",    // used for Logos,  'GBA' / 'BBMRI'
+    "title": "BBMRI Locator",
+    "favicon": "favicon_BBMRI.png",   // located in '..assets/img/'   GBA: 'favicon.ico' ,  BBMRI: 'favicon_BBMRI.png'
+    "metaDescription": "The BBMRI Locator enables scientists to search for biosamples and related data across multiple academic biobanks.",
+    "aboutUsLink": "https://www.bbmri-eric.eu/about/",  // GBA: '/about-us'  ,  BBMRI: 'https://www.bbmri-eric.eu/about/',
+    "contactLink": "https://www.bbmri-eric.eu/contact/",  // :GBA: '/imprint'  ,  BBMRI: 'https://www.bbmri-eric.eu/contact/'
+    "contactText": "Contact",   // GBA: 'Imprint'  ,  BBMRI: 'Contact'
+    "privacyPolicyLink": "https://www.bbmri-eric.eu/privacy-notice/"   // :GBA: '/privacy'  ,  BBMRI: 'https://www.bbmri-eric.eu/privacy-notice/'
   };
 
   // Environment variables
