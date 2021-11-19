@@ -1,14 +1,46 @@
-<div fxLayout="row" fxLayoutAlign="start start" class="bbmri-container footer bbmri-transition">
-  <span><a routerLink="/imprint">Imprint</a></span>
-  <span>|</span>
-  <span><a routerLink="/privacy">Privacy Policy</a></span>
-  <span class="version-text">|</span>
-  <div class="version-text">{{versionService.getUiVersion()}} (UI)</div>
-  <span class="version-text">|</span>
-  <div class="version-text">{{versionService.getBackendVersion()}} (Backend)</div>
-  <div fxFlex="1 0 0"></div>
-  <a href="https://www.bmbf.de/" title="BMBF" target="_blank">
-    <!--suppress HtmlUnknownTarget -->
-    <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
-  </a>
+<div fxLayout="column" fxLayoutAlign="start start" class="bbmri-container footer bbmri-transition">
+  <div>
+    <span *ngIf="featureService.branding().contactLink.startsWith('http'); else useRouterLinkContact">
+      <a href="{{featureService.branding().contactLink}}">{{featureService.branding().contactText}}</a>
+    </span>
+    <ng-template #useRouterLinkContact>
+      <span><a routerLink="{{featureService.branding().contactLink}}">{{featureService.branding().contactText}}</a></span>
+    </ng-template>
+    <span>|</span>
+    <span *ngIf="featureService.branding().privacyPolicyLink.startsWith('http'); else useRouterLinkPrivacy">
+      <a href="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a>
+    </span>
+    <ng-template #useRouterLinkPrivacy>
+      <span><a routerLink="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a></span>
+    </ng-template>
+    <span class="version-text">|</span>
+    <div class="version-text">{{versionService.getUiVersion()}} (UI)</div>
+    <span class="version-text">|</span>
+    <div class="version-text">{{versionService.getBackendVersion()}} (Backend)</div>
+    <div fxFlex="1 0 0"></div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="footer-logos">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <a *ngIf="featureService.brandingUI() === 'BBMRI'" href="https://www.bbmri.de/" title="BBMRI" target="_blank">
+        <img src="assets/img/GBN_CMYK_schwarz.svg" alt="GBN-LOGO" class="gba-logo"/>
+      </a>
+      <a href="https://www.dkfz.de/en/verbis/" title="DKFZ" target="_blank">
+        <img src="assets/img/german-cancer-research-center-dkfz-logo-vector.svg#svgView(viewBox(240, 180, 180, 300))" alt="DKFZ-LOGO" class="dkfz-logo"/>
+      </a>
+    </div>
+    <div *ngIf="featureService.brandingUI() === 'GBA'"></div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <div fxFlex="1 0 0"></div>
+      <a href="https://www.bmbf.de/" title="BMBF" target="_blank">
+        <img src="assets/img/BMBF_CMYK_Gef_L_e.svg#svgView(viewBox(295, 350, 1, 130))" alt="BMBF-LOGO" class="bmbf-logo"/>
+      </a>
+
+      <div *ngIf="featureService.brandingUI() === 'BBMRI'" fxLayout="column" fxLayoutAlign="start start" class="funding-box">
+        <span>Co-funded by the</span>
+        <img src="assets/img/logo_ce-en-rvb-lr.jpg" alt="EU_Logo" class="eu_flag"/>
+      </div>
+    </div>
+  </div>
 </div>

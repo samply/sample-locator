@@ -7,6 +7,17 @@
     "stratifierMinimalNumberBiobanks": ${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}
   };
 
+  window["env"]["branding"] = {
+    "ui": "${BRANDING_UI}",
+    "title": "${BRANDING_TITLE}",
+    "favicon": "${FAVICON_URL}",
+    "metaDescription": "${META_DESCRIPTION}",
+    "aboutUsLink": "${ABOUT_US_URL}",
+    "contactLink": "${CONTACT_URL}",
+    "contactText": "${CONTACT_TEXT}",
+    "privacyPolicyLink": "${PRIVACY_URL}"
+  };
+
   window["env"]["externalServices"] = {
     "brokerUrl": "${SEARCHBROKER_URL}",
     "sampleLocatorUrl": "${SAMPLELOCATOR_URL}",

@@ -17,6 +17,7 @@ export class SlStorageService {
 
   private static STORAGE_KEY_QUERY = 'query';
   private static STORAGE_KEY_N_TOKEN = 'nToken';
+  private static STORAGE_KEY_BIOBANK_COLLECTION = 'selectedBiobanks';
 
   private static STORAGE_KEY_MDR_ALL_DATA_ELEMENTS = 'mdr-all-data-elements';
   private static STORAGE_KEY_MDR_DATA_ELEMENT_GROUP_MEMBERS_MAP = 'mdr-data-element-group-members-map';
@@ -61,10 +62,23 @@ export class SlStorageService {
     return this.storage.get(SlStorageService.STORAGE_KEY_N_TOKEN);
   }
 
+  getBiobankCollection(): Array<string> {
+    return this.storage.get(SlStorageService.STORAGE_KEY_BIOBANK_COLLECTION);
+  }
+
   setNToken(nToken: string): void {
     const nTokenTemp = (nToken && nToken !== 'undefined' && nToken !== 'null') ? nToken : '';
 
     this.storage.set(SlStorageService.STORAGE_KEY_N_TOKEN, nTokenTemp);
+  }
+
+  setBiobankCollection(collection: string): void {
+    const biobankTemp = (collection && collection !== 'undefined' && collection !== 'null') ? collection : '';
+    if (biobankTemp === '') {
+      this.storage.set(SlStorageService.STORAGE_KEY_BIOBANK_COLLECTION, '');
+    } else {
+      this.storage.set(SlStorageService.STORAGE_KEY_BIOBANK_COLLECTION, JSON.parse(biobankTemp));
+    }
   }
 
   getAllDataElments(): Array<ExtendedMdrFieldDto> {

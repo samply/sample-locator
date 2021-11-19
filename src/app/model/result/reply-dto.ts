@@ -12,6 +12,7 @@ export interface ReplySite {
   site: string;
   donor: ReplySubject;
   sample: ReplySubject;
+  redirectUrl: string;
 }
 
 export interface ReplySubject {
@@ -28,4 +29,11 @@ export interface Stratification {
 export interface Stratum {
   label: string;
   count: number;
+}
+
+export interface ReplyDirectory {
+  name?: string;
+  biobankId: string;
+  collectionId: string;
+  redirectUrl?: string;
 }

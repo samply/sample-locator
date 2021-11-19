@@ -4,7 +4,12 @@
 
     <div class="bbmri-container cookie-banner" fxFlex="0 1 auto">
       Cookies help us to provide our services. By using this website, you consent that we use cookies. You can find
-      further information in our <a routerLink="/privacy">privacy policy</a>.
+      further information in our <span *ngIf="featureService.branding().privacyPolicyLink.startsWith('http'); else useRouterLinkPrivacy">
+      <a href="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a>
+    </span>
+      <ng-template #useRouterLinkPrivacy>
+        <span><a routerLink="{{featureService.branding().privacyPolicyLink}}">Privacy Policy</a></span>
+      </ng-template>.
       <a type="button"
          class="cookie-accept-button"
          (click)="setCookieAccepted()">OK</a>

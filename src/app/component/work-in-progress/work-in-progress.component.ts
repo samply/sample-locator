@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FeatureService} from '../../service/feature.service';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-work-in-progress',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkInProgressComponent implements OnInit {
 
-  constructor() { }
+  constructor(public featureService: FeatureService) { }
+  brandingTitle: string;
 
   ngOnInit(): void {
+    this.brandingTitle = AppComponent.brandingTitle;
   }
 
 }

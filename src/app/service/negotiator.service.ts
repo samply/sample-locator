@@ -8,6 +8,7 @@ import {SimpleValueOperator} from '../model/query/essential-query-dto';
 import {MolgenisService} from './molgenis.service';
 import {SlStorageService} from './sl-storage.service';
 import {ExtendedMdrFieldDto, MdrDataType} from '../model/mdr/extended-mdr-field-dto';
+import {ReplyDirectory, ReplySite} from '../model/result/reply-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,28 +26,38 @@ export class NegotiatorService {
   ) {
   }
 
-  public redirectToNegotiator(biobankNames: Array<string>): void {
+  public redirectToNegotiator(biobankElements: Array<ReplySite>): void {
     const urlBroker = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getDirectoryID';
 
     const headersBroker = new HttpHeaders()
       .set('Accept', 'application/json; charset=utf-8')
       .set('Authorization', 'Bearer ' + this.userService.getIdToken());
 
+    const biobankNames: Array<string> = [];
+    biobankElements.forEach((element) => { biobankNames.push(element.site); });
+
     this.httpClient.post(urlBroker, biobankNames, {headers: headersBroker, observe: 'response'}).subscribe(
       responseBroker => {
-        const humanReadable = this.getHumanReadbleDescription();
-        const collections = responseBroker.body;
-        const URL = this.createQueryUrl();
+        this.slStorageService.setBiobankCollection('');
 
-        const entity = {
-          humanReadable, collections, URL
-        };
+        const humanReadable = this.getHumanReadableDescription();
+        const collections = responseBroker.body as Array<ReplyDirectory>;
+        collections.forEach((biobank) => {
+          if (biobank.name) {
+            biobank.redirectUrl = biobankElements.filter((x) => x.site === biobank.name)[0].redirectUrl;
+          }
+        });
+        const URL = this.createQueryUrl(biobankNames);
 
         const nToken = this.slStorageService.getNToken();
         let urlNegotiator = this.externalUrlService.getNegotiatorUrl() + '/api/directory/create_query';
         if (nToken) {
           urlNegotiator += '?nToken=' + nToken;
         }
+
+        const entity = {
+          humanReadable, collections, URL, nToken
+        };
 
         const headersNegotiator = new HttpHeaders()
           .set('Accept', 'application/json; charset=utf-8')
@@ -69,7 +80,7 @@ export class NegotiatorService {
     );
   }
 
-  private createQueryUrl() {
+  private createQueryUrl(biobanks) {
     let URL = this.externalUrlService.getSampleLocatorUrl();
 
     if (this.slStorageService.getNToken()) {
@@ -77,12 +88,13 @@ export class NegotiatorService {
         URL += '/';
       }
       URL += 'restore?ntoken=' + this.slStorageService.getNToken();
+      URL += '&selectedBiobanks=' + encodeURIComponent(JSON.stringify(biobanks));
     }
 
     return URL;
   }
 
-  private getHumanReadbleDescription(): string {
+  private getHumanReadableDescription(): string {
     let humanReadable = '';
     for (const field of this.queryProviderService.query.fieldDtos) {
       if (humanReadable) {
