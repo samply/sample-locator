@@ -12,7 +12,7 @@
     "title": "${BRANDING_TITLE}",
     "favicon": "${FAVICON_URL}",
     "metaDescription": "${META_DESCRIPTION}",
-    "aboutUsLink": "${ABOUTUS_URL}",
+    "aboutUsLink": "${ABOUT_US_URL}",
     "contactLink": "${CONTACT_URL}",
     "contactText": "${CONTACT_TEXT}",
     "privacyPolicyLink": "${PRIVACY_URL}"
