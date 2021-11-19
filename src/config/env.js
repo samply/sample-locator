@@ -6,12 +6,26 @@
     "stratifierMinimalNumberBiobanks": 1
   };
 
+  window["env"]["branding"] = {
+    "ui": "BBMRI",    // used for Logos,  'GBA' / 'BBMRI'
+    "title": "BBMRI Locator",
+    "favicon": "favicon_BBMRI.png",   // located in '..assets/img/'   GBA: 'favicon.ico' ,  BBMRI: 'favicon_BBMRI.png'
+    "metaDescription": "The BBMRI Locator enables scientists to search for biosamples and related data across multiple academic biobanks.",
+    "aboutUsLink": "https://www.bbmri-eric.eu/about/",  // GBA: '/about-us'  ,  BBMRI: 'https://www.bbmri-eric.eu/about/',
+    "contactLink": "https://www.bbmri-eric.eu/contact/",  // :GBA: '/imprint'  ,  BBMRI: 'https://www.bbmri-eric.eu/contact/'
+    "contactText": "Contact",   // GBA: 'Imprint'  ,  BBMRI: 'Contact'
+    "privacyPolicyLink": "https://www.bbmri-eric.eu/privacy-notice/"   // :GBA: '/privacy'  ,  BBMRI: 'https://www.bbmri-eric.eu/privacy-notice/'
+  };
+
   // Environment variables
   window["env"]["externalServices"] = {
-    "brokerUrl": "http://localhost:8080/broker",
+    // "brokerUrl": "http://localhost:8080/broker",
+    // "brokerUrl": "https://samplelocator.bbmri.de/broker",
+    "brokerUrl": "https://locator.bbmri-eric.eu/broker",
     "sampleLocatorUrl": "http://localhost:8085",
     "negotiatorUrl": "https://negotiator.bbmri-eric.eu",
-    "terminologyServerUrl": "https://samplelocator.test.bbmri.de/icd10"
+    "terminologyServerUrl": "https://samplelocator.bbmri.de/icd10"
+    // "terminologyServerUrl": "https://r4.ontoserver.csiro.au/fhir"
   };
 
   window["env"]["molgenisCredentials"] = {
@@ -19,11 +33,12 @@
     "molgenisPassword": "your-molgenis-password"
   };
 
-  window["env"]["mdrConfig"] = {
-    "mdrRestUrl": "http://mdr.test.germanbiobanknode.de/v3/api/mdr",
-    "mdrNamespace": "mdr16",
-    "languageCode": "en",
-    "dataElementGroups": [
+  window["env"]["mdrConfig"] =
+    {
+      "mdrRestUrl": "http://mdr.germanbiobanknode.de/v3/api/mdr",
+      "mdrNamespace": "mdr16",
+      "languageCode": "en",
+      "dataElementGroups": [
       {
         "nameOfEnum": "DONOR",
         "urn": "urn:mdr16:dataelementgroup:5:1"
@@ -63,6 +78,7 @@
         "placeholder": "e.g. C25.1",
         "unit": "",
         "valueSetUrl": "http://hl7.org/fhir/sid/icd-10-gm"
+       //  "valueSetUrl": "http://hl7.org/fhir/ValueSet/condition-code"
       }
     ],
 

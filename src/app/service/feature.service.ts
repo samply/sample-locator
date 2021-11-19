@@ -17,4 +17,18 @@ export class FeatureService {
   public stratifierMinimalNumberBiobanks(): number {
     return (window as any).env.features.stratifierMinimalNumberBiobanks;
   }
+
+  // noinspection JSMethodCanBeStatic
+  public brandingUI(): string {
+    let branding = (window as any).env.branding.ui;
+
+    if (branding === '' || branding === undefined) {
+      branding = 'GBA';
+    }
+
+    return branding;
+  }
+  public branding(): any {
+    return (window as any).env.branding;
+  }
 }

@@ -73,7 +73,8 @@ export class ResultComponent implements OnInit, OnDestroy {
         count: 0,
         label: 'Sample',
         stratifications: []
-      }
+      },
+      redirectUrl: ''
     };
   }
 
@@ -128,7 +129,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private generateNToken(): string {
-    const nToken = uuidv4() + '__search_' + uuidv4();
+    const nToken = uuidv4() + '__search__' + uuidv4();
     this.slStorageService.setNToken(nToken);
 
     return nToken;
@@ -220,7 +221,8 @@ export class ResultComponent implements OnInit, OnDestroy {
         label: 'Sample',
         count: siteTransfer.sample,
         stratifications: []
-      }
+      },
+      redirectUrl: siteTransfer.redirectUrl
     };
   }
 
@@ -361,6 +363,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   resetQuery() {
     this.queryProviderService.resetQuery();
+    this.slStorageService.setBiobankCollection('');
     this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
   }
 

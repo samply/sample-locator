@@ -347,7 +347,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     return newValue;
   }
 
-  chooseField({value}) {
+  chooseFieldEvent({value}) {
+    this.chooseField(value);
+  }
+  chooseField(value) {
     const urn = value;
     const extendedField = this.mdrFieldProviderService.getPossibleField(urn);
     if (extendedField) {

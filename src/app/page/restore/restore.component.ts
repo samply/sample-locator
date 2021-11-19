@@ -16,7 +16,8 @@ import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 export class RestoreComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription> = [];
-  nToken: string;
+  nTokenOld: string;
+  nTokenNew: string;
 
   constructor(
     public queryProviderService: QueryProviderService,
@@ -34,10 +35,12 @@ export class RestoreComponent implements OnInit, OnDestroy {
 
   private initParameters() {
     this.subscriptions.push(this.route.queryParams.subscribe(parms => {
-      this.nToken = parms.ntoken;
-      this.slStorageService.setNToken(this.nToken);
+      this.nTokenOld = parms.ntoken;
+      this.nTokenNew = parms.nToken;
+      this.slStorageService.setNToken(this.nTokenNew);
+      this.slStorageService.setBiobankCollection(parms.selectedBiobanks);
 
-      if (!this.nToken) {
+      if (!this.nTokenOld) {
         this.queryProviderService.restoreQuery();
         this.router.navigate([SampleLocatorConstants.ROUTE_SEARCH]);
         return;
@@ -48,7 +51,7 @@ export class RestoreComponent implements OnInit, OnDestroy {
   }
 
   private initQuery() {
-    const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getQuery?ntoken=' + this.nToken;
+    const url = this.externalUrlService.getBrokerUrl() + '/rest/searchbroker/getQuery?ntoken=' + this.nTokenOld;
     const headers = new HttpHeaders().set('Accept', 'application/json; charset=utf-8');
 
     this.subscriptions.push(

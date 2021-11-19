@@ -207,8 +207,8 @@
       <p-dropdown [options]="addibleFields"
                   formControlName="addField"
                   [group]="true"
-                  (select)="chooseField($event)"
-                  (onChange)="chooseField($event)"
+                  (select)="chooseFieldEvent($event)"
+                  (onChange)="chooseFieldEvent($event)"
                   placeholder="Add Field"
                   [styleClass]="getAddFieldStyleClass()"
                   panelStyleClass="add-field-panel">
