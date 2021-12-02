@@ -38,8 +38,6 @@ export class NegotiatorService {
 
     this.httpClient.post(urlBroker, biobankNames, {headers: headersBroker, observe: 'response'}).subscribe(
       responseBroker => {
-        this.slStorageService.setBiobankCollection('');
-
         const humanReadable = this.getHumanReadableDescription();
         const collections = responseBroker.body as Array<ReplyDirectory>;
         collections.forEach((biobank) => {
@@ -69,6 +67,9 @@ export class NegotiatorService {
           reponseNegotiator => {
             const location = (reponseNegotiator.body as any).redirect_uri;
             if (location) {
+              this.slStorageService.setNToken('');
+              this.slStorageService.setBiobankCollection('');
+
               window.location.href = location;
             }
           },

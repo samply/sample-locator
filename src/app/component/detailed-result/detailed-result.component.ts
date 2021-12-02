@@ -41,7 +41,7 @@ export class DetailedResultComponent implements OnInit {
       this.selectedBiobanks?.forEach(biobank => {
         this.toggleNegotiateFlag(biobank);
       });
-      this.slStorageService.setBiobankCollection('');
+      // this.slStorageService.setBiobankCollection('');
     }
   }
 
