@@ -19,6 +19,7 @@
 
   // Environment variables
   window["env"]["externalServices"] = {
+    // "brokerUrl": "http://localhost:8097/share_broker_rest_war",
     // "brokerUrl": "http://localhost:8080/broker",
     // "brokerUrl": "https://samplelocator.bbmri.de/broker",
     "brokerUrl": "https://locator.bbmri-eric.eu/broker",
