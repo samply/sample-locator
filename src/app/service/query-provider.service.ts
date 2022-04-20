@@ -9,7 +9,7 @@ import {SlStorageService} from './sl-storage.service';
 })
 export class QueryProviderService {
 
-  private static URN_DIAGNOSIS = 'urn:mdr16:dataelement:27:1';
+  private static ID_DIAGNOSIS = '27';
   private static TYPE_DIAGNOSIS = MdrDataType.STRING;
 
   public query: EssentialQueryDto;
@@ -35,7 +35,7 @@ export class QueryProviderService {
       fieldDtos: []
     };
 
-    this.addField(QueryProviderService.URN_DIAGNOSIS, QueryProviderService.TYPE_DIAGNOSIS);
+    this.addField(this.getUrnDiagnosis(), QueryProviderService.TYPE_DIAGNOSIS);
 
     this.slStorageService.setNToken('');
     this.slStorageService.setQuery(this.query);
@@ -94,5 +94,17 @@ export class QueryProviderService {
       default:
         return null;
     }
+  }
+  private getUrnDiagnosis(): string | null {
+    var urnDiagnosis = null;
+    for (const dataElement of this.mdrFieldProviderService.getMdrConfigService().getMdrConfig().dataElements) {
+      var urnParts = dataElement.urn.split(':');
+      if (urnParts.length === 5 && urnParts[3] != null && urnParts[3] === QueryProviderService.ID_DIAGNOSIS) {
+        urnDiagnosis = dataElement.urn;
+        break;
+      }
+    }
+
+    return urnDiagnosis
   }
 }
