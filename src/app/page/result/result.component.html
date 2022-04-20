@@ -61,10 +61,8 @@
       </div>
 
       <div fxFlex="0 0 1px" class="divider"></div>
-
-      <div fxFlex="0 1 50%">
+      <div *ngIf="featureService.brandingUI() === 'GBA'" fxFlex="0 1 50%">
         <h2>Result</h2>
-
         <!-- SHOW SIMPLE RESULT -->
         <div class="result-extra-margin">
           <div *ngIf="!userService.getLoginValid()"
@@ -85,6 +83,38 @@
           </div>
         </div>
 
+      </div>
+
+
+      <div *ngIf="featureService.brandingUI() === 'BBMRI'" fxFlex="0 1 50%">
+        <h2>Result</h2>
+
+        <!-- SHOW SIMPLE RESULT -->
+        <div class="result-extra-margin">
+          <div *ngIf="checkIfFirstPage()"
+               class="result-item">
+            <app-simple-result [biobanksAnswered]="biobanksAnswered"
+                               [biobanksWithStratifications]="biobanksWithStratifications"
+                               [aggregatedResult]="aggregatedResult"></app-simple-result>
+            <div fxLayout="row" fxLayoutAlign="center">
+              <div (click)="changePage()"
+                   [ngClass]="'negotiate-button'">
+                <fa-icon [icon]="faFileAlt" size="lg"></fa-icon>
+                <span>Detailed Result</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SHOW DETAILED RESULT -->
+        <div *ngIf="!checkIfFirstPage()">
+          <app-detailed-result [detailedResult]="detailedResult"
+                               [biobanksAnswered]="biobanksAnswered"
+                               [sumSamples]="aggregatedResult?.sample.count"
+                               [sumDonors]="aggregatedResult?.donor.count"></app-detailed-result>
+
+        </div>
       </div>
     </div>
   </div>

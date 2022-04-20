@@ -10,6 +10,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 import {Subscription} from 'rxjs';
+import {UserService} from '../../service/user.service';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-search',
@@ -28,7 +30,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public userService: UserService,
+    public featureService: FeatureService
   ) {
   }
 

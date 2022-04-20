@@ -17,6 +17,11 @@
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center">
+  <div (click)="changePage()"
+       [ngClass]="'negotiate-button'">
+    <fa-icon [icon]="faFile" size="lg"></fa-icon>
+    <span>Simple Result</span>
+  </div>
   <div (click)="navigateToNegotiator()"
        [ngClass]="getNegotiatorButtonClass()">
     <fa-icon [icon]="faNegotiator" size="lg"></fa-icon>
