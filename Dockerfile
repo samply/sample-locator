@@ -1,4 +1,4 @@
-FROM node as build
+FROM node:15 as build
 
 COPY src /build/src
 COPY *.json /build/
