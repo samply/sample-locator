@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ExternalUrlService} from './external-url.service';
-import * as pack from '../../../package.json';
+import packageInfo from '../../../package.json';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class VersionService {
   }
 
   private initUiVersion() {
-    this.uiVersion = pack.version;
+    this.uiVersion = packageInfo.version;
   }
 
   private initBackendVersion() {
@@ -32,6 +32,7 @@ export class VersionService {
     };
 
     this.httpClient.get<string>(url, headerOptions).subscribe(
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       version => this.backendVersion = version
     );
   }
