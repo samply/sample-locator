@@ -49,4 +49,8 @@ export class MdrFieldProviderService {
   public getPossibleField(urn: string): ExtendedMdrFieldDto | null {
     return this.slStorageService.getAllDataElments().find(field => field.urn === urn);
   }
+
+  public getMdrConfigService(): MdrConfigService | null {
+    return this.mdrConfigService;
+  }
 }
