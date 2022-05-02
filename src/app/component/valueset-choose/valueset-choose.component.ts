@@ -65,6 +65,7 @@ export class ValueSetChooseComponent implements ControlValueAccessor {
       this.subscriptionFilter.unsubscribe();
     }
 
+    console.log("_______ ValueSetChooseComponent.filterCodes: $event: " + $event);
     this.subscriptionFilter = this.chooseService.getSuggestionsObservable(this.valueSetUrl, $event.query.toLowerCase()).subscribe(
       dto => {
         if (dto.expansion.contains) {

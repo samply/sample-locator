@@ -27,6 +27,12 @@ export class ExternalUrlService {
   }
 
   getTerminologyServerUrl(): string {
+    console.log("_______ ExternalUrlService.getTerminologyServerUrl: environment.externalServices: " + environment.externalServices);
+    console.log("_______ ExternalUrlService.getTerminologyServerUrl: this.externalServices: " + this.externalServices);
+    if (this.externalServices)
+      console.log("_______ ExternalUrlService.getTerminologyServerUrl: this.externalServices.terminologyServerUrl: " + this.externalServices.terminologyServerUrl);
+    else
+      console.log("_______ ExternalUrlService.getTerminologyServerUrl: this.externalServices is undefined, cant get terminologyServerUrl");
     return this.externalServices ? this.externalServices.terminologyServerUrl : '';
   }
 }
