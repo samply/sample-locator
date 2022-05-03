@@ -90,6 +90,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   showTopActionButtons() {
     let numberOfValues = 0;
     this.queryProviderService.query.fieldDtos.forEach(fieldDto => numberOfValues += fieldDto.valueDtos.length);
+
+    console.log("_______ SearchComponent.showTopActionButtons: numberOfValues: " + numberOfValues);
+
     return numberOfValues >= SearchComponent.MINIMAL_NUMBER_VALUES_TO_TOP_SHOW_ACTION_BUTTONS;
   }
 }
