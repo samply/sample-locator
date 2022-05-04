@@ -4,7 +4,8 @@
   // Environment variables
   window["env"]["features"] = {
     "stratifier": ${FEATURE_STRATIFIER},
-    "stratifierMinimalNumberBiobanks": ${FEATURE_STRATIFIER_MIN_NO_BIOBANKS}
+    "stratifierMinimalNumberBiobanks": ${FEATURE_STRATIFIER_MIN_NO_BIOBANKS},
+    "silentRenew": ${SILENT_RENEW},
   };
 
   window["env"]["branding"] = {

@@ -39,25 +39,26 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
         -e MOLGENIS_PASSWORD="your_molgenis_password" 
         sample-locator:latest
 
-| Envionment variable | Meaning | Default |
-|---|---|---|
-|SAMPLELOCATOR_URL|URL of the Sample Locator|
-|SEARCHBROKER_URL|URL of the Searchbroker API (Backend)|
-|NEGOTIATOR_URL|URL of the Negotiator|
-|TERMINOLOGY_SERVER_URL|URL of the terminology server|
-|AUTH_HOST|URL of the OpenID Connect provider|
-|AUTH_CLIENT_ID|Client-ID of the OpenID Connect Provider|
-|MOLGENIS_USERNAME|Username of Molgenis|
-|MOLGENIS_PASSWORD|Password of Molgenis|
-|MDR_API_URL|URL of the MDR|
-|MDR_NAMESPACE|Namespace of the MDR|
-|MDR_LANGUAGE|Language code for the MDR|
-|MDR_MAPPING|MDR entities and their URNs|[]|
-|MDR_FIELD_PROPERTIES|Specification of placeholder and units for fields|[]|
-|MDR_HIDDEN|Fields to be ignored|[]|
-|FEATURE_STRATIFIER|Feature toggle for stratifications|false|
-|FEATURE_STRATIFIER_MIN_NO_BIOBANKS|Minimal number of connectors which must send stratifications in order to show stratifications |3|
-        
+| Envionment variable                | Meaning                                                                                       | Default |
+|------------------------------------|-----------------------------------------------------------------------------------------------|---------|
+| SAMPLELOCATOR_URL                  | URL of the Sample Locator                                                                     |
+| SEARCHBROKER_URL                   | URL of the Searchbroker API (Backend)                                                         |
+| NEGOTIATOR_URL                     | URL of the Negotiator                                                                         |
+| TERMINOLOGY_SERVER_URL             | URL of the terminology server                                                                 |
+| AUTH_HOST                          | URL of the OpenID Connect provider                                                            |
+| AUTH_CLIENT_ID                     | Client-ID of the OpenID Connect Provider                                                      |
+| MOLGENIS_USERNAME                  | Username of Molgenis                                                                          |
+| MOLGENIS_PASSWORD                  | Password of Molgenis                                                                          |
+| MDR_API_URL                        | URL of the MDR                                                                                |
+| MDR_NAMESPACE                      | Namespace of the MDR                                                                          |
+| MDR_LANGUAGE                       | Language code for the MDR                                                                     |
+| MDR_MAPPING                        | MDR entities and their URNs                                                                   | []      |
+| MDR_FIELD_PROPERTIES               | Specification of placeholder and units for fields                                             | []      |
+| MDR_HIDDEN                         | Fields to be ignored                                                                          | []      |
+| FEATURE_STRATIFIER                 | Feature toggle for stratifications                                                            | false   |
+| FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
+ | SILENT_RENEW                       | Toggle to enable silent renew of the auth token                                               |
+
  ## License
         
  Copyright 2020 The Samply Development Community
