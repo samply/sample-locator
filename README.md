@@ -81,12 +81,12 @@ Place the files in the directory:
 
         src/assets/img
 
-For example, let's suppose you want to set up a Sample Locator for the Frankfurt university clinic, within the digital health care center. Then you might want the clinic's logo in the Sample Locator header and the center logo in the footer.
+For example, let's suppose you want to set up a Sample Locator for the Frankfurt university clinic, within the digital health care center. Then you might want the clinic's logo in the Sample Locator header and the center's logo in the footer.
 
 So let's put the relevant files into the image directory:
 
         curl https://www.kgu.de/typo3conf/ext/kgu_theme/Resources/Public/Images/ukf_logo.svg>src/assets/img/ukf_logo.svg
-	curl https://www.kgu.de/fileadmin/_processed_/5/d/csm_UCDHC_Logo_f1edfcde2d.jpg > src/assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg
+        curl https://www.kgu.de/fileadmin/_processed_/5/d/csm_UCDHC_Logo_f1edfcde2d.jpg > src/assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg
 
 (These are just examples, and may not actually do anything).
 
