@@ -59,7 +59,7 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
 | FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
 | SILENT_RENEW                       | Toggle to enable silent renew of the auth token                                               | true    |
 
- ## License
+## License
         
  Copyright 2020 The Samply Development Community
         
@@ -68,4 +68,69 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
  http://www.apache.org/licenses/LICENSE-2.0
         
  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+## Customization
+
+### Logos
+
+You can replace existing logos with the logos relevant to your organization. To do this, you will need to add the logo files, modify some source code, and build the Docker image locally.
+
+#### Adding files
+
+You should have the logos of your organisation available as image files. PNG, JPEG or SVG formats are acceptable. 
+
+Place the files in the directory:
+
+        src/assets/img
+
+For example, let's suppose you want to set up a Sample Locator for the Frankfurt university clinic, within the digital health care center. Then you might want the clinic's logo in the Sample Locator header and the center logo in the footer.
+
+So let's put the relevant files into the image directory:
+
+        curl https://www.kgu.de/typo3conf/ext/kgu_theme/Resources/Public/Images/ukf_logo.svg>src/assets/img/ukf_logo.svg
+	curl https://www.kgu.de/fileadmin/_processed_/5/d/csm_UCDHC_Logo_f1edfcde2d.jpg > src/assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg
+
+(These are just examples, and may not actually do anything).
+
+#### Modifying sources
+
+Now you have obtained the relevant logos and placed them somewhere that the Sample Locator knows about, but you still need to tell it which is header and which is footer.
+
+To set the header, edit:
+
+        src/app/component/header/header.component.html
+
+Search for "GBA". Modify the HTML so that it looks like this:
+
+        <div *ngIf="featureService.brandingUI() === 'GBA'" class="logo-main col-md-5">
+          <a routerLink="/" title="www.kgu.de">
+            <!--suppress HtmlUnknownTarget -->
+            <img src="assets/img/ukf_logo.svg" alt="UKF-LOGO" class="gba-logo"/>
+          </a>
+        </div>
+
+This will swap the original BBMRI logo with the logo for the university clinic. Write out the file and quit the editor.
+
+For the footer, edit:
+
+        src/app/component/footer/footer.component.html
+
+Search for "DKFZ" and modify the HTML to look like this:
+
+        <a href="https://www.kgu.de/ueber-uns/university-center-for-digital-healthcare-ucdhc" title="UCDHC" target="_blank">
+          <img src="assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg" alt="university-center-for-digital-healthcare" class="dkfz-logo"/>
+        </a>
+
+This will swap the original DKFZ logo with the logo for the digital health center. Write out the file and quit the editor.
+
+#### Build local Docker image
+
+Now you can build a local Docker image for the Sample Locator:
+
+        docker build . -t sample-locator --no-cache
+
+If you are running the Sample Locator from the [sample-locator-deployment repository](https://github.com/samply/sample-locator-deployment), you will need to modify the docker-compose.yml
+file, where you should replace the searchbroker-ui image with the image you just created.
+Then restart.
+
 
