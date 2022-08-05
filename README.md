@@ -12,12 +12,10 @@ Run `ng build --prod` to build the project. The build artifacts will be stored i
 
 ### Docker
 
-Run `docker build .` to build a Docker image. It's not necessary to run `ng build --prod` before, because a build container is used.
+    docker build -t sample-locator .
 
 ## Run ([Docker](#docker))
 #### Docker
-
-    docker build -t sample-locator .
 
     docker run 
         --rm 
@@ -125,12 +123,10 @@ This will swap the original DKFZ logo with the logo for the digital health cente
 
 #### Build local Docker image
 
-Now you can build a local Docker image for the Sample Locator:
-
-        docker build . -t sample-locator --no-cache
+See the "Build" section above for instructions on re-building the Docker image.
 
 If you are running the Sample Locator from the [sample-locator-deployment repository](https://github.com/samply/sample-locator-deployment), you will need to modify the docker-compose.yml
-file, where you should replace the searchbroker-ui image with the image you just created.
+file, where you should replace the searchbroker-ui image with the "sample-locator" image that you just created.
 Then restart.
 
 
