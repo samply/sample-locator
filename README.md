@@ -129,4 +129,37 @@ If you are running the Sample Locator from the [sample-locator-deployment reposi
 file, where you should replace the searchbroker-ui image with the "sample-locator" image that you just created.
 Then restart.
 
+### Color scheme
+
+The master file for changing the color scheme of the Sample Locator is in:
+
+        src/_variables.scss
+
+Changing the values here will change the colors throughout all pages of
+the Sample Locator.
+
+For example, if you would like to use brown tones rather than the standard
+Sample Locator blue tones, you could change the contents of the file to
+look like this:
+
+        $background-light: #F6F1F0;
+        $background-gray-light: #ABB2C5;
+        $background-gray: #8B9EAC;
+        $background-dark: #492B17;
+        $background-dark-semi: #A5968C; // opacity =  50%
+        
+        $color-version: #D5FCC5;
+        $color-gray: #8D9CAC;
+        $color-medium: #95876F;
+        $color-dark: #574730;
+        $color-gold: #48A9F1;
+        
+        $link-indicator: #48A9F1;
+
+These are variables that are used in other SCSS files in the GUI.
+
+The hexedecimal numbers after the hash symbols encode colors as RGB values
+like this:
+
+        #rrggbb
 
