@@ -57,16 +57,6 @@ Run `ng build --prod` to build the project. The build artifacts will be stored i
 | FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
 | SILENT_RENEW                       | Toggle to enable silent renew of the auth token                                               | true    |
 
-## License
-        
- Copyright 2020 The Samply Development Community
-        
- Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-        
- http://www.apache.org/licenses/LICENSE-2.0
-        
- Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
 ## Customization
 
 ### Logos
@@ -162,4 +152,24 @@ The hexedecimal numbers after the hash symbols encode colors as RGB values
 like this:
 
         #rrggbb
+
+### Adding new search attributes
+
+Generally speaking, it should not be necessary to make changes to the Sample Locator source code when you want to add new search attributes.
+
+Instead, you should make changes to the MDR (see the the notes in the [MDR deployment](https://github.com/samply/mdr-deployment)) or via the MDR_MAPPING, MDR_FIELD_PROPERTIES and MDR_HIDDEN environment variables in the [Sample Locator deployment](https://github.com/samply/sample-locator-deployment).
+
+In particular, if you have added new attributes to either the Sample or to the Clinical Data in the MDR, then no additional cahnges will be needed to the Sample Locator. These attributes will be added automatically.
+
+However, you will need to make changes to the Searchbroker, see the [GitHub page](https://github.com/samply/searchbroker/tree/develop) for more details.
+
+## License
+        
+ Copyright 2020 The Samply Development Community
+        
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+        
+ http://www.apache.org/licenses/LICENSE-2.0
+        
+ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
