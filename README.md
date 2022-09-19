@@ -39,32 +39,31 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
         -e MOLGENIS_PASSWORD="your_molgenis_password" 
         sample-locator:latest
 
-| Envionment variable | Meaning | Default |
-|---|---|---|
-|SAMPLELOCATOR_URL|URL of the Sample Locator|
-|SEARCHBROKER_URL|URL of the Searchbroker API (Backend)|
-|NEGOTIATOR_URL|URL of the Negotiator|
-|TERMINOLOGY_SERVER_URL|URL of the terminology server|
-|AUTH_HOST|URL of the OpenID Connect provider|
-|AUTH_CLIENT_ID|Client-ID of the OpenID Connect Provider|
-|MOLGENIS_USERNAME|Username of Molgenis|
-|MOLGENIS_PASSWORD|Password of Molgenis|
-|MDR_API_URL|URL of the MDR|
-|MDR_NAMESPACE|Namespace of the MDR|
-|MDR_LANGUAGE|Language code for the MDR|
-|MDR_MAPPING|MDR entities and their URNs|[]|
-|MDR_FIELD_PROPERTIES|Specification of placeholder and units for fields|[]|
-|MDR_HIDDEN|Fields to be ignored|[]|
-|FEATURE_STRATIFIER|Feature toggle for stratifications|false|
-|FEATURE_STRATIFIER_MIN_NO_BIOBANKS|Minimal number of connectors which must send stratifications in order to show stratifications |3|
+| Envionment variable                | Meaning                                                                                       | Default |
+|------------------------------------|-----------------------------------------------------------------------------------------------|---------|
+| SAMPLELOCATOR_URL                  | URL of the Sample Locator                                                                     |
+| SEARCHBROKER_URL                   | URL of the Searchbroker API (Backend)                                                         |
+| NEGOTIATOR_URL                     | URL of the Negotiator                                                                         |
+| TERMINOLOGY_SERVER_URL             | URL of the terminology server                                                                 |
+| AUTH_HOST                          | URL of the OpenID Connect provider                                                            |
+| AUTH_CLIENT_ID                     | Client-ID of the OpenID Connect Provider                                                      |
+| MOLGENIS_USERNAME                  | Username of Molgenis                                                                          |
+| MOLGENIS_PASSWORD                  | Password of Molgenis                                                                          |
+| MDR_API_URL                        | URL of the MDR                                                                                |
+| MDR_NAMESPACE                      | Namespace of the MDR                                                                          |
+| MDR_LANGUAGE                       | Language code for the MDR                                                                     |
+| MDR_MAPPING                        | MDR entities and their URNs                                                                   | []      |
+| MDR_FIELD_PROPERTIES               | Specification of placeholder and units for fields                                             | []      |
+| MDR_HIDDEN                         | Fields to be ignored                                                                          | []      |
+| FEATURE_STRATIFIER                 | Feature toggle for stratifications                                                            | false   |
+| FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
         
- ## License
-        
- Copyright 2020 The Samply Development Community
-        
- Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-        
- http://www.apache.org/licenses/LICENSE-2.0
-        
- Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
+## License
+       
+Copyright 2020 The Samply Development Community
+       
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+       
+http://www.apache.org/licenses/LICENSE-2.0
+       
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
