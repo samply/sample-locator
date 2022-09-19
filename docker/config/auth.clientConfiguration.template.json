@@ -5,7 +5,7 @@
   "response_type": "id_token token",
   "scope": "openid email profile phone eduperson_entitlement offline_access",
   "start_checksession": true,
-  "silent_renew": false,
+  "silent_renew": "${SILENT_RENEW}",
   "silent_renew_url": "${SAMPLELOCATOR_URL}/silent-renew.html",
   "post_login_route": "/authorized",
   "forbidden_route": "/forbidden",

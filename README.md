@@ -58,6 +58,7 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
 | MDR_HIDDEN                         | Fields to be ignored                                                                          | []      |
 | FEATURE_STRATIFIER                 | Feature toggle for stratifications                                                            | false   |
 | FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
+| SILENT_RENEW                       | Toggle to enable silent renew of the auth token                                               | true    |
         
 ## License
        
