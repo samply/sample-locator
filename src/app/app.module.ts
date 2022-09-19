@@ -12,10 +12,8 @@ import {ImprintComponent} from './page/imprint/imprint.component';
 import {PrivacyPolicyComponent} from './page/privacy-policy/privacy-policy.component';
 import {BREAKPOINT, FlexLayoutModule} from '@angular/flex-layout';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {library} from '@fortawesome/fontawesome-svg-core';
 import {HeaderComponent} from './component/header/header.component';
 import {FooterComponent} from './component/footer/footer.component';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {WorkInProgressComponent} from './component/work-in-progress/work-in-progress.component';
 import {CookieBannerComponent} from './component/cookie-banner/cookie-banner.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -34,7 +32,7 @@ import {LoggedInComponent} from './page/authorization-pages/logged-in/logged-in.
 import {ForbiddenComponent} from './page/authorization-pages/forbidden/forbidden.component';
 import {UnauthorizedComponent} from './page/authorization-pages/unauthorized/unauthorized.component';
 import {RestoreComponent} from './page/restore/restore.component';
-import {AutoCompleteModule, CarouselModule, ChartModule, TooltipModule} from 'primeng';
+
 import {MolgenisService} from './service/molgenis.service';
 import {SamplyButtonComponent} from './component/samply-button/samply-button.component';
 import {SamplyButtonSmallComponent} from './component/samply-button-small/samply-button-small.component';
@@ -46,6 +44,10 @@ import {ResultLineComponent} from './component/result-line/result-line.component
 import {ResultHeaderLineComponent} from './component/result-header-line/result-header-line.component';
 import {StratificationComponent} from './component/stratification/stratification.component';
 import {ValueSetChooseComponent} from './component/valueset-choose/valueset-choose.component';
+import {TooltipModule} from 'primeng/tooltip';
+import {ChartModule} from 'primeng/chart';
+import {CarouselModule} from 'primeng/carousel';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 // tslint:disable-next-line:variable-name
 const oidc_configuration = '/config/auth.clientConfiguration.json';
@@ -144,13 +146,11 @@ export const BbmriBreakPointsProvider = {
 })
 export class AppModule {
   constructor(private oidcSecurityService: OidcSecurityService, private oidcConfigService: OidcConfigService) {
-    library.add(faTimes);
 
     this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
 
       // Use the configResult to set the configurations
       const customConfig: OpenIdConfiguration = configResult.customConfig;
-
       const config: OpenIdConfiguration = {
         stsServer: customConfig.stsServer,
         redirect_url: customConfig.redirect_url,

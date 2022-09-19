@@ -8,14 +8,15 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:8085/`. The app w
 
 ## Build
 
-Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `npm run build` or `npm run build:prod` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ### Docker
 
 Run `docker build .` to build a Docker image. It's not necessary to run `ng build --prod` before, because a build container is used.
 
-## Run ([Docker](#docker))
-#### Docker
+## Run Docker
+
+### Docker
 
     docker build -t sample-locator .
 

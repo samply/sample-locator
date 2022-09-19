@@ -48,12 +48,11 @@ h3 {
 :host ::ng-deep .add-field,
 :host ::ng-deep .add-field .ui-inputtext,
 :host ::ng-deep .add-field .ui-dropdown-label {
-  display: inline-block;
   height: 40px;
   min-width: 150px;
   width: 150px;
   background: $background-dark;
-  color: white;
+  color: white !important;
 
   font-family: 'Titillium Web', sans-serif;
   text-align: center;
@@ -66,15 +65,33 @@ h3 {
   border-radius: 0;
 }
 
+:host ::ng-deep .add-field.p-dropdown .p-dropdown-label.p-placeholder {
+  height: 40px;
+  background: $background-dark;
+  color: white !important;
+
+  font-family: 'Titillium Web', sans-serif;
+  text-align: right;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+
+  border: solid 0;
+  border-radius: 0;
+}
 :host ::ng-deep .add-field .add-field-disabled:not {
   cursor: pointer;
 }
 
-:host ::ng-deep .add-field .ui-dropdown-trigger {
+:host ::ng-deep .add-field .p-dropdown-trigger {
   background-color: $background-dark;
-  color: white;
+  color: white !important;
 }
-
+:host ::ng-deep .add-field .p-dropdown-trigger {
+  background-color: $background-dark;
+  color: white !important;
+}
 :host ::ng-deep .add-field:hover .ui-dropdown-trigger {
   background: $background-gray;
 }
@@ -91,36 +108,49 @@ h3 {
   background-color: $background-gray-light;
 }
 
-:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item {
+:host ::ng-deep .add-field-panel .p-dropdown-items {
+  font-family: 'Titillium Web', sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+:host ::ng-deep .add-field-panel .p-dropdown-items .p-dropdown-item {
   background-color: white;
   color: $color-dark;
+  text-align: left;
+  padding: 0.3rem 0.85rem;
 }
 
-:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item-group,
-:host ::ng-deep .add-field-panel .ui-dropdown-items .ui-dropdown-item-group:hover {
+:host ::ng-deep .add-field-panel .p-dropdown-items .p-dropdown-item-group,
+:host ::ng-deep .add-field-panel .p-dropdown-items .p-dropdown-item-group:hover {
   background-color: $color-gold !important;
   color: white !important;
+  padding: 0.3rem 0.85rem;
 }
 
-::ng-deep .add-field .ui-dropdown-items-wrapper {
+::ng-deep .add-field .p-dropdown-items-wrapper {
   max-height: 45em !important;
   width: 20em;
 }
 
-::ng-deep .operator-dropdown .ui-dropdown-items-wrapper {
+::ng-deep .operator-dropdown .p-dropdown-items-wrapper {
   max-height: 20em !important;
   width: 15em;
 }
 
-::ng-deep .ui-tooltip .ui-tooltip-arrow {
+::ng-deep .ui-tooltip .p-tooltip-arrow {
   border-bottom-color: $background-gray !important;
 }
 
-::ng-deep .ui-tooltip .ui-tooltip-text {
+::ng-deep .ui-tooltip .p-tooltip-text {
   background-color: $background-gray !important;
   color: white !important;
 }
 
+:host ::ng-deep .p-autocomplete-input {
+  min-width: 12em;
+}
 .show-op-outer {
   position: relative;
   z-index: 900;
@@ -167,13 +197,13 @@ h3 {
   color: white !important;
 }
 
-::ng-deep body .ui-dropdown:not(.ui-state-disabled).ui-state-focus,
+::ng-deep body .p-dropdown:not(.ui-state-disabled).ui-state-focus,
 ::ng-deep body .ui-inputtext:enabled:focus:not(.ui-state-error) {
   box-shadow: 0 0 0 0.2em $color-gold !important;
 }
 
-::ng-deep body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight,
-::ng-deep body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight {
+::ng-deep body .p-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight,
+::ng-deep body .p-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight {
   background-color: $color-gold;
   color: white;
 }
