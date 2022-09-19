@@ -1,6 +1,6 @@
 # SampleLocator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.
 
 ## Development server
 
@@ -23,7 +23,7 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
     docker run 
         --rm 
         --name=sample-locator
-        -p 8085:80 
+        -p 8085:8080 
         -e SEARCHBROKER_URL="http://localhost:8080" 
         -e SAMPLELOCATOR_URL="http://localhost:8085" 
         -e NEGOTIATOR_URL="https://negotiator.bbmri-eric.eu" 
