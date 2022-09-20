@@ -8,7 +8,6 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "build:prod": "ng build --configuration production"
   },
   "private": true,
@@ -69,7 +68,6 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^5.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
-    "protractor": "^7.0.0",
     "ts-node": "^10.7.0",
     "typescript": "4.6.3"
   }
