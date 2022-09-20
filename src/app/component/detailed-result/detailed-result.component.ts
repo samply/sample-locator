@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faHandshake} from '@fortawesome/free-regular-svg-icons';
+import {faHandshake,faFile} from '@fortawesome/free-regular-svg-icons';
 import {Reply, ReplySite} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
 import {SlStorageService} from '../../service/sl-storage.service';
+import {ResultComponent} from '../../page/result/result.component';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-detailed-result',
@@ -12,6 +14,7 @@ import {SlStorageService} from '../../service/sl-storage.service';
 export class DetailedResultComponent implements OnInit {
 
   faNegotiator = faHandshake;
+  faFile = faFile;
 
   @Input()
   sumDonors = 0;
@@ -29,7 +32,8 @@ export class DetailedResultComponent implements OnInit {
 
   constructor(
     private negotiatorService: NegotiatorService,
-    private slStorageService: SlStorageService
+    private slStorageService: SlStorageService,
+    public featureService: FeatureService
   ) {
   }
 
@@ -41,7 +45,7 @@ export class DetailedResultComponent implements OnInit {
       this.selectedBiobanks?.forEach(biobank => {
         this.toggleNegotiateFlag(biobank);
       });
-      this.slStorageService.setBiobankCollection('');
+      // this.slStorageService.setBiobankCollection('');
     }
   }
 
@@ -84,5 +88,13 @@ export class DetailedResultComponent implements OnInit {
     }
 
     return false;
+  }
+
+  changePage() {
+    if (ResultComponent.page === 0) {
+      ResultComponent.page = 1;
+    } else {
+      ResultComponent.page = 0;
+    }
   }
 }

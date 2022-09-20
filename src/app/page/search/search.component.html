@@ -24,9 +24,22 @@
                                (click)="resetQuery()"></app-samply-button>
             <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"
                                [visible]="showTopActionButtons()"></app-samply-button>
-            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
-                               [visible]="showTopActionButtons()"
-                               (click)="sendQuery()"></app-samply-button>
+            <div *ngIf="featureService.brandingUI() === 'GBA'">
+              <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+                                 [visible]="showTopActionButtons()"
+				 (click)="sendQuery()"></app-samply-button>
+            </div>
+            <div *ngIf="featureService.brandingUI() === 'BBMRI'">
+              <div *ngIf="!userService.getLoginValid()">
+                <app-samply-button [imageIcon]="faPaperPlane" [active]="false" label="Send"
+                                   [visible]="showTopActionButtons()"></app-samply-button>
+              </div>
+              <div *ngIf="userService.getLoginValid()">
+                <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+                                   [visible]="showTopActionButtons()"
+                                   (click)="sendQuery()"></app-samply-button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -43,8 +56,19 @@
             <app-samply-button [imageIcon]="faTimes" [active]="true" label="Clear"
                                (click)="resetQuery()"></app-samply-button>
             <app-samply-button [imageIcon]="faEdit" [active]="false" label="Edit"></app-samply-button>
-            <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
-                               (click)="sendQuery()"></app-samply-button>
+            <div *ngIf="featureService.brandingUI() === 'GBA'">
+              <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+		                 (click)="sendQuery()"></app-samply-button>
+            </div>
+            <div *ngIf="featureService.brandingUI() === 'BBMRI'">
+              <div *ngIf="!userService.getLoginValid()">
+                <app-samply-button [imageIcon]="faPaperPlane" [active]="false" title="Please Login" label="Send"></app-samply-button>
+              </div>
+              <div *ngIf="userService.getLoginValid()">
+                <app-samply-button [imageIcon]="faPaperPlane" [active]="true" label="Send"
+                                   (click)="sendQuery()"></app-samply-button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

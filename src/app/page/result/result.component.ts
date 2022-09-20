@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MdrEntity} from '../../model/mdr/extended-mdr-field-dto';
 
-import {faEdit, faPaperPlane, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faPaperPlane, faTimes, faFileAlt} from '@fortawesome/free-solid-svg-icons';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {ExternalUrlService} from '../../service/external-url.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
@@ -18,11 +18,12 @@ import {QueryProviderService} from '../../service/query-provider.service';
 import {SampleLocatorConstants} from '../../SampleLocatorConstants';
 import {ReplySiteDto} from '../../model/result/reply-legacy-dto';
 import {SearchComponent} from '../search/search.component';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
-  styleUrls: ['./result.component.scss']
+  styleUrls: ['./result.component.scss', '../../component/detailed-result/detailed-result.component.scss']
 })
 export class ResultComponent implements OnInit, OnDestroy {
 
@@ -34,16 +35,19 @@ export class ResultComponent implements OnInit, OnDestroy {
     private queryProviderService: QueryProviderService,
     private slStorageService: SlStorageService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    public featureService: FeatureService
   ) {
   }
 
   static MAX_TIME_POLLING = 300;
   static POLLING_INTERVAL = 1;
+  static page = 0;
 
   faTimes = faTimes;
   faEdit = faEdit;
   faPaperPlane = faPaperPlane;
+  faFileAlt = faFileAlt;
 
   detailedResult: Reply = {replySites: []};
   aggregatedResult: ReplySite = this.createEmptyAggregatedResult();
@@ -343,6 +347,14 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  changePage() {
+    if (ResultComponent.page === 0) {
+      ResultComponent.page = 1;
+    } else {
+      ResultComponent.page = 0;
+    }
+  }
+
   isResultAnonymous(result: Reply = this.detailedResult): boolean {
     if (!result || !result.replySites) {
       return true;
@@ -382,5 +394,9 @@ export class ResultComponent implements OnInit, OnDestroy {
         window.document.documentElement.scrollTop = 0;
       }
     }
+  }
+
+  checkIfFirstPage() {
+    return ResultComponent.page === 0;
   }
 }
