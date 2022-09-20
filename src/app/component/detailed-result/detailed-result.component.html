@@ -17,7 +17,7 @@
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center">
-  <div (click)="changePage()"
+  <div *ngIf="featureService.brandingUI() === 'BBMRI'" (click)="changePage()"
        [ngClass]="'negotiate-button'">
     <fa-icon [icon]="faFile" size="lg"></fa-icon>
     <span>Simple Result</span>
@@ -28,4 +28,3 @@
     <span>Negotiate</span>
   </div>
 </div>
-

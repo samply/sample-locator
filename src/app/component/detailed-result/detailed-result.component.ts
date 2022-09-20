@@ -4,6 +4,7 @@ import {Reply, ReplySite} from '../../model/result/reply-dto';
 import {NegotiatorService} from '../../service/negotiator.service';
 import {SlStorageService} from '../../service/sl-storage.service';
 import {ResultComponent} from '../../page/result/result.component';
+import {FeatureService} from '../../service/feature.service';
 
 @Component({
   selector: 'app-detailed-result',
@@ -31,7 +32,8 @@ export class DetailedResultComponent implements OnInit {
 
   constructor(
     private negotiatorService: NegotiatorService,
-    private slStorageService: SlStorageService
+    private slStorageService: SlStorageService,
+    public featureService: FeatureService
   ) {
   }
 
