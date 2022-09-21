@@ -30,13 +30,11 @@
                 "output": "/"
               },
               {
-                // copy everything
                 "glob": "**/*",
                 "input": "src/assets/",
                 "output": "/assets/"
               },
               {
-                // copy everything
                 "glob": "**/*",
                 "input": "src/config/",
                 "output": "/config/"
@@ -61,13 +59,11 @@
                   "output": "/"
                 },
                 {
-                  // copy everything
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
                 },
                 {
-                  // copy everything
                   "glob": "**/*",
                   "input": "src/config/",
                   "output": "/config/"
@@ -107,13 +103,11 @@
                   "output": "/"
                 },
                 {
-                  // copy everything
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
                 },
                 {
-                  // copy everything
                   "glob": "**/*",
                   "input": "docker/config/",
                   "output": "/config/"
@@ -211,6 +205,5 @@
         }
       }
     }
-  },
-  "defaultProject": "sample-locator"
+  }
 }
