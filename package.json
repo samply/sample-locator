@@ -27,7 +27,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fullcalendar/core": "5.11.0",
-    "angular-auth-oidc-client": "10.0.15",
+    "angular-auth-oidc-client": "14.1.5",
     "chart.js": "^3.7.1",
     "editor": "^1.0.0",
     "gmap": "^1.0.1",
