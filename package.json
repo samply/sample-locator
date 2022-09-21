@@ -31,7 +31,7 @@
     "chart.js": "^3.7.1",
     "editor": "^1.0.0",
     "gmap": "^1.0.1",
-    "ngx-cookie-service": "^2.4.0",
+    "ngx-cookie-service": "^14.0.1",
     "ngx-webstorage-service": "^5.0.0",
     "primeicons": "^5.0.0",
     "primeng": "^14.1.1",
