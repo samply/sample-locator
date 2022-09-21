@@ -1,11 +1,10 @@
-import * as moment from 'moment';
-
+import {formatDate} from '@angular/common';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MdrFieldProviderService} from '../../service/mdr-field-provider.service';
 import {QueryProviderService} from '../../service/query-provider.service';
 import {EssentialSimpleFieldDto, EssentialValueType, SimpleValueOperator} from '../../model/query/essential-query-dto';
 
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {ExtendedMdrFieldDto, MdrDataType, MdrEntity, PermittedValue} from '../../model/mdr/extended-mdr-field-dto';
 import {
   faMinus, faPlus,
@@ -44,7 +43,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   @Input()
   disabled = false;
 
-  private addField: FormControl;
+  private addField: UntypedFormControl;
 
   faMinus = faMinus;
   faPlus = faPlus;
@@ -62,7 +61,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   addibleFields: Array<AddibleFieldsGroup> = [];
   permittedValuesMap: Map<EssentialSimpleFieldDto, Array<PermittedValue>>;
 
-  public formGroup: FormGroup = new FormGroup({dummy: new FormControl('')});
+  public formGroup: UntypedFormGroup = new UntypedFormGroup({dummy: new UntypedFormControl('')});
 
   operators = [
     {
@@ -119,7 +118,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     public mdrFieldProviderService: MdrFieldProviderService,
     public queryProviderService: QueryProviderService,
     private slStorageService: SlStorageService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
 
@@ -145,11 +144,11 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createFormGroup(): FormGroup {
-    const fieldControls: FormArray = this.fb.array([]);
+  private createFormGroup(): UntypedFormGroup {
+    const fieldControls: UntypedFormArray = this.fb.array([]);
 
     for (const field of this.filteredFields) {
-      const valueControls: FormArray = this.fb.array([]);
+      const valueControls: UntypedFormArray = this.fb.array([]);
 
       for (const value of field.valueDtos) {
         const valueGroup = this.fb.group({
@@ -277,7 +276,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     }
 
     this.getQueryField(i).valueDtos.splice(j, 1);
-    const values: FormArray = this.getValuesFormArray(i);
+    const values: UntypedFormArray = this.getValuesFormArray(i);
     values.removeAt(j);
 
     if (this.getQueryField(i).valueDtos.length === 0) {
@@ -302,7 +301,7 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
     const operatorDisabled = this.getPossibleOperators(fieldDto.valueType).length <= 1;
 
     this.queryProviderService.addEmptyValue(fieldDto);
-    const values: FormArray = this.getValuesFormArray(i);
+    const values: UntypedFormArray = this.getValuesFormArray(i);
     const value = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
       ? this.fb.control(null) : this.fb.control('');
     const operator = (fieldDto.valueType === EssentialValueType.DATE || fieldDto.valueType === EssentialValueType.DATETIME)
@@ -339,9 +338,9 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   // noinspection JSMethodCanBeStatic
   private adoptDateFormat(newValue, valueType: EssentialValueType) {
     if (newValue && valueType === EssentialValueType.DATE) {
-      newValue = moment(newValue).format('DD.MM.YYYY');
+      newValue = formatDate(newValue, 'DD.MM.YYYY', 'de');
     } else if (newValue && valueType === EssentialValueType.DATETIME) {
-      newValue = moment(newValue).format('DD.MM.YYYY\'T\'HH:mm:ss');
+      newValue = formatDate(newValue, 'DD.MM.YYYY\'T\'HH:mm:ss', 'de');
     }
 
     return newValue;
@@ -379,15 +378,15 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   }
 
   private getValuesFormArray(i: number) {
-    return (this.getFieldControl(i).get('values')) as FormArray;
+    return (this.getFieldControl(i).get('values')) as UntypedFormArray;
   }
 
   private getFieldControl(i: number) {
     return this.getFieldsFormArray().get(i.toString());
   }
 
-  private getFieldsFormArray(): FormArray {
-    return this.formGroup.get('fields') as FormArray;
+  private getFieldsFormArray(): UntypedFormArray {
+    return this.formGroup.get('fields') as UntypedFormArray;
   }
 
   getAddFieldStyleClass() {
