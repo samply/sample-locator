@@ -59,6 +59,114 @@ Run `docker build .` to build a Docker image. It's not necessary to run `ng buil
 | FEATURE_STRATIFIER                 | Feature toggle for stratifications                                                            | false   |
 | FEATURE_STRATIFIER_MIN_NO_BIOBANKS | Minimal number of connectors which must send stratifications in order to show stratifications | 3       |
 | SILENT_RENEW                       | Toggle to enable silent renew of the auth token                                               | true    |
+
+## Customization
+
+### Logos
+
+You can replace existing logos with the logos relevant to your organization. To do this, you will need to add the logo files, modify some source code, and bu
+ild the Docker image locally.
+
+#### Adding files
+
+You should have the logos of your organisation available as image files. PNG, JPEG or SVG formats are acceptable.
+
+Place the files in the directory:
+
+        src/assets/img
+
+For example, let's suppose you want to set up a Sample Locator for the Frankfurt university clinic, within the digital health care center. Then you might wan
+t the clinic's logo in the Sample Locator header and the center's logo in the footer.
+
+So let's put the relevant files into the image directory:
+
+        curl https://www.kgu.de/typo3conf/ext/kgu_theme/Resources/Public/Images/ukf_logo.svg>src/assets/img/ukf_logo.svg
+        curl https://www.kgu.de/fileadmin/_processed_/5/d/csm_UCDHC_Logo_f1edfcde2d.jpg > src/assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg
+
+(These are just examples, and may not actually do anything).
+
+#### Modifying sources
+
+Now you have obtained the relevant logos and placed them somewhere that the Sample Locator knows about, but you still need to tell it which is header and which is footer.
+
+To set the header, edit:
+
+        src/app/component/header/header.component.html
+
+Search for "GBA". Modify the HTML so that it looks like this:
+
+        <div *ngIf="featureService.brandingUI() === 'GBA'" class="logo-main col-md-5">
+          <a routerLink="/" title="www.kgu.de">
+            <!--suppress HtmlUnknownTarget -->
+            <img src="assets/img/ukf_logo.svg" alt="UKF-LOGO" class="gba-logo"/>
+          </a>
+        </div>
+
+This will swap the original BBMRI logo with the logo for the university clinic. Write out the file and quit the editor.
+
+For the footer, edit:
+
+        src/app/component/footer/footer.component.html
+
+Search for "DKFZ" and modify the HTML to look like this:
+
+        <a href="https://www.kgu.de/ueber-uns/university-center-for-digital-healthcare-ucdhc" title="UCDHC" target="_blank">
+          <img src="assets/img/csm_UCDHC_Logo_f1edfcde2d.jpg" alt="university-center-for-digital-healthcare" class="dkfz-logo"/>
+        </a>
+
+This will swap the original DKFZ logo with the logo for the digital health center. Write out the file and quit the editor.
+
+#### Build local Docker image
+
+See the "Build" section above for instructions on re-building the Docker image.
+
+If you are running the Sample Locator from the [sample-locator-deployment repository](https://github.com/samply/sample-locator-deployment), you will need to modify the docker-compose.yml
+file, where you should replace the searchbroker-ui image with the "sample-locator" image that you just created.
+Then restart.
+
+### Color scheme
+
+The master file for changing the color scheme of the Sample Locator is in:
+
+        src/_variables.scss
+
+Changing the values here will change the colors throughout all pages of
+the Sample Locator.
+
+For example, if you would like to use brown tones rather than the standard
+Sample Locator blue tones, you could change the contents of the file to
+look like this:
+
+        $background-light: #F6F1F0;
+        $background-gray-light: #ABB2C5;
+        $background-gray: #8B9EAC;
+        $background-dark: #492B17;
+        $background-dark-semi: #A5968C; // opacity =  50%
+
+        $color-version: #D5FCC5;
+        $color-gray: #8D9CAC;
+        $color-medium: #95876F;
+        $color-dark: #574730;
+        $color-gold: #48A9F1;
+
+        $link-indicator: #48A9F1;
+
+These are variables that are used in other SCSS files in the GUI.
+
+The hexedecimal numbers after the hash symbols encode colors as RGB values
+like this:
+
+        #rrggbb
+
+### Adding new search attributes
+
+Generally speaking, it should not be necessary to make changes to the Sample Locator source code when you want to add new search attributes.
+
+Instead, you should make changes to the MDR (see the the notes in the [MDR deployment](https://github.com/samply/mdr-deployment)) or via the MDR_MAPPING, MDR_FIELD_PROPERTIES and MDR_HIDDEN environment variables in the [Sample Locator deployment](https://github.com/samply/sample-locator-deployment).
+
+In particular, if you have added new attributes to either the Sample or to the Clinical Data in the MDR, then no additional cahnges will be needed to the Sample Locator. These attributes will be added automatically.
+
+However, you will need to make changes to the Searchbroker, see the [GitHub page](https://github.com/samply/searchbroker/tree/develop) for more details.
         
 ## License
        
