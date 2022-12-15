@@ -140,7 +140,10 @@ export class SearchBuilderComponent implements OnInit, OnDestroy {
   private initPermittedValuesMap() {
     this.permittedValuesMap = new Map();
     for (const field of this.filteredFields) {
-      this.permittedValuesMap.set(field, this.getExtendedMdrField(field).permittedValues);
+      let extendedMdrField = this.getExtendedMdrField(field);
+      if (extendedMdrField !== null && extendedMdrField !== undefined) {
+        this.permittedValuesMap.set(field, extendedMdrField.permittedValues);
+      }
     }
   }
 
