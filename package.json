@@ -3,9 +3,9 @@
   "version": "2.4.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider; ng build",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider; ng serve",
     "start-es5": "ng serve --configuration es5",
-    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "build:prod": "ng build --configuration production"
