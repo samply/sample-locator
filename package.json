@@ -1,6 +1,6 @@
 {
   "name": "sample-locator",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "scripts": {
     "ng": "ng",
     "build": "export NODE_OPTIONS=--openssl-legacy-provider; ng build",
